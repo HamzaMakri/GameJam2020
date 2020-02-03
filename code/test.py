@@ -9,6 +9,8 @@ fenetre = pygame.display.set_mode((1280, 720), RESIZABLE)
 # Chargement et collage du fond
 fond = pygame.image.load("image/imageTest.jpg").convert()
 fenetre.blit(fond, (0, 0))
+mur = pygame.image.load("image/mur.png").convert()
+fenetre.blit(mur, (0, 0))
 
 # Chargement et collage du personnage
 koopa = pygame.image.load("image/perso.png").convert_alpha()
@@ -46,6 +48,7 @@ while continuer:
 
     # Re-collage
     fenetre.blit(fond, (0, 0))
+    fenetre.blit(mur, (0, 0))
     fenetre.blit(koopa, position_perso)
     # Rafraichissement
     pygame.display.flip()
