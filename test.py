@@ -10,6 +10,8 @@ koopa = pygame.image.load("perso.png").convert()
 
 
 fenetre.blit(fond, (0,0))
+perso = pygame.image.load("perso.png").convert()
+fenetre.blit(perso, (200,300))
 
 pygame.display.flip()
 
