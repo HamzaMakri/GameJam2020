@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="dc7e9996-eb9b-444a-ac9a-9eee5db8f151" name="Default Changelist" comment="" />
+    <list default="true" id="56febd48-348c-43f2-89db-576aed58fca0" name="Default Changelist" comment="test">
+      <change beforePath="$PROJECT_DIR$/perso.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test.py" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
