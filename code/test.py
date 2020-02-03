@@ -15,7 +15,7 @@ fenetre.blit(perso, (200,300))
 
 pygame.display.flip()
 
-
+youssra=19
 continuer = 1
 
 while continuer:
