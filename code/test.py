@@ -15,6 +15,11 @@ koopa = pygame.image.load("image/perso.png").convert_alpha()
 position_perso = koopa.get_rect()
 fenetre.blit(koopa, position_perso)
 
+# chargement et collage des murs
+mur = pygame.image.load("image/mur.png").convert_alpha()
+position_mur = mur.get_rect()
+fenetre.blit(mur, (1, 3))
+
 
 # Rafraîchissement de l'écran
 pygame.display.flip()
