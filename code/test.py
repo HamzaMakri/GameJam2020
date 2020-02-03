@@ -18,7 +18,9 @@ fenetre.blit(koopa, position_perso)
 # chargement et collage des murs
 mur = pygame.image.load("image/mur.png").convert_alpha()
 position_mur = mur.get_rect()
-fenetre.blit(mur, (1, 3))
+mur.set_colorkey((255,255,255)) #Rend le blanc (valeur RGB : 255,255,255) de l'image transparent
+fenetre.blit(mur, (0, 0))
+
 
 
 # Rafraîchissement de l'écran
@@ -52,6 +54,7 @@ while continuer:
     # Re-collage
     fenetre.blit(fond, (0, 0))
     fenetre.blit(koopa, position_perso)
+
     # Rafraichissement
     pygame.display.flip()
 
