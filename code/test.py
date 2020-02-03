@@ -5,7 +5,7 @@ pygame.init()
 
 
 fenetre = pygame.display.set_mode((1280,720), RESIZABLE)
-fond = pygame.image.load("imageTest.jpg").convert()
+fond = pygame.image.load("background.jpg").convert()
 koopa = pygame.image.load("perso.png").convert()
 
 
