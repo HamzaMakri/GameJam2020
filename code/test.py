@@ -9,9 +9,9 @@ fenetre = pygame.display.set_mode((1024, 768), RESIZABLE)
 # Chargement et collage du fond
 fond = pygame.image.load("image/background.png").convert()
 fenetre.blit(fond, (0, 0))
-mur = pygame.image.load("image/mur.png").convert()
-position_mur = mur.get_rect()
-fenetre.blit(mur, position_mur)
+murY = pygame.image.load("image/mur.png").convert()
+position_murY = murY.get_rect()
+fenetre.blit(murY, position_murY)
 
 # Chargement et collage du personnage
 koopa = pygame.image.load("image/magicienDroite.png").convert_alpha()
