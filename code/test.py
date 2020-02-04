@@ -22,9 +22,12 @@ def main_menu():
         button_1 = pygame.Rect(150, 600, 200, 50)
         button_2 = pygame.Rect(650, 600, 200, 50)
         if button_1.collidepoint((mx, my)):
-            option()
-        if button_1.collidepoint((mx, my)):
-            pass
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                pass
+        if button_2.collidepoint((mx, my)):
+            if  event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                 jeu()
+
 
         pygame.draw.rect(menu, (255, 0, 0), button_1)
         pygame.draw.rect(menu, (255, 0, 0), button_2)
@@ -37,7 +40,7 @@ def main_menu():
 
 
 
-def option():
+def jeu():
     # Ouverture de la fenêtre Pygame
 
     # Chargement et collage du fond
@@ -73,6 +76,12 @@ def option():
     right = False
 
     while continuer:
+        sortieDroite = pygame.Rect(1024, 250, 3, 300)
+        pygame.draw.rect(fond, (255, 0, 0), sortieDroite)
+
+        if sortieDroite.collidepoint((position_perso.x, position_perso.y)):
+          jeu()
+
         for event in pygame.event.get():  # Attente des événements
             if event.type == QUIT:
                 continuer = 0
@@ -110,11 +119,11 @@ def option():
             koopa = pygame.image.load("code/magicienGauche.png").convert_alpha()
             pygame.time.wait(0)
 
-        if right and 68 < position_perso.y < 300 and position_perso.x < 900:
+        if right and 68 < position_perso.y < 250 and position_perso.x < 900:
             position_perso = position_perso.move(1, 0)
             koopa = pygame.image.load("code/magicienDroite.png").convert_alpha()
             pygame.time.wait(0)
-        if right and  300 < position_perso.y < 385 :
+        if right and  250 < position_perso.y < 385 :
             position_perso = position_perso.move(1, 0)
             koopa = pygame.image.load("code/magicienDroite.png").convert_alpha()
             pygame.time.wait(0)
