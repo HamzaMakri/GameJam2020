@@ -7,20 +7,19 @@ pygame.init()
 fenetre = pygame.display.set_mode((1024, 768), RESIZABLE)
 
 # Chargement et collage du fond
-fond = pygame.image.load("image/background.png").convert()
+fond = pygame.image.load("GameJam2020/image/background.png").convert()
 fenetre.blit(fond, (0, 0))
-mur = pygame.image.load("image/mur.png").convert()
-position_mur = mur.get_rect()
-fenetre.blit(mur, position_mur)
+mur = pygame.image.load("GameJam2020/image/mur.png").convert()
+fenetre.blit(mur, (0, 0))
 
 # Chargement et collage du personnage
-koopa = pygame.image.load("image/magicienDroite.png").convert_alpha()
+koopa = pygame.image.load("GameJam2020/image/magicienDroite.png").convert_alpha()
 position_perso = koopa.get_rect()
 fenetre.blit(koopa, position_perso)
 position_perso = position_perso.move(500, 400)
 
 # chargement et collage des murs
-mur = pygame.image.load("image/mur.png").convert_alpha()
+mur = pygame.image.load("GameJam2020/image/mur.png").convert()
 position_mur = mur.get_rect()
 mur.set_colorkey((255,255,255)) #Rend le blanc (valeur RGB : 255,255,255) de l'image transparent
 fenetre.blit(mur, (0, 0))
@@ -77,25 +76,21 @@ while continuer:
 
     if left and position_perso.x > 20 :
         position_perso = position_perso.move(-1, 0)
-        koopa = pygame.image.load("image/magicienGauche.png").convert_alpha()
+        koopa = pygame.image.load("GameJam2020/image/magicienGauche.png").convert_alpha()
         pygame.time.wait(0)
 
     if right and position_perso.x < 900:
         position_perso = position_perso.move(1, 0)
-        koopa = pygame.image.load("image/magicienDroite.png").convert_alpha()
+        koopa = pygame.image.load("GameJam2020/image/magicienDroite.png").convert_alpha()
         pygame.time.wait(0)
     if up and position_perso.y > 0:
         position_perso = position_perso.move(0, -1)
-        koopa = pygame.image.load("image/magicienDos.png").convert_alpha()
+        koopa = pygame.image.load("GameJam2020/image/magicienDos.png").convert_alpha()
         pygame.time.wait(0)
     if down and position_perso.y < 650:
         position_perso = position_perso.move(0, 1)
-        koopa = pygame.image.load("image/magicienFace.png").convert_alpha()
+        koopa = pygame.image.load("GameJam2020/image/magicienFace.png").convert_alpha()
         pygame.time.wait(0)
-        pygame.time.wait(2)
-    #si le rect perso touche le rect mur alors il y a colision
-    if (position_perso.colliderect(position_mur)) == True:
-        print("Colision!")
 
     # Re-collage
     fenetre.blit(fond, (0, 0))
@@ -107,9 +102,3 @@ while continuer:
 print("Hello World")
 
 pygame.init()
-
-
-
-
-
-
