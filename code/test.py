@@ -10,7 +10,8 @@ fenetre = pygame.display.set_mode((1024, 768), RESIZABLE)
 fond = pygame.image.load("image/background.png").convert()
 fenetre.blit(fond, (0, 0))
 mur = pygame.image.load("image/mur.png").convert()
-fenetre.blit(mur, (0, 0))
+position_mur = mur.get_rect()
+fenetre.blit(mur, position_mur)
 
 # Chargement et collage du personnage
 koopa = pygame.image.load("image/magicienDroite.png").convert_alpha()
@@ -81,6 +82,9 @@ while continuer:
         position_perso = position_perso.move(0, 1)
         koopa = pygame.image.load("image/magicienFace.png").convert_alpha()
         pygame.time.wait(2)
+    #si le rect perso touche le rect mur alors il y a colision
+    if (position_perso.colliderect(position_mur)) == True:
+        print("Colision!")
 
     # Re-collage
     fenetre.blit(fond, (0, 0))
