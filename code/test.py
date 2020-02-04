@@ -322,7 +322,7 @@ def salle3():
         pygame.draw.rect(fond, (255, 0, 0), sortieGauche)
 
         if sortieGauche.collidepoint((position_perso.x, position_perso.y)):
-            salle1()
+            salle2()
 
         for event in pygame.event.get():  # Attente des événements
             if event.type == QUIT:
@@ -443,7 +443,7 @@ def salle4():
         if sortieHaut.collidepoint((position_perso.x, position_perso.y)):
             salle2()
         if sortieBas.collidepoint((position_perso.x, position_perso.y)):
-            salle1()
+            salle5()
 
         for event in pygame.event.get():  # Attente des événements
             if event.type == QUIT:
@@ -560,10 +560,10 @@ def salle5():
 
 
         if sortieDroite.collidepoint((position_perso.x, position_perso.y)):
-            salle2()
+            salle6()
 
         if sortieHaut.collidepoint((position_perso.x, position_perso.y)):
-            salle2()
+            salle4()
 
 
         for event in pygame.event.get():  # Attente des événements
@@ -681,7 +681,7 @@ def salle6():
         pygame.draw.rect(fond, (255, 0, 0), sortieGauche)
 
         if sortieGauche.collidepoint((position_perso.x, position_perso.y)):
-            salle1()
+            salle5()
 
         for event in pygame.event.get():  # Attente des événements
             if event.type == QUIT:
