@@ -7,13 +7,13 @@ pygame.init()
 fenetre = pygame.display.set_mode((1024, 768), RESIZABLE)
 
 # Chargement et collage du fond
-fond = pygame.image.load("image/imageTest.jpg").convert()
+fond = pygame.image.load("image/background.png").convert()
 fenetre.blit(fond, (0, 0))
 mur = pygame.image.load("image/mur.png").convert()
 fenetre.blit(mur, (0, 0))
 
 # Chargement et collage du personnage
-koopa = pygame.image.load("image/perso.png").convert_alpha()
+koopa = pygame.image.load("image/magicienDroite.png").convert_alpha()
 position_perso = koopa.get_rect()
 fenetre.blit(koopa, position_perso)
 
@@ -22,7 +22,7 @@ pygame.display.flip()
 
 continuer = 1
 
-pygame.key.set_repeat(400, 30)
+pygame.key.set_repeat(1, 300)
 
 # BOUCLE INFINIE
 continuer = 1
@@ -65,16 +65,26 @@ while continuer:
                 # On descend le perso
                 right = False
 
-    if up:
-        position_perso = position_perso.move(0, -1)
-
-    if down:
-        position_perso = position_perso.move(0, 1)
 
     if left:
         position_perso = position_perso.move(-1, 0)
+        koopa = pygame.image.load("image/magicienGauche.png").convert_alpha()
+        pygame.time.wait(2)
+
     if right:
         position_perso = position_perso.move(1, 0)
+        koopa = pygame.image.load("image/magicienDroite.png").convert_alpha()
+        pygame.time.wait(2)
+    if up:
+        position_perso = position_perso.move(0, -1)
+        koopa = pygame.image.load("image/magicienDos.png").convert_alpha()
+        pygame.time.wait(2)
+    if down:
+        position_perso = position_perso.move(0, 1)
+        koopa = pygame.image.load("image/magicienFace.png").convert_alpha()
+        pygame.time.wait(2)
+
+
 
 
 
