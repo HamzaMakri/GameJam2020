@@ -16,6 +16,7 @@ fenetre.blit(mur, (0, 0))
 koopa = pygame.image.load("image/magicienDroite.png").convert_alpha()
 position_perso = koopa.get_rect()
 fenetre.blit(koopa, position_perso)
+position_perso = position_perso.move(500, 400)
 
 # Rafraîchissement de l'écran
 pygame.display.flip()
@@ -31,8 +32,6 @@ up = False
 down = False
 left = False
 right = False
-
-
 
 while continuer:
     for event in pygame.event.get():  # Attente des événements
@@ -65,7 +64,6 @@ while continuer:
                 # On descend le perso
                 right = False
 
-
     if left:
         position_perso = position_perso.move(-1, 0)
         koopa = pygame.image.load("image/magicienGauche.png").convert_alpha()
@@ -83,10 +81,6 @@ while continuer:
         position_perso = position_perso.move(0, 1)
         koopa = pygame.image.load("image/magicienFace.png").convert_alpha()
         pygame.time.wait(2)
-
-
-
-
 
     # Re-collage
     fenetre.blit(fond, (0, 0))
