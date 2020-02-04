@@ -7,20 +7,20 @@ pygame.init()
 fenetre = pygame.display.set_mode((1024, 768), RESIZABLE)
 
 # Chargement et collage du fond
-fond = pygame.image.load("image/background.png").convert()
+fond = pygame.image.load("code/backgroundBlanc.png").convert()
 fenetre.blit(fond, (0, 0))
-murY = pygame.image.load("image/mur.png").convert()
+murY = pygame.image.load("code/mur.png").convert()
 position_murY = murY.get_rect()
 fenetre.blit(murY, position_murY)
 
 # Chargement et collage du personnage
-koopa = pygame.image.load("image/magicienDroite.png").convert_alpha()
+koopa = pygame.image.load("code/magicienDroite.png").convert_alpha()
 position_perso = koopa.get_rect()
 fenetre.blit(koopa, position_perso)
 position_perso = position_perso.move(500, 400)
 
 # chargement et collage des murs
-mur = pygame.image.load("image/mur.png").convert_alpha()
+mur = pygame.image.load("code/mur.png").convert_alpha()
 position_mur = mur.get_rect()
 mur.set_colorkey((255,255,255)) #Rend le blanc (valeur RGB : 255,255,255) de l'image transparent
 fenetre.blit(mur, (0, 0))
@@ -77,20 +77,20 @@ while continuer:
 
     if left and position_perso.x > 20 :
         position_perso = position_perso.move(-1, 0)
-        koopa = pygame.image.load("image/magicienGauche.png").convert_alpha()
+        koopa = pygame.image.load("code/magicienGauche.png").convert_alpha()
         pygame.time.wait(0)
 
     if right and position_perso.x < 900:
         position_perso = position_perso.move(1, 0)
-        koopa = pygame.image.load("image/magicienDroite.png").convert_alpha()
+        koopa = pygame.image.load("code/magicienDroite.png").convert_alpha()
         pygame.time.wait(0)
     if up and position_perso.y > 0:
         position_perso = position_perso.move(0, -1)
-        koopa = pygame.image.load("image/magicienDos.png").convert_alpha()
+        koopa = pygame.image.load("code/magicienDos.png").convert_alpha()
         pygame.time.wait(0)
     if down and position_perso.y < 650:
         position_perso = position_perso.move(0, 1)
-        koopa = pygame.image.load("image/magicienFace.png").convert_alpha()
+        koopa = pygame.image.load("code/magicienFace.png").convert_alpha()
         pygame.time.wait(0)
         pygame.time.wait(2)
     #si le rect perso touche le rect mur alors il y a colision

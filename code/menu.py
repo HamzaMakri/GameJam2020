@@ -4,7 +4,7 @@ from pygame.locals import *
 pygame.init()
 
 menu = pygame.display.set_mode((1024, 768), RESIZABLE)
-fond = pygame.image.load("C:/Users/Youssra/Documents/GitHub/GameJam2020/image/menuBeta.png").convert()
+fond = pygame.image.load("menuBeta.png").convert()
 menu.blit(fond, (0, 0))
 pygame.display.flip()
 click = False
