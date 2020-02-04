@@ -5,8 +5,8 @@ from pygame.locals import *
 pygame.init()
 
 menu = pygame.display.set_mode((1024, 768), RESIZABLE)
-
-
+fond = pygame.image.load("image/background.png").convert()
+menu.blit(fond, (0, 0))
 
 click = False
 
