@@ -110,11 +110,11 @@ def option():
             koopa = pygame.image.load("code/magicienGauche.png").convert_alpha()
             pygame.time.wait(0)
 
-        if right and 68 < position_perso.y < 339 and position_perso.x < 900:
+        if right and 68 < position_perso.y < 300 and position_perso.x < 900:
             position_perso = position_perso.move(1, 0)
             koopa = pygame.image.load("code/magicienDroite.png").convert_alpha()
             pygame.time.wait(0)
-        if right and  339 < position_perso.y < 385 :
+        if right and  300 < position_perso.y < 385 :
             position_perso = position_perso.move(1, 0)
             koopa = pygame.image.load("code/magicienDroite.png").convert_alpha()
             pygame.time.wait(0)
