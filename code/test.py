@@ -113,15 +113,27 @@ def option():
             position_perso = position_perso.move(-1, 0)
             koopa = pygame.image.load("code/magicienGauche.png").convert_alpha()
             pygame.time.wait(0)
-        if right and position_perso.x < 900:
+
+        if right and 68 < position_perso.y < 339 and position_perso.x < 900:
             position_perso = position_perso.move(1, 0)
             koopa = pygame.image.load("code/magicienDroite.png").convert_alpha()
             pygame.time.wait(0)
-        if up and position_perso.y > 0:
+        if right and  339 < position_perso.y < 385 :
+            position_perso = position_perso.move(1, 0)
+            koopa = pygame.image.load("code/magicienDroite.png").convert_alpha()
+            pygame.time.wait(0)
+        if right and 385 < position_perso.y < 739 and position_perso.x < 900:
+            position_perso = position_perso.move(1, 0)
+            koopa = pygame.image.load("code/magicienDroite.png").convert_alpha()
+            pygame.time.wait(0)
+
+        if up and position_perso.y > 0 and position_perso.x < 920 :
             position_perso = position_perso.move(0, -1)
             koopa = pygame.image.load("code/magicienDos.png").convert_alpha()
             pygame.time.wait(0)
-        if down and position_perso.y < 650:
+
+
+        if down and position_perso.y < 650 and position_perso.x < 920:
             position_perso = position_perso.move(0, 1)
             koopa = pygame.image.load("code/magicienFace.png").convert_alpha()
             pygame.time.wait(0)
