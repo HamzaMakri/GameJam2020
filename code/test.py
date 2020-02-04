@@ -250,7 +250,7 @@ def salle2():
             position_perso = position_perso.move(1, 0)
             koopa = pygame.image.load("code/magicienDroite.png").convert_alpha()
             pygame.time.wait(0)
-        if right and 250 < position_perso.y < 385:
+        if right and 250 < position_perso.y < 385 and position_perso.y < 720:
             position_perso = position_perso.move(1, 0)
             koopa = pygame.image.load("code/magicienDroite.png").convert_alpha()
             pygame.time.wait(0)
@@ -259,13 +259,13 @@ def salle2():
             koopa = pygame.image.load("code/magicienDroite.png").convert_alpha()
             pygame.time.wait(0)
 
-        if up and position_perso.y > 0 and position_perso.x < 920 :
+        if up and position_perso.y > 0 and position_perso.x > 20:
             position_perso = position_perso.move(0, -1)
             koopa = pygame.image.load("code/magicienDos.png").convert_alpha()
             pygame.time.wait(0)
 
 
-        if down and position_perso.y < 650 and position_perso.x < 920:
+        if down and position_perso.y < 650 and position_perso.x >20:
             position_perso = position_perso.move(0, 1)
             koopa = pygame.image.load("code/magicienFace.png").convert_alpha()
             pygame.time.wait(0)
@@ -290,7 +290,7 @@ def salle3():
     # Ouverture de la fenêtre Pygame
 
     # Chargement et collage du fond
-    fond = pygame.image.load("code/backgroundBlanc.png").convert()
+    fond = pygame.image.load("code/backgroundBlanc - 3.png").convert()
     menu.blit(fond, (0, 0))
     murY = pygame.image.load("code/mur.png").convert()
     position_murY = murY.get_rect()
@@ -361,7 +361,15 @@ def salle3():
                     # On descend le perso
                     right = False
 
-        if left and position_perso.x > 20:
+        if left and 250 < position_perso.y < 385:
+            position_perso = position_perso.move(-1, 0)
+            koopa = pygame.image.load("code/magicienGauche.png").convert_alpha()
+            pygame.time.wait(0)
+        if left and 0 < position_perso.y < 250 and position_perso.x > 20:
+            position_perso = position_perso.move(-1, 0)
+            koopa = pygame.image.load("code/magicienGauche.png").convert_alpha()
+            pygame.time.wait(0)
+        if left and 385 < position_perso.y < 739 and position_perso.x > 20:
             position_perso = position_perso.move(-1, 0)
             koopa = pygame.image.load("code/magicienGauche.png").convert_alpha()
             pygame.time.wait(0)
@@ -371,7 +379,7 @@ def salle3():
             position_perso = position_perso.move(1, 0)
             koopa = pygame.image.load("code/magicienDroite.png").convert_alpha()
             pygame.time.wait(0)
-        if right and 250 < position_perso.y < 385:
+        if right and 250 < position_perso.y < 385 and position_perso.y < 720:
             position_perso = position_perso.move(1, 0)
             koopa = pygame.image.load("code/magicienDroite.png").convert_alpha()
             pygame.time.wait(0)
@@ -386,6 +394,10 @@ def salle3():
             pygame.time.wait(0)
 
         if down and position_perso.y < 650 and position_perso.x < 920:
+            position_perso = position_perso.move(0, 1)
+            koopa = pygame.image.load("code/magicienFace.png").convert_alpha()
+            pygame.time.wait(0)
+        if down and 380 < position_perso.x < 550:
             position_perso = position_perso.move(0, 1)
             koopa = pygame.image.load("code/magicienFace.png").convert_alpha()
             pygame.time.wait(0)
@@ -406,7 +418,7 @@ def salle4():
     # Ouverture de la fenêtre Pygame
 
     # Chargement et collage du fond
-    fond = pygame.image.load("code/backgroundBlanc.png").convert()
+    fond = pygame.image.load("code/backgroundBlanc - 4.png").convert()
     menu.blit(fond, (0, 0))
     murY = pygame.image.load("code/mur.png").convert()
     position_murY = murY.get_rect()
@@ -504,12 +516,19 @@ def salle4():
             position_perso = position_perso.move(0, -1)
             koopa = pygame.image.load("code/magicienDos.png").convert_alpha()
             pygame.time.wait(0)
+        if up and 380 < position_perso.x < 550:
+            position_perso = position_perso.move(0, -1)
+            koopa = pygame.image.load("code/magicienDos.png").convert_alpha()
+            pygame.time.wait(0)
 
         if down and position_perso.y < 650 and position_perso.x < 920:
             position_perso = position_perso.move(0, 1)
             koopa = pygame.image.load("code/magicienFace.png").convert_alpha()
             pygame.time.wait(0)
-
+        if down and 380 < position_perso.x < 550:
+            position_perso = position_perso.move(0, 1)
+            koopa = pygame.image.load("code/magicienFace.png").convert_alpha()
+            pygame.time.wait(0)
         # si le rect perso touche le rect mur alors il y a colision
         if (position_perso.colliderect(position_mur)) == True:
             print("Colision!")
@@ -526,7 +545,7 @@ def salle5():
     # Ouverture de la fenêtre Pygame
 
     # Chargement et collage du fond
-    fond = pygame.image.load("code/backgroundBlanc.png").convert()
+    fond = pygame.image.load("code/backgroundBlanc - 5.png").convert()
     menu.blit(fond, (0, 0))
     murY = pygame.image.load("code/mur.png").convert()
     position_murY = murY.get_rect()
@@ -649,7 +668,7 @@ def salle6():
     # Ouverture de la fenêtre Pygame
 
     # Chargement et collage du fond
-    fond = pygame.image.load("code/backgroundBlanc.png").convert()
+    fond = pygame.image.load("code/imageTest.jpg").convert()
     menu.blit(fond, (0, 0))
     murY = pygame.image.load("code/mur.png").convert()
     position_murY = murY.get_rect()
