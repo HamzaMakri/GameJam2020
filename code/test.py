@@ -79,7 +79,6 @@ def salle1():
         sortieDroite = pygame.Rect(1024, 250, 3, 300)
         pygame.draw.rect(fond, (255, 0, 0), sortieDroite)
 
-
         if sortieDroite.collidepoint((position_perso.x, position_perso.y)):
             salle2()
 
@@ -194,7 +193,7 @@ def salle2():
         pygame.draw.rect(fond, (255, 0, 0), sortieGauche)
 
         if sortieGauche.collidepoint((position_perso.x, position_perso.y)):
-            salle2()
+            salle1()
 
         if sortieDroite.collidepoint((position_perso.x, position_perso.y)):
             salle3()
