@@ -190,6 +190,12 @@ def salle2():
         sortieBas = pygame.Rect(405, 768, 300, 3)
         pygame.draw.rect(fond, (255, 0, 0), sortieBas)
 
+        sortieGauche = pygame.Rect(0, 250, 3, 300)
+        pygame.draw.rect(fond, (255, 0, 0), sortieGauche)
+
+        if sortieGauche.collidepoint((position_perso.x, position_perso.y)):
+            salle2()
+
         if sortieDroite.collidepoint((position_perso.x, position_perso.y)):
             salle3()
 
