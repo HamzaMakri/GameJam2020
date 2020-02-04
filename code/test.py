@@ -161,7 +161,7 @@ def salle2():
     koopa = pygame.image.load("code/magicienDroite.png").convert_alpha()
     position_perso = koopa.get_rect()
     menu.blit(koopa, position_perso)
-    position_perso = position_perso.move(0, 300)
+    position_perso = position_perso.move(50, 300)
 
     # chargement et collage des murs
     mur = pygame.image.load("code/mur.png").convert_alpha()
