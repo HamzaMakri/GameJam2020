@@ -119,7 +119,8 @@ def jeu():
             koopa = pygame.image.load("code/magicienGauche.png").convert_alpha()
             pygame.time.wait(0)
 
-        if right and 68 < position_perso.y < 250 and position_perso.x < 900:
+
+        if right and 0 < position_perso.y < 250 and position_perso.x < 900:
             position_perso = position_perso.move(1, 0)
             koopa = pygame.image.load("code/magicienDroite.png").convert_alpha()
             pygame.time.wait(0)
@@ -154,6 +155,8 @@ def jeu():
 
         # Rafraichissement
         pygame.display.flip()
+
+
 
 
 main_menu()
