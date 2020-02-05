@@ -101,16 +101,19 @@ def salle1():
     position_coeur = position_coeur.move(300, 200)
 
     # health bar
-    vie = pygame.image.load("code/vie 20.png").convert_alpha()
+    vie = pygame.image.load("code/vie 100.png").convert_alpha()
     menu.blit(vie, (100, 10))
 
     # barre de gaz
-    barreGaz = pygame.image.load("code/vie 20.png").convert_alpha()
+    barreGaz = pygame.image.load("code/gaz 0.png").convert_alpha()
     menu.blit(barreGaz, (100, 10))
 
     # VENT
-    vent = pygame.image.load("code/Vide.png")
+    vent = pygame.image.load("code/Vent.png").convert_alpha()
     position_vent = vent.get_rect()
+    # mur.set_colorkey((255,255,255)) #Rend le blanc (valeur RGB : 255,255,255) de l'image transparent
+    menu.blit(vent, position_vent)
+    position_mur = position_perso.move(1050, 800)
 
     # Rafraîchissement de l'écran
     pygame.display.flip()
@@ -124,6 +127,7 @@ def salle1():
     down = False
     left = False
     right = False
+    space = False
 
     while continuer:
         sortieDroite = pygame.Rect(1024, 250, 3, 300)
@@ -144,14 +148,7 @@ def salle1():
             if event.type == KEYDOWN:
 
                 if event.key == K_SPACE:
-                    print("espace")
-                    vent = pygame.image.load("code/Vent.png")
-                    position_vent = position_vent.move(position_perso.x + 50, position_perso.y + 20)
-                    menu.blit(vent, position_vent)
-
-                    while position_vent.x < 800:
-                        position_vent = position_vent.move(1,0)
-                        pygame.time.delay(1)
+                    space = True
 
                 if event.key == K_DOWN:  # Si "flèche bas"
                     # On descend le perso
@@ -168,6 +165,9 @@ def salle1():
                     right = True
 
             elif event.type == KEYUP:
+                if event.key == K_SPACE:  # Si "flèche bas"
+                    # On descend le perso
+                    space = False
                 if event.key == K_DOWN:  # Si "flèche bas"
                     # On descend le perso
                     down = False
@@ -186,20 +186,72 @@ def salle1():
             koopa = pygame.image.load("code/magicienGauche.png").convert_alpha()
             pygame.time.wait(0)
 
-        if right and ((0 < position_perso.y < 250 and position_perso.x < 900) or (250 < position_perso.y < 385) or (385 < position_perso.y < 739 and position_perso.x < 900)):
+        if left and space:
+            mur = pygame.image.load("code/Vent.png")
+            position_mur = position_perso.move(0, 0)
+
+            while position_mur.x > 45:
+                menu.blit(fond, (0, 0))
+                position_mur = position_mur.move(-10, 0)
+                menu.blit(mur, position_mur)
+                menu.blit(koopa, position_perso)
+                pygame.display.update()
+            space = False
+            mur = pygame.image.load("code/Vide.png")
+
+        if right and ((-50 < position_perso.y < 250 and position_perso.x < 900) or (250 < position_perso.y < 385) or (385 < position_perso.y < 739 and position_perso.x < 900)):
             position_perso = position_perso.move(1, 0)
             koopa = pygame.image.load("code/magicienDroite.png").convert_alpha()
             pygame.time.wait(0)
+        if right and space:
+            mur = pygame.image.load("code/Vent.png")
+            position_mur = position_perso.move(0, 0)
+
+            while position_mur.x < 950:
+                menu.blit(fond, (0, 0))
+                position_mur = position_mur.move(10, 0)
+                menu.blit(mur, position_mur)
+                menu.blit(koopa, position_perso)
+                pygame.display.update()
+                pygame.time.delay(100)
+            space = False
+            mur = pygame.image.load("code/Vide.png")
 
         if up and position_perso.y > 0 and position_perso.x < 920 :
             position_perso = position_perso.move(0, -1)
             koopa = pygame.image.load("code/magicienDos.png").convert_alpha()
             pygame.time.wait(0)
+        if up and space:
+            mur = pygame.image.load("code/Vent.png")
+            position_mur = position_perso.move(0, 0)
+
+            while position_mur.y > 100:
+                menu.blit(fond, (0, 0))
+                position_mur = position_mur.move(0, -10)
+                menu.blit(mur, position_mur)
+                menu.blit(koopa, position_perso)
+                pygame.display.update()
+                pygame.time.delay(100)
+            space = False
+            mur = pygame.image.load("code/Vide.png")
 
         if down and position_perso.y < 650 and position_perso.x < 920:
             position_perso = position_perso.move(0, 1)
             koopa = pygame.image.load("code/magicienFace.png").convert_alpha()
             pygame.time.wait(0)
+        if down and space:
+            mur = pygame.image.load("code/Vent.png")
+            position_mur = position_perso.move(0, 0)
+
+            while position_mur.y < 700:
+                menu.blit(fond, (0, 0))
+                position_mur = position_mur.move(0, 10)
+                menu.blit(mur, position_mur)
+                menu.blit(koopa, position_perso)
+                pygame.display.update()
+                pygame.time.delay(100)
+            space = False
+            mur = pygame.image.load("code/Vide.png")
 
         # si le rect perso touche le rect Bombanne Gaz alors il y a colision
         if (position_perso.colliderect(position_murY)) == True:
@@ -247,6 +299,21 @@ def salle2():
     mur.set_colorkey((255, 255, 255))  # Rend le blanc (valeur RGB : 255,255,255) de l'image transparent
     menu.blit(mur, (0, 0))
 
+    # health bar
+    vie = pygame.image.load("code/vie 100.png").convert_alpha()
+    menu.blit(vie, (100, 10))
+
+    # barre de gaz
+    barreGaz = pygame.image.load("code/gaz 0.png").convert_alpha()
+    menu.blit(barreGaz, (100, 10))
+
+    # VENT
+    vent = pygame.image.load("code/Vent.png").convert_alpha()
+    position_vent = vent.get_rect()
+    # mur.set_colorkey((255,255,255)) #Rend le blanc (valeur RGB : 255,255,255) de l'image transparent
+    menu.blit(vent, position_vent)
+    position_mur = position_perso.move(1050, 800)
+
     # Rafraîchissement de l'écran
     pygame.display.flip()
 
@@ -259,6 +326,7 @@ def salle2():
     down = False
     left = False
     right = False
+    space = False
 
     while continuer:
         sortieDroite = pygame.Rect(1024, 250, 3, 300)
@@ -288,6 +356,8 @@ def salle2():
 
 
             if event.type == KEYDOWN:
+                if event.key == K_SPACE:
+                    space = True
                 if event.key == K_DOWN:  # Si "flèche bas"
                     # On descend le perso
                     down = True
@@ -302,6 +372,9 @@ def salle2():
                     right = True
 
             elif event.type == KEYUP:
+                if event.key == K_SPACE:  # Si "flèche bas"
+                    # On descend le perso
+                    space = False
                 if event.key == K_DOWN:  # Si "flèche bas"
                     # On descend le perso
                     down = False
@@ -327,8 +400,21 @@ def salle2():
             position_perso = position_perso.move(-1, 0)
             koopa = pygame.image.load("code/magicienGauche.png").convert_alpha()
             pygame.time.wait(0)
+        if left and space:
+            mur = pygame.image.load("code/Vent.png")
+            position_mur = position_perso.move(0, 0)
 
-        if right and 0 < position_perso.y < 250 and position_perso.x < 900:
+            while position_mur.x > 45:
+                menu.blit(fond, (0, 0))
+                position_mur = position_mur.move(-10, 0)
+                menu.blit(mur, position_mur)
+                menu.blit(koopa, position_perso)
+                pygame.display.update()
+            space = False
+            mur = pygame.image.load("code/Vide.png")
+
+
+        if right and -50 < position_perso.y < 250 and position_perso.x < 900:
             position_perso = position_perso.move(1, 0)
             koopa = pygame.image.load("code/magicienDroite.png").convert_alpha()
             pygame.time.wait(0)
@@ -340,11 +426,37 @@ def salle2():
             position_perso = position_perso.move(1, 0)
             koopa = pygame.image.load("code/magicienDroite.png").convert_alpha()
             pygame.time.wait(0)
+        if right and space:
+            mur = pygame.image.load("code/Vent.png")
+            position_mur = position_perso.move(0, 0)
+
+            while position_mur.x < 950:
+                menu.blit(fond, (0, 0))
+                position_mur = position_mur.move(10, 0)
+                menu.blit(mur, position_mur)
+                menu.blit(koopa, position_perso)
+                pygame.display.update()
+                pygame.time.delay(100)
+            space = False
+            mur = pygame.image.load("code/Vide.png")
 
         if up and position_perso.y > 0 and position_perso.x > 20:
             position_perso = position_perso.move(0, -1)
             koopa = pygame.image.load("code/magicienDos.png").convert_alpha()
             pygame.time.wait(0)
+        if up and space:
+            mur = pygame.image.load("code/Vent.png")
+            position_mur = position_perso.move(0, 0)
+
+            while position_mur.y > 100:
+                menu.blit(fond, (0, 0))
+                position_mur = position_mur.move(0, -10)
+                menu.blit(mur, position_mur)
+                menu.blit(koopa, position_perso)
+                pygame.display.update()
+                pygame.time.delay(100)
+            space = False
+            mur = pygame.image.load("code/Vide.png")
 
 
         if down and position_perso.y < 650 and position_perso.x >20:
@@ -355,6 +467,19 @@ def salle2():
             position_perso = position_perso.move(0, 1)
             koopa = pygame.image.load("code/magicienFace.png").convert_alpha()
             pygame.time.wait(0)
+        if down and space:
+            mur = pygame.image.load("code/Vent.png")
+            position_mur = position_perso.move(0, 0)
+
+            while position_mur.y < 700:
+                menu.blit(fond, (0, 0))
+                position_mur = position_mur.move(0, 10)
+                menu.blit(mur, position_mur)
+                menu.blit(koopa, position_perso)
+                pygame.display.update()
+                pygame.time.delay(100)
+            space = False
+            mur = pygame.image.load("code/Vide.png")
 
         # si le rect perso touche le rect mur alors il y a colision
         if (position_perso.colliderect(position_mur)) == True:
@@ -390,6 +515,21 @@ def salle3():
     mur.set_colorkey((255, 255, 255))  # Rend le blanc (valeur RGB : 255,255,255) de l'image transparent
     menu.blit(mur, (0, 0))
 
+    # health bar
+    vie = pygame.image.load("code/vie 100.png").convert_alpha()
+    menu.blit(vie, (100, 10))
+
+    # barre de gaz
+    barreGaz = pygame.image.load("code/gaz 0.png").convert_alpha()
+    menu.blit(barreGaz, (100, 10))
+
+    # VENT
+    vent = pygame.image.load("code/Vent.png").convert_alpha()
+    position_vent = vent.get_rect()
+    # mur.set_colorkey((255,255,255)) #Rend le blanc (valeur RGB : 255,255,255) de l'image transparent
+    menu.blit(vent, position_vent)
+    position_mur = position_perso.move(1050, 800)
+
     # Rafraîchissement de l'écran
     pygame.display.flip()
 
@@ -402,6 +542,7 @@ def salle3():
     down = False
     left = False
     right = False
+    space = False
 
     while continuer:
 
@@ -418,6 +559,8 @@ def salle3():
 
 
             if event.type == KEYDOWN:
+                if event.key == K_SPACE:
+                    space = True
                 if event.key == K_DOWN:  # Si "flèche bas"
                     # On descend le perso
                     down = True
@@ -432,6 +575,9 @@ def salle3():
                     right = True
 
             elif event.type == KEYUP:
+                if event.key == K_SPACE:  # Si "flèche bas"
+                    # On descend le perso
+                    space = False
                 if event.key == K_DOWN:  # Si "flèche bas"
                     # On descend le perso
                     down = False
@@ -449,7 +595,7 @@ def salle3():
             position_perso = position_perso.move(-1, 0)
             koopa = pygame.image.load("code/magicienGauche.png").convert_alpha()
             pygame.time.wait(0)
-        if left and 0 < position_perso.y < 250 and position_perso.x > 20:
+        if left and -50 < position_perso.y < 250 and position_perso.x > 20:
             position_perso = position_perso.move(-1, 0)
             koopa = pygame.image.load("code/magicienGauche.png").convert_alpha()
             pygame.time.wait(0)
@@ -457,9 +603,21 @@ def salle3():
             position_perso = position_perso.move(-1, 0)
             koopa = pygame.image.load("code/magicienGauche.png").convert_alpha()
             pygame.time.wait(0)
+        if left and space:
+            mur = pygame.image.load("code/Vent.png")
+            position_mur = position_perso.move(0, 0)
+
+            while position_mur.x > 45:
+                menu.blit(fond, (0, 0))
+                position_mur = position_mur.move(-10, 0)
+                menu.blit(mur, position_mur)
+                menu.blit(koopa, position_perso)
+                pygame.display.update()
+            space = False
+            mur = pygame.image.load("code/Vide.png")
 
 
-        if right and 0 < position_perso.y < 250 and position_perso.x < 900:
+        if right and -50 < position_perso.y < 250 and position_perso.x < 900:
             position_perso = position_perso.move(1, 0)
             koopa = pygame.image.load("code/magicienDroite.png").convert_alpha()
             pygame.time.wait(0)
@@ -471,11 +629,37 @@ def salle3():
             position_perso = position_perso.move(1, 0)
             koopa = pygame.image.load("code/magicienDroite.png").convert_alpha()
             pygame.time.wait(0)
+        if right and space:
+            mur = pygame.image.load("code/Vent.png")
+            position_mur = position_perso.move(0, 0)
+
+            while position_mur.x < 950:
+                menu.blit(fond, (0, 0))
+                position_mur = position_mur.move(10, 0)
+                menu.blit(mur, position_mur)
+                menu.blit(koopa, position_perso)
+                pygame.display.update()
+                pygame.time.delay(100)
+            space = False
+            mur = pygame.image.load("code/Vide.png")
 
         if up and position_perso.y > 0 and position_perso.x < 920:
             position_perso = position_perso.move(0, -1)
             koopa = pygame.image.load("code/magicienDos.png").convert_alpha()
             pygame.time.wait(0)
+        if up and space:
+            mur = pygame.image.load("code/Vent.png")
+            position_mur = position_perso.move(0, 0)
+
+            while position_mur.y > 100:
+                menu.blit(fond, (0, 0))
+                position_mur = position_mur.move(0, -10)
+                menu.blit(mur, position_mur)
+                menu.blit(koopa, position_perso)
+                pygame.display.update()
+                pygame.time.delay(100)
+            space = False
+            mur = pygame.image.load("code/Vide.png")
 
         if down and position_perso.y < 650 and position_perso.x < 920:
             position_perso = position_perso.move(0, 1)
@@ -485,6 +669,19 @@ def salle3():
             position_perso = position_perso.move(0, 1)
             koopa = pygame.image.load("code/magicienFace.png").convert_alpha()
             pygame.time.wait(0)
+        if down and space:
+            mur = pygame.image.load("code/Vent.png")
+            position_mur = position_perso.move(0, 0)
+
+            while position_mur.y < 700:
+                menu.blit(fond, (0, 0))
+                position_mur = position_mur.move(0, 10)
+                menu.blit(mur, position_mur)
+                menu.blit(koopa, position_perso)
+                pygame.display.update()
+                pygame.time.delay(100)
+            space = False
+            mur = pygame.image.load("code/Vide.png")
 
         # si le rect perso touche le rect mur alors il y a colision
         if (position_perso.colliderect(position_mur)) == True:
@@ -520,6 +717,21 @@ def salle4():
     mur.set_colorkey((255, 255, 255))  # Rend le blanc (valeur RGB : 255,255,255) de l'image transparent
     menu.blit(mur, (0, 0))
 
+    # health bar
+    vie = pygame.image.load("code/vie 100.png").convert_alpha()
+    menu.blit(vie, (100, 10))
+
+    # barre de gaz
+    barreGaz = pygame.image.load("code/gaz 0.png").convert_alpha()
+    menu.blit(barreGaz, (100, 10))
+
+    # VENT
+    vent = pygame.image.load("code/Vent.png").convert_alpha()
+    position_vent = vent.get_rect()
+    # mur.set_colorkey((255,255,255)) #Rend le blanc (valeur RGB : 255,255,255) de l'image transparent
+    menu.blit(vent, position_vent)
+    position_mur = position_perso.move(1050, 800)
+
     # Rafraîchissement de l'écran
     pygame.display.flip()
 
@@ -532,6 +744,7 @@ def salle4():
     down = False
     left = False
     right = False
+    space = False
 
     while continuer:
 
@@ -553,6 +766,8 @@ def salle4():
 
 
             if event.type == KEYDOWN:
+                if event.key == K_SPACE:
+                    space = True
                 if event.key == K_DOWN:  # Si "flèche bas"
                     # On descend le perso
                     down = True
@@ -567,6 +782,9 @@ def salle4():
                     right = True
 
             elif event.type == KEYUP:
+                if event.key == K_SPACE:  # Si "flèche bas"
+                    # On descend le perso
+                    space = False
                 if event.key == K_DOWN:  # Si "flèche bas"
                     # On descend le perso
                     down = False
@@ -584,8 +802,20 @@ def salle4():
             position_perso = position_perso.move(-1, 0)
             koopa = pygame.image.load("code/magicienGauche.png").convert_alpha()
             pygame.time.wait(0)
+        if left and space:
+            mur = pygame.image.load("code/Vent.png")
+            position_mur = position_perso.move(0, 0)
 
-        if right and 0 < position_perso.y < 250 and position_perso.x < 900:
+            while position_mur.x > 45:
+                menu.blit(fond, (0, 0))
+                position_mur = position_mur.move(-10, 0)
+                menu.blit(mur, position_mur)
+                menu.blit(koopa, position_perso)
+                pygame.display.update()
+            space = False
+            mur = pygame.image.load("code/Vide.png")
+
+        if right and -50 < position_perso.y < 250 and position_perso.x < 900:
             position_perso = position_perso.move(1, 0)
             koopa = pygame.image.load("code/magicienDroite.png").convert_alpha()
             pygame.time.wait(0)
@@ -597,6 +827,19 @@ def salle4():
             position_perso = position_perso.move(1, 0)
             koopa = pygame.image.load("code/magicienDroite.png").convert_alpha()
             pygame.time.wait(0)
+        if right and space:
+            mur = pygame.image.load("code/Vent.png")
+            position_mur = position_perso.move(0, 0)
+
+            while position_mur.x < 950:
+                menu.blit(fond, (0, 0))
+                position_mur = position_mur.move(10, 0)
+                menu.blit(mur, position_mur)
+                menu.blit(koopa, position_perso)
+                pygame.display.update()
+                pygame.time.delay(100)
+            space = False
+            mur = pygame.image.load("code/Vide.png")
 
         if up and position_perso.y > 0 and position_perso.x < 920:
             position_perso = position_perso.move(0, -1)
@@ -606,6 +849,19 @@ def salle4():
             position_perso = position_perso.move(0, -1)
             koopa = pygame.image.load("code/magicienDos.png").convert_alpha()
             pygame.time.wait(0)
+        if up and space:
+            mur = pygame.image.load("code/Vent.png")
+            position_mur = position_perso.move(0, 0)
+
+            while position_mur.y > 100:
+                menu.blit(fond, (0, 0))
+                position_mur = position_mur.move(0, -10)
+                menu.blit(mur, position_mur)
+                menu.blit(koopa, position_perso)
+                pygame.display.update()
+                pygame.time.delay(100)
+            space = False
+            mur = pygame.image.load("code/Vide.png")
 
         if down and position_perso.y < 650 and position_perso.x < 920:
             position_perso = position_perso.move(0, 1)
@@ -615,6 +871,19 @@ def salle4():
             position_perso = position_perso.move(0, 1)
             koopa = pygame.image.load("code/magicienFace.png").convert_alpha()
             pygame.time.wait(0)
+        if down and space:
+            mur = pygame.image.load("code/Vent.png")
+            position_mur = position_perso.move(0, 0)
+
+            while position_mur.y < 700:
+                menu.blit(fond, (0, 0))
+                position_mur = position_mur.move(0, 10)
+                menu.blit(mur, position_mur)
+                menu.blit(koopa, position_perso)
+                pygame.display.update()
+                pygame.time.delay(100)
+            space = False
+            mur = pygame.image.load("code/Vide.png")
         # si le rect perso touche le rect mur alors il y a colision
         if (position_perso.colliderect(position_mur)) == True:
             print("Colision!")
@@ -648,6 +917,21 @@ def salle5():
     mur.set_colorkey((255, 255, 255))  # Rend le blanc (valeur RGB : 255,255,255) de l'image transparent
     menu.blit(mur, (0, 0))
 
+    # health bar
+    vie = pygame.image.load("code/vie 100.png").convert_alpha()
+    menu.blit(vie, (100, 10))
+
+    # barre de gaz
+    barreGaz = pygame.image.load("code/gaz 0.png").convert_alpha()
+    menu.blit(barreGaz, (100, 10))
+
+    # VENT
+    vent = pygame.image.load("code/Vent.png").convert_alpha()
+    position_vent = vent.get_rect()
+    # mur.set_colorkey((255,255,255)) #Rend le blanc (valeur RGB : 255,255,255) de l'image transparent
+    menu.blit(vent, position_vent)
+    position_mur = position_perso.move(1050, 800)
+
     # Rafraîchissement de l'écran
     pygame.display.flip()
 
@@ -660,6 +944,7 @@ def salle5():
     down = False
     left = False
     right = False
+    space = False
 
     while continuer:
         sortieDroite = pygame.Rect(1024, 250, 3, 300)
@@ -682,6 +967,8 @@ def salle5():
 
 
             if event.type == KEYDOWN:
+                if event.key == K_SPACE:
+                    space = True
                 if event.key == K_DOWN:  # Si "flèche bas"
                     # On descend le perso
                     down = True
@@ -696,6 +983,9 @@ def salle5():
                     right = True
 
             elif event.type == KEYUP:
+                if event.key == K_SPACE:  # Si "flèche bas"
+                    # On descend le perso
+                    space = False
                 if event.key == K_DOWN:  # Si "flèche bas"
                     # On descend le perso
                     down = False
@@ -713,9 +1003,20 @@ def salle5():
             position_perso = position_perso.move(-1, 0)
             koopa = pygame.image.load("code/magicienGauche.png").convert_alpha()
             pygame.time.wait(0)
+        if left and space:
+            mur = pygame.image.load("code/Vent.png")
+            position_mur = position_perso.move(0, 0)
 
+            while position_mur.x > 45:
+                menu.blit(fond, (0, 0))
+                position_mur = position_mur.move(-10, 0)
+                menu.blit(mur, position_mur)
+                menu.blit(koopa, position_perso)
+                pygame.display.update()
+            space = False
+            mur = pygame.image.load("code/Vide.png")
 
-        if right and 0 < position_perso.y < 250 and position_perso.x < 900:
+        if right and -50 < position_perso.y < 250 and position_perso.x < 900:
             position_perso = position_perso.move(1, 0)
             koopa = pygame.image.load("code/magicienDroite.png").convert_alpha()
             pygame.time.wait(0)
@@ -727,17 +1028,57 @@ def salle5():
             position_perso = position_perso.move(1, 0)
             koopa = pygame.image.load("code/magicienDroite.png").convert_alpha()
             pygame.time.wait(0)
+        if right and space:
+            mur = pygame.image.load("code/Vent.png")
+            position_mur = position_perso.move(0, 0)
+
+            while position_mur.x < 950:
+                menu.blit(fond, (0, 0))
+                position_mur = position_mur.move(10, 0)
+                menu.blit(mur, position_mur)
+                menu.blit(koopa, position_perso)
+                pygame.display.update()
+                pygame.time.delay(100)
+            space = False
+            mur = pygame.image.load("code/Vide.png")
 
         if up and position_perso.y > 0 and position_perso.x < 920 :
             position_perso = position_perso.move(0, -1)
             koopa = pygame.image.load("code/magicienDos.png").convert_alpha()
             pygame.time.wait(0)
+        if up and space:
+            mur = pygame.image.load("code/Vent.png")
+            position_mur = position_perso.move(0, 0)
+
+            while position_mur.y > 100:
+                menu.blit(fond, (0, 0))
+                position_mur = position_mur.move(0, -10)
+                menu.blit(mur, position_mur)
+                menu.blit(koopa, position_perso)
+                pygame.display.update()
+                pygame.time.delay(100)
+            space = False
+            mur = pygame.image.load("code/Vide.png")
 
 
         if down and position_perso.y < 650 and position_perso.x < 920:
             position_perso = position_perso.move(0, 1)
             koopa = pygame.image.load("code/magicienFace.png").convert_alpha()
             pygame.time.wait(0)
+        if down and space:
+            mur = pygame.image.load("code/Vent.png")
+            position_mur = position_perso.move(0, 0)
+
+            while position_mur.y < 700:
+                menu.blit(fond, (0, 0))
+                position_mur = position_mur.move(0, 10)
+                menu.blit(mur, position_mur)
+                menu.blit(koopa, position_perso)
+                pygame.display.update()
+                pygame.time.delay(100)
+            space = False
+            mur = pygame.image.load("code/Vide.png")
+
 
         # si le rect perso touche le rect mur alors il y a colision
         if (position_perso.colliderect(position_mur)) == True:
@@ -788,6 +1129,7 @@ def salle6():
     down = False
     left = False
     right = False
+    space = False
 
     while continuer:
 
@@ -804,6 +1146,8 @@ def salle6():
 
 
             if event.type == KEYDOWN:
+                if event.key == K_SPACE:
+                    space = True
                 if event.key == K_DOWN:  # Si "flèche bas"
                     # On descend le perso
                     down = True
@@ -818,6 +1162,9 @@ def salle6():
                     right = True
 
             elif event.type == KEYUP:
+                if event.key == K_SPACE:  # Si "flèche bas"
+                    # On descend le perso
+                    space = False
                 if event.key == K_DOWN:  # Si "flèche bas"
                     # On descend le perso
                     down = False
@@ -835,9 +1182,20 @@ def salle6():
             position_perso = position_perso.move(-1, 0)
             koopa = pygame.image.load("code/magicienGauche.png").convert_alpha()
             pygame.time.wait(0)
+        if left and space:
+            mur = pygame.image.load("code/Vent.png")
+            position_mur = position_perso.move(0, 0)
 
+            while position_mur.x > 45:
+                menu.blit(fond, (0, 0))
+                position_mur = position_mur.move(-10, 0)
+                menu.blit(mur, position_mur)
+                menu.blit(koopa, position_perso)
+                pygame.display.update()
+            space = False
+            mur = pygame.image.load("code/Vide.png")
 
-        if right and 0 < position_perso.y < 250 and position_perso.x < 900:
+        if right and -50 < position_perso.y < 250 and position_perso.x < 900:
             position_perso = position_perso.move(1, 0)
             koopa = pygame.image.load("code/magicienDroite.png").convert_alpha()
             pygame.time.wait(0)
@@ -849,17 +1207,57 @@ def salle6():
             position_perso = position_perso.move(1, 0)
             koopa = pygame.image.load("code/magicienDroite.png").convert_alpha()
             pygame.time.wait(0)
+        if right and space:
+            mur = pygame.image.load("code/Vent.png")
+            position_mur = position_perso.move(0, 0)
+
+            while position_mur.x < 950:
+                menu.blit(fond, (0, 0))
+                position_mur = position_mur.move(10, 0)
+                menu.blit(mur, position_mur)
+                menu.blit(koopa, position_perso)
+                pygame.display.update()
+                pygame.time.delay(100)
+            space = False
+            mur = pygame.image.load("code/Vide.png")
+
 
         if up and position_perso.y > 0 and position_perso.x < 920 :
             position_perso = position_perso.move(0, -1)
             koopa = pygame.image.load("code/magicienDos.png").convert_alpha()
             pygame.time.wait(0)
+        if up and space:
+            mur = pygame.image.load("code/Vent.png")
+            position_mur = position_perso.move(0, 0)
+
+            while position_mur.y > 100:
+                menu.blit(fond, (0, 0))
+                position_mur = position_mur.move(0, -10)
+                menu.blit(mur, position_mur)
+                menu.blit(koopa, position_perso)
+                pygame.display.update()
+                pygame.time.delay(100)
+            space = False
+            mur = pygame.image.load("code/Vide.png")
 
 
         if down and position_perso.y < 650 and position_perso.x < 920:
             position_perso = position_perso.move(0, 1)
             koopa = pygame.image.load("code/magicienFace.png").convert_alpha()
             pygame.time.wait(0)
+        if down and space:
+            mur = pygame.image.load("code/Vent.png")
+            position_mur = position_perso.move(0, 0)
+
+            while position_mur.y < 700:
+                menu.blit(fond, (0, 0))
+                position_mur = position_mur.move(0, 10)
+                menu.blit(mur, position_mur)
+                menu.blit(koopa, position_perso)
+                pygame.display.update()
+                pygame.time.delay(100)
+            space = False
+            mur = pygame.image.load("code/Vide.png")
 
         # si le rect perso touche le rect mur alors il y a colision
         if (position_perso.colliderect(position_mur)) == True:
