@@ -62,6 +62,7 @@ def salle1():
     mur.set_colorkey((255, 255, 255))  # Rend le blanc (valeur RGB : 255,255,255) de l'image transparent
     menu.blit(mur, (0, 0))
 
+
     # Rafraîchissement de l'écran
     pygame.display.flip()
 
@@ -152,7 +153,6 @@ def salle1():
 
 def salle2():
     # Ouverture de la fenêtre Pygame
-
     # Chargement et collage du fond
     fond = pygame.image.load("code/backgroundBlanc - 2.png").convert()
     menu.blit(fond, (0, 0))
@@ -923,6 +923,7 @@ def fin():
 
         # Rafraichissement
         pygame.display.flip()
+
 
 
 main_menu()
