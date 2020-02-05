@@ -81,18 +81,20 @@ while continuer:
                 # On descend le perso
                 right = False
 
-    if left and position_perso.x > 20 :
+    if left and position_perso.x > 20:
         position_perso = position_perso.move(-1, 0)
         koopa = pygame.image.load("magicienGauche.png").convert_alpha()
         pygame.time.wait(0)
 
-    if space :
-        y = 100
-        position_mur = position_perso.move(30, y)
+    if space:
+        position_mur = position_perso.move(0, 0)
         while position_mur.y < 500:
-            position_mur = position_mur.move(-1, 0)
+            fenetre.blit(fond, (0, 0))
+            position_mur = position_mur.move(0, 10)
             fenetre.blit(mur, position_mur)
-            time.sleep(0.05)
+            fenetre.blit(koopa, position_perso)
+            pygame.display.update()
+            pygame.time.delay(100)
 
     if right and position_perso.x < 900:
         position_perso = position_perso.move(1, 0)
