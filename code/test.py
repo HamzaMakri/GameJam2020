@@ -83,14 +83,17 @@ def salle1():
             salle2()
 
 
+
         for event in pygame.event.get():  # Attente des événements
             if event.type == QUIT:
                 continuer = 0
+                sys.exit()
 
             if event.type == KEYDOWN:
                 if event.key == K_DOWN:  # Si "flèche bas"
                     # On descend le perso
                     down = True
+                    
                 if event.key == K_UP:  # Si "flèche bas"
                     # On descend le perso
                     up = True
@@ -204,6 +207,8 @@ def salle2():
         for event in pygame.event.get():  # Attente des événements
             if event.type == QUIT:
                 continuer = 0
+                sys.exit()
+
 
             if event.type == KEYDOWN:
                 if event.key == K_DOWN:  # Si "flèche bas"
@@ -332,6 +337,8 @@ def salle3():
         for event in pygame.event.get():  # Attente des événements
             if event.type == QUIT:
                 continuer = 0
+                sys.exit()
+
 
             if event.type == KEYDOWN:
                 if event.key == K_DOWN:  # Si "flèche bas"
@@ -465,6 +472,8 @@ def salle4():
         for event in pygame.event.get():  # Attente des événements
             if event.type == QUIT:
                 continuer = 0
+                sys.exit()
+
 
             if event.type == KEYDOWN:
                 if event.key == K_DOWN:  # Si "flèche bas"
@@ -593,6 +602,8 @@ def salle5():
         for event in pygame.event.get():  # Attente des événements
             if event.type == QUIT:
                 continuer = 0
+                sys.exit()
+
 
             if event.type == KEYDOWN:
                 if event.key == K_DOWN:  # Si "flèche bas"
@@ -710,6 +721,8 @@ def salle6():
         for event in pygame.event.get():  # Attente des événements
             if event.type == QUIT:
                 continuer = 0
+                sys.exit()
+
 
             if event.type == KEYDOWN:
                 if event.key == K_DOWN:  # Si "flèche bas"
@@ -805,7 +818,6 @@ def fin():
 
     # Rafraîchissement de l'écran
     pygame.display.flip()
-
     pygame.key.set_repeat(1, 300)
 
     # BOUCLE INFINIE
@@ -841,6 +853,7 @@ def fin():
         for event in pygame.event.get():  # Attente des événements
             if event.type == QUIT:
                 continuer = 0
+                sys.exit()
 
             if event.type == KEYDOWN:
                 if event.key == K_DOWN:  # Si "flèche bas"
