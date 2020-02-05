@@ -39,6 +39,22 @@ def main_menu():
         pygame.display.flip()
 
 
+def health_bar(player_health):
+    if player_health == 100 :
+        vie= pygame.image.load("code/vie 100.png").convert()
+        menu.blit(vie, (500,400))
+    if player_health == 75 :
+        vie= pygame.image.load("code/vie 70.png").convert()
+        menu.blit(vie, (500, 400))
+    if player_health == 50:
+        vie = pygame.image.load("code/vie 40.png").convert()
+        menu.blit(vie, (500, 400))
+    if player_health == 25:
+        vie = pygame.image.load("code/vie 20.png").convert()
+        menu.blit(vie, (500, 400))
+    if player_health == 0:
+        vie = pygame.image.load("code/vie 0.png").convert()
+        menu.blit(vie, (500, 400))
 
 def salle1():
     # Ouverture de la fenêtre Pygame
@@ -55,6 +71,8 @@ def salle1():
     position_perso = koopa.get_rect()
     menu.blit(koopa, position_perso)
     position_perso = position_perso.move(500, 400)
+    player_health = 100
+    health_bar(player_health)
 
     # chargement et collage des murs
     mur = pygame.image.load("code/mur.png").convert_alpha()
