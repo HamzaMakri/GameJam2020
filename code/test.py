@@ -61,7 +61,7 @@ def salle1():
     gaz = pygame.image.load("code/Coeur.png").convert()
     position_gaz = gaz.get_rect()
     menu.blit(gaz, position_gaz)
-    position_gaz = position_gaz.move(200, 200)
+    position_gaz.move(200, 200)
 
 
 
