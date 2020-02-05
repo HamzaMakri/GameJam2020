@@ -80,16 +80,20 @@ def salle1():
         pygame.draw.rect(fond, (255, 0, 0), sortieDroite)
 
         if sortieDroite.collidepoint((position_perso.x, position_perso.y)):
-          salle2()
+            salle2()
+
+
 
         for event in pygame.event.get():  # Attente des événements
             if event.type == QUIT:
                 continuer = 0
+                sys.exit()
 
             if event.type == KEYDOWN:
                 if event.key == K_DOWN:  # Si "flèche bas"
                     # On descend le perso
                     down = True
+                    
                 if event.key == K_UP:  # Si "flèche bas"
                     # On descend le perso
                     up = True
@@ -114,21 +118,12 @@ def salle1():
                     # On descend le perso
                     right = False
 
-        if left and position_perso.x > 20:
+        if left and (position_perso.x > 20):
             position_perso = position_perso.move(-1, 0)
             koopa = pygame.image.load("code/magicienGauche.png").convert_alpha()
             pygame.time.wait(0)
 
-
-        if right and 0 < position_perso.y < 250 and position_perso.x < 900:
-            position_perso = position_perso.move(1, 0)
-            koopa = pygame.image.load("code/magicienDroite.png").convert_alpha()
-            pygame.time.wait(0)
-        if right and  250 < position_perso.y < 385 :
-            position_perso = position_perso.move(1, 0)
-            koopa = pygame.image.load("code/magicienDroite.png").convert_alpha()
-            pygame.time.wait(0)
-        if right and 385 < position_perso.y < 739 and position_perso.x < 900:
+        if right and ((0 < position_perso.y < 250 and position_perso.x < 900) or (250 < position_perso.y < 385) or (385 < position_perso.y < 739 and position_perso.x < 900)):
             position_perso = position_perso.move(1, 0)
             koopa = pygame.image.load("code/magicienDroite.png").convert_alpha()
             pygame.time.wait(0)
@@ -137,7 +132,6 @@ def salle1():
             position_perso = position_perso.move(0, -1)
             koopa = pygame.image.load("code/magicienDos.png").convert_alpha()
             pygame.time.wait(0)
-
 
         if down and position_perso.y < 650 and position_perso.x < 920:
             position_perso = position_perso.move(0, 1)
@@ -156,9 +150,6 @@ def salle1():
         # Rafraichissement
         pygame.display.flip()
 
-
-
-
 def salle2():
     # Ouverture de la fenêtre Pygame
 
@@ -173,7 +164,7 @@ def salle2():
     koopa = pygame.image.load("code/magicienDroite.png").convert_alpha()
     position_perso = koopa.get_rect()
     menu.blit(koopa, position_perso)
-    position_perso = position_perso.move(0, 300)
+    position_perso = position_perso.move(50, 300)
 
     # chargement et collage des murs
     mur = pygame.image.load("code/mur.png").convert_alpha()
@@ -198,12 +189,26 @@ def salle2():
         sortieDroite = pygame.Rect(1024, 250, 3, 300)
         pygame.draw.rect(fond, (255, 0, 0), sortieDroite)
 
+        sortieBas = pygame.Rect(405, 768, 300, 3)
+        pygame.draw.rect(fond, (255, 0, 0), sortieBas)
+
+        sortieGauche = pygame.Rect(0, 250, 3, 300)
+        pygame.draw.rect(fond, (255, 0, 0), sortieGauche)
+
+        if sortieGauche.collidepoint((position_perso.x, position_perso.y)):
+            salle1()
+
         if sortieDroite.collidepoint((position_perso.x, position_perso.y)):
-          salle3()
+            salle3()
+
+        if sortieBas.collidepoint((position_perso.x, position_perso.y)):
+            salle4()
 
         for event in pygame.event.get():  # Attente des événements
             if event.type == QUIT:
                 continuer = 0
+                sys.exit()
+
 
             if event.type == KEYDOWN:
                 if event.key == K_DOWN:  # Si "flèche bas"
@@ -250,7 +255,7 @@ def salle2():
             position_perso = position_perso.move(1, 0)
             koopa = pygame.image.load("code/magicienDroite.png").convert_alpha()
             pygame.time.wait(0)
-        if right and 250 < position_perso.y < 385:
+        if right and 250 < position_perso.y < 385 and position_perso.y < 720:
             position_perso = position_perso.move(1, 0)
             koopa = pygame.image.load("code/magicienDroite.png").convert_alpha()
             pygame.time.wait(0)
@@ -259,13 +264,13 @@ def salle2():
             koopa = pygame.image.load("code/magicienDroite.png").convert_alpha()
             pygame.time.wait(0)
 
-        if up and position_perso.y > 0 and position_perso.x < 920 :
+        if up and position_perso.y > 0 and position_perso.x > 20:
             position_perso = position_perso.move(0, -1)
             koopa = pygame.image.load("code/magicienDos.png").convert_alpha()
             pygame.time.wait(0)
 
 
-        if down and position_perso.y < 650 and position_perso.x < 920:
+        if down and position_perso.y < 650 and position_perso.x >20:
             position_perso = position_perso.move(0, 1)
             koopa = pygame.image.load("code/magicienFace.png").convert_alpha()
             pygame.time.wait(0)
@@ -290,7 +295,7 @@ def salle3():
     # Ouverture de la fenêtre Pygame
 
     # Chargement et collage du fond
-    fond = pygame.image.load("code/backgroundBlanc.png").convert()
+    fond = pygame.image.load("code/backgroundBlanc - 3.png").convert()
     menu.blit(fond, (0, 0))
     murY = pygame.image.load("code/mur.png").convert()
     position_murY = murY.get_rect()
@@ -322,15 +327,18 @@ def salle3():
     right = False
 
     while continuer:
-        sortieDroite = pygame.Rect(1024, 250, 3, 300)
-        pygame.draw.rect(fond, (255, 0, 0), sortieDroite)
 
-        if sortieDroite.collidepoint((position_perso.x, position_perso.y)):
-            salle4()
+        sortieGauche = pygame.Rect(0, 250, 3, 300)
+        pygame.draw.rect(fond, (255, 0, 0), sortieGauche)
+
+        if sortieGauche.collidepoint((position_perso.x, position_perso.y)):
+            salle2()
 
         for event in pygame.event.get():  # Attente des événements
             if event.type == QUIT:
                 continuer = 0
+                sys.exit()
+
 
             if event.type == KEYDOWN:
                 if event.key == K_DOWN:  # Si "flèche bas"
@@ -360,16 +368,25 @@ def salle3():
                     # On descend le perso
                     right = False
 
-        if left and position_perso.x > 20:
+        if left and 250 < position_perso.y < 385:
             position_perso = position_perso.move(-1, 0)
             koopa = pygame.image.load("code/magicienGauche.png").convert_alpha()
             pygame.time.wait(0)
+        if left and 0 < position_perso.y < 250 and position_perso.x > 20:
+            position_perso = position_perso.move(-1, 0)
+            koopa = pygame.image.load("code/magicienGauche.png").convert_alpha()
+            pygame.time.wait(0)
+        if left and 385 < position_perso.y < 739 and position_perso.x > 20:
+            position_perso = position_perso.move(-1, 0)
+            koopa = pygame.image.load("code/magicienGauche.png").convert_alpha()
+            pygame.time.wait(0)
+
 
         if right and 0 < position_perso.y < 250 and position_perso.x < 900:
             position_perso = position_perso.move(1, 0)
             koopa = pygame.image.load("code/magicienDroite.png").convert_alpha()
             pygame.time.wait(0)
-        if right and 250 < position_perso.y < 385:
+        if right and 250 < position_perso.y < 385 and position_perso.y < 720:
             position_perso = position_perso.move(1, 0)
             koopa = pygame.image.load("code/magicienDroite.png").convert_alpha()
             pygame.time.wait(0)
@@ -384,6 +401,10 @@ def salle3():
             pygame.time.wait(0)
 
         if down and position_perso.y < 650 and position_perso.x < 920:
+            position_perso = position_perso.move(0, 1)
+            koopa = pygame.image.load("code/magicienFace.png").convert_alpha()
+            pygame.time.wait(0)
+        if down and 380 < position_perso.x < 550:
             position_perso = position_perso.move(0, 1)
             koopa = pygame.image.load("code/magicienFace.png").convert_alpha()
             pygame.time.wait(0)
@@ -404,7 +425,7 @@ def salle4():
     # Ouverture de la fenêtre Pygame
 
     # Chargement et collage du fond
-    fond = pygame.image.load("code/backgroundBlanc.png").convert()
+    fond = pygame.image.load("code/backgroundBlanc - 4.png").convert()
     menu.blit(fond, (0, 0))
     murY = pygame.image.load("code/mur.png").convert()
     position_murY = murY.get_rect()
@@ -436,15 +457,23 @@ def salle4():
     right = False
 
     while continuer:
-        sortieDroite = pygame.Rect(1024, 250, 3, 300)
-        pygame.draw.rect(fond, (255, 0, 0), sortieDroite)
 
-        if sortieDroite.collidepoint((position_perso.x, position_perso.y)):
+        sortieHaut = pygame.Rect(405, 0, 300, 3)
+        pygame.draw.rect(fond, (255, 0, 0), sortieHaut)
+
+        sortieBas = pygame.Rect(405, 768, 300, 3)
+        pygame.draw.rect(fond, (255, 0, 0), sortieBas)
+
+        if sortieHaut.collidepoint((position_perso.x, position_perso.y)):
+            salle2()
+        if sortieBas.collidepoint((position_perso.x, position_perso.y)):
             salle5()
 
         for event in pygame.event.get():  # Attente des événements
             if event.type == QUIT:
                 continuer = 0
+                sys.exit()
+
 
             if event.type == KEYDOWN:
                 if event.key == K_DOWN:  # Si "flèche bas"
@@ -496,12 +525,19 @@ def salle4():
             position_perso = position_perso.move(0, -1)
             koopa = pygame.image.load("code/magicienDos.png").convert_alpha()
             pygame.time.wait(0)
+        if up and 380 < position_perso.x < 550:
+            position_perso = position_perso.move(0, -1)
+            koopa = pygame.image.load("code/magicienDos.png").convert_alpha()
+            pygame.time.wait(0)
 
         if down and position_perso.y < 650 and position_perso.x < 920:
             position_perso = position_perso.move(0, 1)
             koopa = pygame.image.load("code/magicienFace.png").convert_alpha()
             pygame.time.wait(0)
-
+        if down and 380 < position_perso.x < 550:
+            position_perso = position_perso.move(0, 1)
+            koopa = pygame.image.load("code/magicienFace.png").convert_alpha()
+            pygame.time.wait(0)
         # si le rect perso touche le rect mur alors il y a colision
         if (position_perso.colliderect(position_mur)) == True:
             print("Colision!")
@@ -518,7 +554,7 @@ def salle5():
     # Ouverture de la fenêtre Pygame
 
     # Chargement et collage du fond
-    fond = pygame.image.load("code/backgroundBlanc.png").convert()
+    fond = pygame.image.load("code/backgroundBlanc - 5.png").convert()
     menu.blit(fond, (0, 0))
     murY = pygame.image.load("code/mur.png").convert()
     position_murY = murY.get_rect()
@@ -552,13 +588,22 @@ def salle5():
     while continuer:
         sortieDroite = pygame.Rect(1024, 250, 3, 300)
         pygame.draw.rect(fond, (255, 0, 0), sortieDroite)
+        sortieHaut = pygame.Rect(405, 0, 300, 3)
+        pygame.draw.rect(fond, (255, 0, 0), sortieHaut)
+
 
         if sortieDroite.collidepoint((position_perso.x, position_perso.y)):
-          salle2()
+            salle6()
+
+        if sortieHaut.collidepoint((position_perso.x, position_perso.y)):
+            salle4()
+
 
         for event in pygame.event.get():  # Attente des événements
             if event.type == QUIT:
                 continuer = 0
+                sys.exit()
+
 
             if event.type == KEYDOWN:
                 if event.key == K_DOWN:  # Si "flèche bas"
@@ -634,7 +679,7 @@ def salle6():
     # Ouverture de la fenêtre Pygame
 
     # Chargement et collage du fond
-    fond = pygame.image.load("code/backgroundBlanc.png").convert()
+    fond = pygame.image.load("code/imageTest.jpg").convert()
     menu.blit(fond, (0, 0))
     murY = pygame.image.load("code/mur.png").convert()
     position_murY = murY.get_rect()
@@ -666,15 +711,18 @@ def salle6():
     right = False
 
     while continuer:
-        sortieDroite = pygame.Rect(1024, 250, 3, 300)
-        pygame.draw.rect(fond, (255, 0, 0), sortieDroite)
 
-        if sortieDroite.collidepoint((position_perso.x, position_perso.y)):
-          fin()
+        sortieGauche = pygame.Rect(0, 250, 3, 300)
+        pygame.draw.rect(fond, (255, 0, 0), sortieGauche)
+
+        if sortieGauche.collidepoint((position_perso.x, position_perso.y)):
+            salle5()
 
         for event in pygame.event.get():  # Attente des événements
             if event.type == QUIT:
                 continuer = 0
+                sys.exit()
+
 
             if event.type == KEYDOWN:
                 if event.key == K_DOWN:  # Si "flèche bas"
@@ -770,7 +818,6 @@ def fin():
 
     # Rafraîchissement de l'écran
     pygame.display.flip()
-
     pygame.key.set_repeat(1, 300)
 
     # BOUCLE INFINIE
@@ -785,12 +832,28 @@ def fin():
         sortieDroite = pygame.Rect(1024, 250, 3, 300)
         pygame.draw.rect(fond, (255, 0, 0), sortieDroite)
 
+        sortieGauche = pygame.Rect(0, 250, 3, 300)
+        pygame.draw.rect(fond, (255, 0, 0), sortieGauche)
+
+        sortieHaut = pygame.Rect(405, 0, 300, 3)
+        pygame.draw.rect(fond, (255, 0, 0), sortieHaut)
+
+        sortieBas = pygame.Rect(405, 768, 300, 3)
+        pygame.draw.rect(fond, (255, 0, 0), sortieBas)
+
         if sortieDroite.collidepoint((position_perso.x, position_perso.y)):
-          salle2()
+            salle2()
+        if sortieGauche.collidepoint((position_perso.x, position_perso.y)):
+            salle1()
+        if sortieHaut.collidepoint((position_perso.x, position_perso.y)):
+            salle2()
+        if sortieBas.collidepoint((position_perso.x, position_perso.y)):
+            salle1()
 
         for event in pygame.event.get():  # Attente des événements
             if event.type == QUIT:
                 continuer = 0
+                sys.exit()
 
             if event.type == KEYDOWN:
                 if event.key == K_DOWN:  # Si "flèche bas"
@@ -824,7 +887,6 @@ def fin():
             position_perso = position_perso.move(-1, 0)
             koopa = pygame.image.load("code/magicienGauche.png").convert_alpha()
             pygame.time.wait(0)
-
 
         if right and 0 < position_perso.y < 250 and position_perso.x < 900:
             position_perso = position_perso.move(1, 0)
