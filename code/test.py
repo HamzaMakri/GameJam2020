@@ -65,6 +65,7 @@ def salle1():
 
 
 
+
     # Rafraîchissement de l'écran
     pygame.display.flip()
 
@@ -153,7 +154,6 @@ def salle1():
 
 def salle2():
     # Ouverture de la fenêtre Pygame
-
     # Chargement et collage du fond
     fond = pygame.image.load("code/backgroundBlanc - 2.png").convert()
     menu.blit(fond, (0, 0))
@@ -922,6 +922,7 @@ def fin():
 
         # Rafraichissement
         pygame.display.flip()
+
 
 
 main_menu()
