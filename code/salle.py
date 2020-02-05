@@ -1,4 +1,5 @@
 import pygame
+import time
 from pygame.locals import *
 
 pygame.init()
@@ -53,8 +54,9 @@ while continuer:
                 y = 100
                 position_mur = position_perso.move(30, y)
                 while position_mur.y < 500:
-                    position_mur = position_mur.move(0, y+10)
-                    pygame.time.wait(2)
+                    position_mur.y += 10
+                    fenetre.blit(mur, position_mur)
+                    time.sleep(0.05)
             if event.key == K_DOWN:  # Si "flèche bas"
                 # On descend le perso
                 down = True
