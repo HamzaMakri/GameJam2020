@@ -6,8 +6,7 @@ from pygame.locals import *
 pygame.init()
 
 menu = pygame.display.set_mode((1024, 768), RESIZABLE)
-fond = pygame.image.load("code/menuBeta.png").convert()
-menu.blit(fond, (0, 0))
+
 
 click = False
 
@@ -60,10 +59,10 @@ def salle1():
 
     # Chargement et collage du fond
     fond = pygame.image.load("code/backgroundBlanc.png").convert()
-    menu.blit(fond, (0, 0))
+    menu.blit(fond, (0, 200))
 
     # Mur
-    murY = pygame.image.load("code/bombonne.png").convert_alpha()
+    murY = pygame.image.load("code/mur.png").convert_alpha()
     position_murY = murY.get_rect()
     menu.blit(murY, position_murY)
 
@@ -75,14 +74,21 @@ def salle1():
     player_health = 100
     health_bar(player_health)
 
-    # Coeur
-    gaz = pygame.image.load("code/Coeur.png").convert()
+    # BOMBONNE
+    gaz = pygame.image.load("code/bombonne.png").convert_alpha()
     position_gaz = gaz.get_rect()
     menu.blit(gaz, position_gaz)
-    position_gaz.move(200, 200)
+    position_gaz = position_gaz.move(200, 0)
 
+    # Coeur
+    coeur = pygame.image.load("code/Coeur.png").convert_alpha()
+    position_coeur = coeur.get_rect()
+    menu.blit(coeur, position_gaz)
+    position_coeur = position_coeur.move(300, 200)
 
-
+    # VENT
+    vent = pygame.image.load("code/Vide.png")
+    position_vent = vent.get_rect()
 
     # Rafraîchissement de l'écran
     pygame.display.flip()
@@ -101,6 +107,10 @@ def salle1():
         sortieDroite = pygame.Rect(1024, 250, 3, 300)
         pygame.draw.rect(fond, (255, 0, 0), sortieDroite)
 
+        coeurRect = pygame.Rect(position_coeur.x, position_coeur.y, 32, 32)
+
+
+
         if sortieDroite.collidepoint((position_perso.x, position_perso.y)):
             salle2()
 
@@ -110,6 +120,17 @@ def salle1():
                 sys.exit()
 
             if event.type == KEYDOWN:
+
+                if event.key == K_SPACE:
+                    print("espace")
+                    vent = pygame.image.load("code/Vent.png")
+                    position_vent = position_vent.move(position_perso.x + 50, position_perso.y + 20)
+                    menu.blit(vent, position_vent)
+
+                    while position_vent.x < 800:
+                        position_vent = position_vent.move(1,0)
+                        pygame.time.delay(1)
+
                 if event.key == K_DOWN:  # Si "flèche bas"
                     # On descend le perso
                     down = True
@@ -159,13 +180,23 @@ def salle1():
             pygame.time.wait(0)
 
         # si le rect perso touche le rect mur alors il y a colision
-        if (position_perso.colliderect(position_murY)) == True:
+        if position_perso.colliderect(position_murY):
             print("Colision!")
+
+        # Hit Box Objet
+        hit_box_objet = pygame.Rect(position_perso.x + 34, position_perso.y + 81, 30, 12)
+
+        # if position_coeur.colliderect((position_perso.x,position_perso.y)):
+        if hit_box_objet.colliderect(coeurRect):
+             coeur = pygame.image.load("code/Vide.png")
 
         # Re-collage
         menu.blit(fond, (0, 0))
         menu.blit(murY, (0, 0))
         menu.blit(koopa, position_perso)
+        menu.blit(gaz, position_gaz)
+        menu.blit(coeur, position_coeur)
+        menu.blit(vent, position_vent)
 
         # Rafraichissement
         pygame.display.flip()
@@ -213,6 +244,8 @@ def salle2():
 
         sortieGauche = pygame.Rect(0, 250, 3, 300)
         pygame.draw.rect(fond, (255, 0, 0), sortieGauche)
+
+
 
         if sortieGauche.collidepoint((position_perso.x, position_perso.y)):
             salle1()
@@ -306,6 +339,7 @@ def salle2():
         menu.blit(fond, (0, 0))
         menu.blit(mur, (0, 0))
         menu.blit(koopa, position_perso)
+
 
         # Rafraichissement
         pygame.display.flip()
