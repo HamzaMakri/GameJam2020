@@ -42,33 +42,37 @@ def main_menu():
 
 
 def health_bar(player_health):
-    if player_health == 100:
-        vie = pygame.image.load("code/vie 100.png").convert()
-        menu.blit(vie, (100, 10))
-    elif player_health == 75:
-        vie = pygame.image.load("code/vie 70.png").convert()
-        menu.blit(vie, (100, 10))
-    elif player_health == 50:
-        vie = pygame.image.load("code/vie 40.png").convert()
-        menu.blit(vie, (100, 10))
-    elif player_health == 25:
-        vie = pygame.image.load("code/vie 20.png").convert()
-        menu.blit(vie, (100, 10))
-    else:
-        vie = pygame.image.load("code/vie 0.png").convert()
-        menu.blit(vie, (100, 10))
+    if player_health <= 0:
+        vie = pygame.image.load("code/vie 0.png").convert_alpha()
+        menu.blit(vie, (100, 20))
+    if player_health == 25:
+        vie = pygame.image.load("code/vie 20.png").convert_alpha()
+        menu.blit(vie, (100, 20))
+    if player_health == 50:
+        vie = pygame.image.load("code/vie 40.png").convert_alpha()
+        menu.blit(vie, (100, 20))
+    if player_health == 75:
+        vie = pygame.image.load("code/vie 70.png").convert_alpha()
+        menu.blit(vie, (100, 20))
+    if player_health >= 100:
+        vie = pygame.image.load("code/vie 100.png").convert_alpha()
+        menu.blit(vie, (100, 20))
 
 
-def gaz_bar(niveau_gaz):
+
+
+
+
+def gaz_bar(niveau_gaz) :
     if niveau_gaz == 0:
-        barreGaz = pygame.image.load("code/gaz 0.png").convert()
-        menu.blit(barreGaz, (300, 10))
+        gaz = pygame.image.load("code/gaz 0.png").convert_alpha()
+        menu.blit(gaz, (200, 20))
     elif niveau_gaz == 50:
-        barreGaz = pygame.image.load("code/gaz 50.png").convert()
-        menu.blit(barreGaz, (300, 10))
+        gaz = pygame.image.load("code/gaz 50.png").convert_alpha()
+        menu.blit(gaz, (200, 20))
     else:
-        barreGaz = pygame.image.load("code/gaz 100.png").convert()
-        menu.blit(barreGaz, (300, 10))
+        gaz = pygame.image.load("code/gaz 100.png").convert_alpha()
+        menu.blit(gaz, (200, 20))
 
 def salle1():
 
@@ -86,16 +90,16 @@ def salle1():
     position_perso = koopa.get_rect()
     menu.blit(koopa, position_perso)
     position_perso = position_perso.move(500, 400)
-    niveau_gaz = 100
+    niveau_gaz = 0
     gaz_bar(niveau_gaz)
-    player_health = 100
+    player_health = 0
     health_bar(player_health)
 
     # BOMBONNE
     gaz = pygame.image.load("code/bombonne.png").convert_alpha()
     position_gaz = gaz.get_rect()
     menu.blit(gaz, position_gaz)
-    position_gaz = position_gaz.move(200, 0)
+    position_gaz = position_gaz.move(200, 400)
 
     # Coeur
     coeur = pygame.image.load("code/Coeur.png").convert_alpha()
@@ -104,16 +108,10 @@ def salle1():
     position_coeur = position_coeur.move(300, 200)
 
     # health bar
-    vie = pygame.image.load("code/vie 100.png").convert_alpha()
-    position_vie = vie.get_rect()
-    position_vie = position_vie.move(100,10)
-    menu.blit(vie, (100, 10))
+    health_bar(player_health)
 
     # barre de gaz
-    barreGaz = pygame.image.load("code/gaz 0.png").convert_alpha()
-    position_barreGaz = barreGaz.get_rect()
-    position_barreGaz = position_barreGaz.move(200,10)
-    menu.blit(barreGaz, position_barreGaz)
+    gaz_bar(niveau_gaz)
 
     # VENT
     vent = pygame.image.load("code/Vent.png").convert_alpha()
@@ -141,6 +139,8 @@ def salle1():
         pygame.draw.rect(fond, (255, 0, 0), sortieDroite)
 
         coeurRect = pygame.Rect(position_coeur.x, position_coeur.y, 32, 32)
+        gazRect = pygame.Rect(position_gaz.x, position_gaz.y, 32, 32)
+
 
         if sortieDroite.collidepoint((position_perso.x, position_perso.y)):
             salle2()
@@ -212,8 +212,7 @@ def salle1():
 
             while position_mur.x > 45:
                 menu.blit(fond, (0, 0))
-                menu.blit(barreGaz, position_barreGaz)
-                menu.blit(vie, position_vie)
+
                 position_mur = position_mur.move(-4, 0)
                 menu.blit(mur, position_mur)
                 menu.blit(koopa, position_perso)
@@ -264,12 +263,6 @@ def salle1():
             space = False
             mur = pygame.image.load("code/Vide.png")
 
-
-
-
-
-
-
         # si le rect perso touche le rect Bombanne Gaz alors il y a colision
         if (position_perso.colliderect(position_murY)) == True:
             print("Colision!")
@@ -279,7 +272,15 @@ def salle1():
 
         # if position_coeur.colliderect((position_perso.x,position_perso.y)):
         if hit_box_objet.colliderect(coeurRect):
-             coeur = pygame.image.load("code/Vide.png")
+            coeur = pygame.image.load("code/Vide.png")
+            position_coeur= position_coeur.move(-100, -100)
+            player_health = player_health + 25
+
+        if hit_box_objet.colliderect(gazRect):
+            gaz = pygame.image.load("code/bombonne.png")
+            position_gaz= position_gaz.move(-500, -100)
+            niveau_gaz= niveau_gaz + 50
+
 
         # Re-collage
         menu.blit(fond, (0, 0))
@@ -288,9 +289,8 @@ def salle1():
         menu.blit(gaz, position_gaz)
         menu.blit(coeur, position_coeur)
         menu.blit(vent, position_vent)
-        menu.blit(vie, (100, 10))
-        menu.blit(barreGaz, (200, 10))
-
+        health_bar(player_health)
+        gaz_bar(niveau_gaz)
 
         # Rafraichissement
         pygame.display.flip()
