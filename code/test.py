@@ -8,6 +8,8 @@ pygame.init()
 menu = pygame.display.set_mode((1024, 768), RESIZABLE)
 fond = pygame.image.load("code/menuBeta.png").convert()
 menu.blit(fond, (0, 0))
+player_health = 0
+niveau_gaz = 0
 
 click = False
 
@@ -40,7 +42,6 @@ def main_menu():
                 sys.exit()
         pygame.display.flip()
 
-
 def health_bar(player_health):
     if player_health <= 0:
         vie = pygame.image.load("code/vie 0.png").convert_alpha()
@@ -57,11 +58,6 @@ def health_bar(player_health):
     if player_health >= 100:
         vie = pygame.image.load("code/vie 100.png").convert_alpha()
         menu.blit(vie, (100, 20))
-
-
-
-
-
 
 def gaz_bar(niveau_gaz) :
     if niveau_gaz == 0:
@@ -90,9 +86,11 @@ def salle1():
     position_perso = koopa.get_rect()
     menu.blit(koopa, position_perso)
     position_perso = position_perso.move(500, 400)
-    niveau_gaz = 0
+
+    global niveau_gaz
     gaz_bar(niveau_gaz)
-    player_health = 0
+
+    global player_health
     health_bar(player_health)
 
     # BOMBONNE
@@ -271,15 +269,15 @@ def salle1():
         hit_box_objet = pygame.Rect(position_perso.x + 34, position_perso.y + 81, 30, 12)
 
         # if position_coeur.colliderect((position_perso.x,position_perso.y)):
-        if hit_box_objet.colliderect(coeurRect):
+        if hit_box_objet.colliderect(coeurRect) and player_health < 99 :
             coeur = pygame.image.load("code/Vide.png")
             position_coeur= position_coeur.move(-100, -100)
             player_health = player_health + 25
 
-        if hit_box_objet.colliderect(gazRect):
+        if hit_box_objet.colliderect(gazRect) and niveau_gaz < 99 :
             gaz = pygame.image.load("code/bombonne.png")
             position_gaz= position_gaz.move(-500, -100)
-            niveau_gaz= niveau_gaz + 50
+            niveau_gaz = niveau_gaz + 50
 
 
         # Re-collage
