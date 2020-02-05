@@ -39,10 +39,10 @@ def main_menu():
 
 
 def health_bar(player_health):
-    if player_health == 100 :
+    if player_health == 100:
         vie = pygame.image.load("code/vie 100.png").convert()
         menu.blit(vie, (100, 10))
-    elif player_health == 75 :
+    elif player_health == 75:
         vie = pygame.image.load("code/vie 70.png").convert()
         menu.blit(vie, (100, 10))
     elif player_health == 50:
@@ -54,6 +54,18 @@ def health_bar(player_health):
     else:
         vie = pygame.image.load("code/vie 0.png").convert()
         menu.blit(vie, (100, 10))
+
+
+def gaz_bar(niveau_gaz):
+    if niveau_gaz == 0:
+        barreGaz = pygame.image.load("code/gaz 0.png").convert()
+        menu.blit(barreGaz, (300, 10))
+    elif niveau_gaz == 50:
+        barreGaz = pygame.image.load("code/gaz 50.png").convert()
+        menu.blit(barreGaz, (300, 10))
+    else:
+        barreGaz = pygame.image.load("code/gaz 100.png").convert()
+        menu.blit(barreGaz, (300, 10))
 
 def salle1():
 
@@ -71,6 +83,8 @@ def salle1():
     position_perso = koopa.get_rect()
     menu.blit(koopa, position_perso)
     position_perso = position_perso.move(500, 400)
+    niveau_gaz = 100
+    gaz_bar(niveau_gaz)
     player_health = 100
     health_bar(player_health)
 
@@ -89,6 +103,10 @@ def salle1():
     # health bar
     vie = pygame.image.load("code/vie 20.png").convert_alpha()
     menu.blit(vie, (100, 10))
+
+    # barre de gaz
+    barreGaz = pygame.image.load("code/vie 20.png").convert_alpha()
+    menu.blit(barreGaz, (100, 10))
 
     # VENT
     vent = pygame.image.load("code/Vide.png")
@@ -184,7 +202,7 @@ def salle1():
             pygame.time.wait(0)
 
         # si le rect perso touche le rect Bombanne Gaz alors il y a colision
-        if (position_perso.colliderect(position_Bgaz)) == True:
+        if (position_perso.colliderect(position_murY)) == True:
             print("Colision!")
 
         # Hit Box Objet
@@ -196,12 +214,13 @@ def salle1():
 
         # Re-collage
         menu.blit(fond, (0, 0))
-        menu.blit(Bgaz, (0, 0))
+        menu.blit(murY, (0, 0))
         menu.blit(koopa, position_perso)
         menu.blit(gaz, position_gaz)
         menu.blit(coeur, position_coeur)
         menu.blit(vent, position_vent)
         menu.blit(vie, (100, 10))
+        menu.blit(barreGaz, (200, 10))
 
 
         # Rafraichissement

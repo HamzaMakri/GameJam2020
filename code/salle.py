@@ -98,7 +98,6 @@ while continuer:
             fenetre.blit(mur, position_mur)
             fenetre.blit(koopa, position_perso)
             pygame.display.update()
-            pygame.time.wait(100)
         space = False
         mur = pygame.image.load("Vide.png")
 
