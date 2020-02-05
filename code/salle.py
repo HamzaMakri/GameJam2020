@@ -43,6 +43,7 @@ up = False
 down = False
 left = False
 right = False
+space= False
 
 while continuer:
     for event in pygame.event.get():  # Attente des événements
@@ -51,12 +52,7 @@ while continuer:
 
         if event.type == KEYDOWN:
             if event.key == K_SPACE:
-                y = 100
-                position_mur = position_perso.move(30, y)
-                while position_mur.y < 500:
-                    position_mur.y += 10
-                    fenetre.blit(mur, position_mur)
-                    time.sleep(0.05)
+                space = True
             if event.key == K_DOWN:  # Si "flèche bas"
                 # On descend le perso
                 down = True
@@ -83,24 +79,77 @@ while continuer:
             if event.key == K_RIGHT:  # Si "flèche bas"
                 # On descend le perso
                 right = False
+            if event.key == K_SPACE:  # Si "flèche bas"
+                # On descend le perso
+                space = False
 
-    if left and position_perso.x > 20 :
+    if left and position_perso.x > 20:
         position_perso = position_perso.move(-1, 0)
         koopa = pygame.image.load("magicienGauche.png").convert_alpha()
         pygame.time.wait(0)
+
+    if left and space:
+        position_mur = position_perso.move(0, 0)
+
+        while position_mur.x > 45:
+            fenetre.blit(fond, (0, 0))
+            position_mur = position_mur.move(-10, 0)
+            fenetre.blit(mur, position_mur)
+            fenetre.blit(koopa, position_perso)
+            pygame.display.update()
+            pygame.time.delay(100)
+        space = False
 
     if right and position_perso.x < 900:
         position_perso = position_perso.move(1, 0)
         koopa = pygame.image.load("magicienDroite.png").convert_alpha()
         pygame.time.wait(0)
+
+    if right and space :
+        position_mur = position_perso.move(0, 0)
+
+        while position_mur.x < 950:
+            fenetre.blit(fond, (0, 0))
+            position_mur = position_mur.move(10, 0)
+            fenetre.blit(mur, position_mur)
+            fenetre.blit(koopa, position_perso)
+            pygame.display.update()
+            pygame.time.delay(100)
+        space = False
+
     if up and position_perso.y > 0:
         position_perso = position_perso.move(0, -1)
         koopa = pygame.image.load("magicienDos.png").convert_alpha()
         pygame.time.wait(0)
+
+    if up and space :
+        position_mur = position_perso.move(0, 0)
+
+        while position_mur.y > 100:
+            fenetre.blit(fond, (0, 0))
+            position_mur = position_mur.move(0, -10)
+            fenetre.blit(mur, position_mur)
+            fenetre.blit(koopa, position_perso)
+            pygame.display.update()
+            pygame.time.delay(100)
+        space = False
+
     if down and position_perso.y < 650:
         position_perso = position_perso.move(0, 1)
         koopa = pygame.image.load("magicienFace.png").convert_alpha()
         pygame.time.wait(0)
+
+    if down and space:
+        position_mur = position_perso.move(0, 0)
+
+        while position_mur.y < 700:
+            fenetre.blit(fond, (0, 0))
+            position_mur = position_mur.move(0, 10)
+            fenetre.blit(mur, position_mur)
+            fenetre.blit(koopa, position_perso)
+            pygame.display.update()
+            pygame.time.delay(100)
+        space = False
 
 
 
