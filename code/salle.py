@@ -43,6 +43,7 @@ up = False
 down = False
 left = False
 right = False
+space= False
 
 while continuer:
     for event in pygame.event.get():  # Attente des événements
@@ -51,12 +52,8 @@ while continuer:
 
         if event.type == KEYDOWN:
             if event.key == K_SPACE:
-                y = 100
-                position_mur = position_perso.move(30, y)
-                while position_mur.y < 500:
-                    position_mur.y += 10
-                    fenetre.blit(mur, position_mur)
-                    time.sleep(0.05)
+                space = True
+
             if event.key == K_DOWN:  # Si "flèche bas"
                 # On descend le perso
                 down = True
@@ -88,6 +85,14 @@ while continuer:
         position_perso = position_perso.move(-1, 0)
         koopa = pygame.image.load("magicienGauche.png").convert_alpha()
         pygame.time.wait(0)
+
+    if space :
+        y = 100
+        position_mur = position_perso.move(30, y)
+        while position_mur.y < 500:
+            position_mur = position_mur.move(-1, 0)
+            fenetre.blit(mur, position_mur)
+            time.sleep(0.05)
 
     if right and position_perso.x < 900:
         position_perso = position_perso.move(1, 0)
