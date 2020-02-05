@@ -89,16 +89,18 @@ while continuer:
         pygame.time.wait(0)
 
     if left and space:
+        mur = pygame.image.load("mur.png")
         position_mur = position_perso.move(0, 0)
 
         while position_mur.x > 45:
-            fenetre.blit(fond, (0, 0))
+            fenetre.blit(fond,  (0, 0))
             position_mur = position_mur.move(-10, 0)
             fenetre.blit(mur, position_mur)
             fenetre.blit(koopa, position_perso)
             pygame.display.update()
-            pygame.time.delay(100)
+            pygame.time.wait(100)
         space = False
+        mur = pygame.image.load("Vide.png")
 
     if right and position_perso.x < 900:
         position_perso = position_perso.move(1, 0)
@@ -106,6 +108,7 @@ while continuer:
         pygame.time.wait(0)
 
     if right and space :
+        mur = pygame.image.load("mur.png")
         position_mur = position_perso.move(0, 0)
 
         while position_mur.x < 950:
@@ -116,6 +119,7 @@ while continuer:
             pygame.display.update()
             pygame.time.delay(100)
         space = False
+        mur = pygame.image.load("Vide.png")
 
     if up and position_perso.y > 0:
         position_perso = position_perso.move(0, -1)
@@ -123,6 +127,7 @@ while continuer:
         pygame.time.wait(0)
 
     if up and space :
+        mur = pygame.image.load("mur.png")
         position_mur = position_perso.move(0, 0)
 
         while position_mur.y > 100:
@@ -133,6 +138,7 @@ while continuer:
             pygame.display.update()
             pygame.time.delay(100)
         space = False
+        mur = pygame.image.load("Vide.png")
 
     if down and position_perso.y < 650:
         position_perso = position_perso.move(0, 1)
@@ -140,6 +146,7 @@ while continuer:
         pygame.time.wait(0)
 
     if down and space:
+        mur = pygame.image.load("mur.png")
         position_mur = position_perso.move(0, 0)
 
         while position_mur.y < 700:
@@ -150,6 +157,7 @@ while continuer:
             pygame.display.update()
             pygame.time.delay(100)
         space = False
+        mur = pygame.image.load("Vide.png")
 
 
 
