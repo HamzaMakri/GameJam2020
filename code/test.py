@@ -41,20 +41,20 @@ def main_menu():
 
 def health_bar(player_health):
     if player_health == 100 :
-        vie= pygame.image.load("code/vie 100.png").convert()
-        menu.blit(vie, (500,400))
-    if player_health == 75 :
-        vie= pygame.image.load("code/vie 70.png").convert()
-        menu.blit(vie, (500, 400))
-    if player_health == 50:
+        vie = pygame.image.load("code/vie 100.png").convert()
+        menu.blit(vie, (100, 10))
+    elif player_health == 75 :
+        vie = pygame.image.load("code/vie 70.png").convert()
+        menu.blit(vie, (100, 10))
+    elif player_health == 50:
         vie = pygame.image.load("code/vie 40.png").convert()
-        menu.blit(vie, (500, 400))
-    if player_health == 25:
+        menu.blit(vie, (100, 10))
+    elif player_health == 25:
         vie = pygame.image.load("code/vie 20.png").convert()
-        menu.blit(vie, (500, 400))
-    if player_health == 0:
+        menu.blit(vie, (100, 10))
+    else:
         vie = pygame.image.load("code/vie 0.png").convert()
-        menu.blit(vie, (500, 400))
+        menu.blit(vie, (100, 10))
 
 def salle1():
 
@@ -62,10 +62,10 @@ def salle1():
     fond = pygame.image.load("code/backgroundBlanc.png").convert()
     menu.blit(fond, (0, 0))
 
-    # Mur
-    murY = pygame.image.load("code/bombonne.png").convert_alpha()
-    position_murY = murY.get_rect()
-    menu.blit(murY, position_murY)
+    # bombonne de gaz
+    Bgaz = pygame.image.load("code/bombonne.png").convert_alpha()
+    position_Bgaz = Bgaz.get_rect()
+    menu.blit(Bgaz, position_Bgaz)
 
     # Chargement et collage du personnage
     koopa = pygame.image.load("code/magicienDroite.png").convert_alpha()
@@ -81,6 +81,9 @@ def salle1():
     menu.blit(gaz, position_gaz)
     position_gaz.move(200, 200)
 
+    # health bar
+    vie = pygame.image.load("code/vie 20.png").convert_alpha()
+    menu.blit(vie, (100, 10))
 
 
 
@@ -158,14 +161,15 @@ def salle1():
             koopa = pygame.image.load("code/magicienFace.png").convert_alpha()
             pygame.time.wait(0)
 
-        # si le rect perso touche le rect mur alors il y a colision
-        if (position_perso.colliderect(position_murY)) == True:
+        # si le rect perso touche le rect Bombanne Gaz alors il y a colision
+        if (position_perso.colliderect(position_Bgaz)) == True:
             print("Colision!")
 
         # Re-collage
         menu.blit(fond, (0, 0))
-        menu.blit(murY, (0, 0))
+        menu.blit(Bgaz, (0, 0))
         menu.blit(koopa, position_perso)
+        menu.blit(vie, (100, 10))
 
         # Rafraichissement
         pygame.display.flip()
@@ -714,6 +718,10 @@ def salle6():
     mur.set_colorkey((255, 255, 255))  # Rend le blanc (valeur RGB : 255,255,255) de l'image transparent
     menu.blit(mur, (0, 0))
 
+    # health bar
+    vie = pygame.image.load("code/vie 20.png").convert_alpha()
+    menu.blit(vie, (500, 400))
+
     # Rafraîchissement de l'écran
     pygame.display.flip()
 
@@ -806,6 +814,7 @@ def salle6():
         # Re-collage
         menu.blit(fond, (0, 0))
         menu.blit(mur, (0, 0))
+        menu.blit(vie,(500,400))
         menu.blit(koopa, position_perso)
 
         # Rafraichissement
@@ -832,6 +841,10 @@ def fin():
     position_mur = mur.get_rect()
     mur.set_colorkey((255, 255, 255))  # Rend le blanc (valeur RGB : 255,255,255) de l'image transparent
     menu.blit(mur, (0, 0))
+
+    # health bar
+    vie = pygame.image.load("code/vie 20.png").convert_alpha()
+    menu.blit(vie, (100, 10))
 
     # Rafraîchissement de l'écran
     pygame.display.flip()
@@ -937,6 +950,7 @@ def fin():
         menu.blit(fond, (0, 0))
         menu.blit(mur, (0, 0))
         menu.blit(koopa, position_perso)
+        menu.blit(vie, (500, 400))
 
         # Rafraichissement
         pygame.display.flip()
