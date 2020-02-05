@@ -57,12 +57,13 @@ def health_bar(player_health):
         menu.blit(vie, (500, 400))
 
 def salle1():
-    # Ouverture de la fenêtre Pygame
 
     # Chargement et collage du fond
     fond = pygame.image.load("code/backgroundBlanc.png").convert()
     menu.blit(fond, (0, 0))
-    murY = pygame.image.load("code/mur.png").convert()
+
+    # Mur
+    murY = pygame.image.load("code/bombonne.png").convert_alpha()
     position_murY = murY.get_rect()
     menu.blit(murY, position_murY)
 
@@ -74,11 +75,13 @@ def salle1():
     player_health = 100
     health_bar(player_health)
 
-    # chargement et collage des murs
-    mur = pygame.image.load("code/mur.png").convert_alpha()
-    position_mur = mur.get_rect()
-    mur.set_colorkey((255, 255, 255))  # Rend le blanc (valeur RGB : 255,255,255) de l'image transparent
-    menu.blit(mur, (0, 0))
+    # Coeur
+    gaz = pygame.image.load("code/Coeur.png").convert()
+    position_gaz = gaz.get_rect()
+    menu.blit(gaz, position_gaz)
+    position_gaz.move(200, 200)
+
+
 
 
     # Rafraîchissement de l'écran
@@ -100,8 +103,6 @@ def salle1():
 
         if sortieDroite.collidepoint((position_perso.x, position_perso.y)):
             salle2()
-
-
 
         for event in pygame.event.get():  # Attente des événements
             if event.type == QUIT:
@@ -158,12 +159,12 @@ def salle1():
             pygame.time.wait(0)
 
         # si le rect perso touche le rect mur alors il y a colision
-        if (position_perso.colliderect(position_mur)) == True:
+        if (position_perso.colliderect(position_murY)) == True:
             print("Colision!")
 
         # Re-collage
         menu.blit(fond, (0, 0))
-        menu.blit(mur, (0, 0))
+        menu.blit(murY, (0, 0))
         menu.blit(koopa, position_perso)
 
         # Rafraichissement
@@ -569,7 +570,6 @@ def salle4():
         pygame.display.flip()
 
 def salle5():
-    # Ouverture de la fenêtre Pygame
 
     # Chargement et collage du fond
     fond = pygame.image.load("code/backgroundBlanc - 5.png").convert()
@@ -694,7 +694,6 @@ def salle5():
         pygame.display.flip()
 
 def salle6():
-    # Ouverture de la fenêtre Pygame
 
     # Chargement et collage du fond
     fond = pygame.image.load("code/imageTest.jpg").convert()

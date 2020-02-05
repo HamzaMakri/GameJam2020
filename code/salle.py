@@ -1,6 +1,7 @@
 import pygame
-from pygame.locals import *
 import time
+from pygame.locals import *
+
 pygame.init()
 #class Salle:
 
@@ -54,7 +55,7 @@ while continuer:
                 position_mur = position_perso.move(30, y)
                 while position_mur.y < 500:
                     position_mur.y += 10
-                    #pygame.time.wait(2)
+                    fenetre.blit(mur, position_mur)
                     time.sleep(0.05)
             if event.key == K_DOWN:  # Si "flèche bas"
                 # On descend le perso
