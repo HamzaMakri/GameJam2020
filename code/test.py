@@ -5,8 +5,8 @@ from pygame.locals import *
 
 pygame.init()
 
-menu = pygame.display.set_mode((1024, 768), RESIZABLE)
-fond = pygame.image.load("code/menuBeta.png").convert()
+menu = pygame.display.set_mode((768, 768), RESIZABLE)
+fond = pygame.image.load("code/Jacket.png").convert()
 menu.blit(fond, (0, 0))
 
 player_health = 100
@@ -278,26 +278,65 @@ def mouvement():
                 right = False
 
 def main_menu():
+
     while True:
         clock.tick(120)
         global fond
         global menu
-        fond = pygame.image.load("code/menuBeta.png").convert()
+        fond = pygame.image.load("code/Jacket.png").convert()
         menu.blit(fond, (0, 0))
 
         mx, my = pygame.mouse.get_pos()
+        button_1_image= pygame.image.load("code/quitter.png").convert_alpha()
+        button_2_image= pygame.image.load("code/jouer.png").convert_alpha()
+        button_3_image = pygame.image.load("code/règles.png").convert_alpha()
 
-        button_1 = pygame.Rect(150, 600, 200, 50)
-        button_2 = pygame.Rect(650, 600, 200, 50)
-        if button_1.collidepoint((mx, my)):
+
+        button_1_rect = pygame.Rect(122, 700, 200, 50)
+        button_2_rect = pygame.Rect(446, 700, 200, 50)
+        button_3_rect = pygame.Rect(284, 550, 200, 50)
+
+        if button_1_rect.collidepoint((mx, my)):
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 sys.exit()
-        if button_2.collidepoint((mx, my)):
+        if button_2_rect.collidepoint((mx, my)):
+            if  event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                 salle1(450, 310)
+        if button_3_rect.collidepoint((mx, my)):
+            if  event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                regles()
+
+        menu.blit(button_1_image, (122, 600))
+        menu.blit(button_2_image, (446, 600))
+        menu.blit(button_3_image, (284, 500))
+
+        for event in pygame.event.get():  # Attente des événements
+            if event.type == QUIT:
+                pygame.quit()
+                sys.exit()
+        pygame.display.flip()
+
+def regles():
+    while True:
+        menu = pygame.display.set_mode((1024, 768), RESIZABLE)
+        global fond
+
+        fond = pygame.image.load("code/backgroundBlanc - règles.png").convert()
+        menu.blit(fond, (0, 0))
+
+        mx, my = pygame.mouse.get_pos()
+        button_2_image= pygame.image.load("code/jouer.png").convert_alpha()
+
+
+        button_2_rect = pygame.Rect(446, 700, 200, 50)
+
+
+
+        if button_2_rect.collidepoint((mx, my)):
             if  event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                  salle1(450, 310)
 
-        pygame.draw.rect(menu, (255, 0, 0), button_1)
-        pygame.draw.rect(menu, (255, 0, 0), button_2)
+        menu.blit(button_2_image, (446, 600))
 
         for event in pygame.event.get():  # Attente des événements
             if event.type == QUIT:
@@ -338,10 +377,10 @@ def gaz_bar(niveau_gaz):
         menu.blit(gazBarre, position_gazBarre)
 
 def salle1(x,y):
+    menu = pygame.display.set_mode((1024, 768), RESIZABLE)
 
     # Chargement et collage du fond
     global fond
-    global menu
     global koopa
     global position_perso
     global coeur
@@ -467,7 +506,7 @@ def salle1(x,y):
             enemy1Mort = True
             enemy.rect.center = (-500,-500)
 
-        if position_vent.x == position_ennemi.x and position_vent.y== position_ennemi.y:
+        if position_vent.x == position_ennemi.x and position_vent.y == position_ennemi.y:
             print("ennemi touché")
             ennemi = pygame.image.load("code/ennemieGauche.png")
             position_ennemi = position_ennemi.move(-10000, -10000)
@@ -1183,6 +1222,7 @@ def fin():
 
         # Rafraichissement
         pygame.display.flip()
+
 
 
 main_menu()
