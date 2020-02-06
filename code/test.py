@@ -62,6 +62,34 @@ space = False
 
 clock = pygame.time.Clock()
 
+class Enemy (pygame.sprite.Sprite):
+
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+
+        self.image = pygame.image.load("code/ennemieGauche.png").convert_alpha()
+        self.rect = self.image.get_rect()
+
+        self.x = 300
+        self.y = 200
+        self.rect.center = (self.x, self.y)
+
+    def update(self):
+        if self.x < (position_perso.x + 50):
+            self.x += 1
+            self.rect.center = (self.x, self.y)
+
+        elif self.x > (position_perso.x + 50):
+            self.x -= 1
+            self.rect.center = (self.x, self.y)
+
+        if self.y < (position_perso.y + 93):
+            self.y += 1
+            self.rect.center = (self.x, self.y)
+
+        elif self.y > (position_perso.y +93):
+            self.y -= 1
+            self.rect.center = (self.x, self.y)
 def attaque():
     global space
     global vent
@@ -310,8 +338,12 @@ def salle1(x,y):
     global right
     global space
 
+    enemy = Enemy()
+    enemySprites = pygame.sprite.Group(enemy)
+    clock2 = pygame.time.Clock()
 
     while continuer:
+        clock2.tick(30)
         sortieDroite = pygame.Rect(1024, 250, 3, 300)
 
         coeurRect = pygame.Rect(position_coeur.x, position_coeur.y, 32, 32)
@@ -324,22 +356,22 @@ def salle1(x,y):
         mouvement()   # ############################################################
 
         if left and (position_perso.x > 20):
-            position_perso = position_perso.move(-1, 0)
+            position_perso = position_perso.move(-5, 0)
             koopa = pygame.image.load("code/magicienGauche.png").convert_alpha()
             pygame.time.wait(0)
 
         if right and ((0 < position_perso.y < 250 and position_perso.x < 900) or (250 < position_perso.y < 385) or (385 < position_perso.y < 739 and position_perso.x < 900)):
-            position_perso = position_perso.move(1, 0)
+            position_perso = position_perso.move(5, 0)
             koopa = pygame.image.load("code/magicienDroite.png").convert_alpha()
             pygame.time.wait(0)
 
         if up and position_perso.y > 0 and position_perso.x < 920 :
-            position_perso = position_perso.move(0, -1)
+            position_perso = position_perso.move(0, -5)
             koopa = pygame.image.load("code/magicienDos.png").convert_alpha()
             pygame.time.wait(0)
 
         if down and position_perso.y < 650 and position_perso.x < 920:
-            position_perso = position_perso.move(0, 1)
+            position_perso = position_perso.move(0, 5)
             koopa = pygame.image.load("code/magicienFace.png").convert_alpha()
             pygame.time.wait(0)
 
@@ -359,8 +391,9 @@ def salle1(x,y):
             position_gaz = position_gaz.move(-500, -100)
             niveau_gaz = niveau_gaz + 50
 
-        if hit_box_objet.colliderect(ennemiRect) :
+        if hit_box_objet.colliderect(enemy) or hit_box_objet.colliderect(position_ennemi):
             ennemi = pygame.image.load("code/ennemieGauche.png")
+            # = position_ennemi.move(-10000, -10000)
             position_ennemi = position_ennemi.move(-10000, -10000)
             player_health = player_health - 25
 
@@ -374,6 +407,9 @@ def salle1(x,y):
         gaz_bar(niveau_gaz)
 
         # Rafraichissement
+        enemySprites.clear(menu, fond)
+        enemySprites.update()
+        enemySprites.draw(menu)
         pygame.display.flip()
 
 def salle2(x,y):
@@ -622,9 +658,6 @@ def salle3(x,y):
 
         attaque() ##############################################################
 
-        # si le rect perso touche le rect mur alors il y a colision
-        if (position_perso.colliderect(position_mur)) == True:
-            print("Colision!")
 
         # Hit Box Objet
         hit_box_objet = pygame.Rect(position_perso.x + 34, position_perso.y + 81, 30, 12)
