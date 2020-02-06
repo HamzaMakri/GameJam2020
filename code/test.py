@@ -71,7 +71,7 @@ class Enemy (pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
 
-        self.image = pygame.image.load("code/ennemieGauche.png").convert_alpha()
+        self.image = pygame.image.load("code/ennemieDroite.png").convert_alpha()
         self.rect = self.image.get_rect()
 
         self.x = 300
@@ -386,6 +386,7 @@ def salle1(x,y):
         # Hit Box Objet
         hit_box_objet = pygame.Rect(position_perso.x + 34, position_perso.y + 81, 30, 12)
 
+
         # if position_coeur.colliderect((position_perso.x,position_perso.y)):
         if hit_box_objet.colliderect(coeurRect) and player_health < 99 and used_coeur1 == False:
             used_coeur1 = True
@@ -404,6 +405,11 @@ def salle1(x,y):
             # = position_ennemi.move(-10000, -10000)
             position_ennemi = position_ennemi.move(-10000, -10000)
             player_health = player_health - 25
+
+        if position_vent.x == position_ennemi.x and position_vent.y== position_ennemi.y:
+            print("ennemi touché")
+            ennemi = pygame.image.load("code/ennemieGauche.png")
+            position_ennemi = position_ennemi.move(-10000, -10000)
 
         # Re-collage
         menu.blit(fond, (0, 0))
