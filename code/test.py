@@ -35,8 +35,8 @@ enemy1Mort = False
 rafale = pygame.mixer.Sound('code/Rafale-LaRafale.wav')
 checkez = pygame.mixer.Sound('code/Rafale-Checkez.wav')
 pickup = pygame.mixer.Sound('code/Rafale-RegardezPickup.wav')
-musique = pygame.mixer.music.load('code/musique.wav')
-pygame.mixer.music.play(-1)
+#musique = pygame.mixer.music.load('code/musique.wav')
+#pygame.mixer.music.play(-1)
 
 # Chargement et collage du personnage
 koopa = pygame.image.load("code/magicienDroite.png").convert_alpha()
@@ -293,7 +293,7 @@ def main_menu():
 
 
         button_1_rect = pygame.Rect(122, 700, 200, 50)
-        button_2_rect = pygame.Rect(446, 700, 200, 50)
+        button_2_rect = pygame.Rect(446, 500, 200, 50)
         button_3_rect = pygame.Rect(284, 550, 200, 50)
 
         if button_1_rect.collidepoint((mx, my)):
@@ -307,7 +307,7 @@ def main_menu():
                 regles()
 
         menu.blit(button_1_image, (122, 600))
-        menu.blit(button_2_image, (446, 600))
+        menu.blit(button_2_image, (446, 400))
         menu.blit(button_3_image, (284, 500))
 
         for event in pygame.event.get():  # Attente des événements
@@ -1081,6 +1081,11 @@ def salle6(x,y):
     menu.blit(mont, position_mont)
     position_mont = position_mont.move(300, 200)
 
+    manque = pygame.image.load("code/manqueGaz.png").convert_alpha()
+    position_manque = manque.get_rect()
+    menu.blit(manque, position_manque)
+    position_manque = position_manque.move(1500, 1500)
+
     # health bar
     health_bar(player_health)
 
@@ -1137,13 +1142,17 @@ def salle6(x,y):
         if hit_box_objet.colliderect(montRect) and niveau_gaz == 100:
             fin()
         elif hit_box_objet.colliderect(montRect) and niveau_gaz < 100:
-            manque = pygame.image.load("code/manqueGaz.png").convert()
-            menu.blit(manque, (80, 400))
+            print("MONGOLE FIERE")
+            manque = pygame.image.load("code/manqueGaz.png").convert_alpha()
+            position_manque = manque.get_rect()
+            menu.blit(manque, position_manque)
+            position_manque = position_manque.move(80, 100)
 
         # Re-collage
         menu.blit(fond, (0, 0))
         menu.blit(koopa, position_perso)
         menu.blit(mont, position_mont)
+        menu.blit(manque, position_manque)
         health_bar(player_health)
         gaz_bar(niveau_gaz)
 
