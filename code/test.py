@@ -12,7 +12,9 @@ menu.blit(fond, (0, 0))
 player_health = 100
 niveau_gaz = 0
 open_coffre = False
-
+rafale= pygame.mixer.Sound('code/Rafale-LaRafale.wav')
+checkez= pygame.mixer.Sound('code/Rafale-Checkez.wav')
+pickup = pygame.mixer.Sound('code/Rafale-RegardezPickup.wav')
 
 # Chargement et collage du personnage
 koopa = pygame.image.load("code/magicienDroite.png").convert_alpha()
@@ -61,11 +63,12 @@ clock = pygame.time.Clock()
 def attaque():
     global space
     global vent
+    global rafale
 
     if left and space:
         vent = pygame.image.load("code/VentGauche.png")
         position_mur = position_perso.move(0, 0)
-
+        rafale.play()
         while position_mur.x > 45:
             menu.blit(fond, (0, 0))
             position_mur = position_mur.move(-4, 0)
@@ -82,7 +85,7 @@ def attaque():
     if right and space:
         vent = pygame.image.load("code/Vent.png")
         position_mur = position_perso.move(0, 0)
-
+        rafale.play()
         while position_mur.x < 950:
             menu.blit(fond, (0, 0))
             position_mur = position_mur.move(4, 0)
@@ -99,7 +102,7 @@ def attaque():
     if up and space:
         vent = pygame.image.load("code/Vent.png")
         position_mur = position_perso.move(0, 0)
-
+        rafale.play()
         while position_mur.y > 100:
             menu.blit(fond, (0, 0))
             position_mur = position_mur.move(0, -4)
@@ -116,7 +119,7 @@ def attaque():
     if down and space:
         vent = pygame.image.load("code/Vent.png")
         position_mur = position_perso.move(0, 0)
-
+        rafale.play()
         while position_mur.y < 700:
             menu.blit(fond, (0, 0))
             position_mur = position_mur.move(0, 4)
@@ -299,6 +302,7 @@ def salle1():
     global right
     global space
 
+
     while continuer:
         sortieDroite = pygame.Rect(1024, 250, 3, 300)
         pygame.draw.rect(fond, (255, 0, 0), sortieDroite)
@@ -306,11 +310,10 @@ def salle1():
         coeurRect = pygame.Rect(position_coeur.x, position_coeur.y, 32, 32)
         gazRect = pygame.Rect(position_gaz.x, position_gaz.y, 32, 32)
 
-
         if sortieDroite.collidepoint((position_perso.x , position_perso.y )):
             salle2()
 
-        mouvement() #############################################################
+        mouvement()   # ############################################################
 
         if left and (position_perso.x > 20):
             position_perso = position_perso.move(-1, 0)
@@ -332,7 +335,7 @@ def salle1():
             koopa = pygame.image.load("code/magicienFace.png").convert_alpha()
             pygame.time.wait(0)
 
-        attaque() ##############################################################
+        attaque() # #############################################################
 
         # Hit Box Objet
         hit_box_objet = pygame.Rect(position_perso.x + 34, position_perso.y + 81, 30, 12)
@@ -511,6 +514,8 @@ def salle3():
     global position_coeur
     global gaz
     global position_gaz
+    global checkez
+
 
     # Chargement et collage du fond
     fond = pygame.image.load("code/backgroundBlanc - 3.png").convert()
@@ -521,6 +526,8 @@ def salle3():
     position_perso = koopa.get_rect()
     menu.blit(koopa, position_perso)
     position_perso = position_perso.move(500, 400)
+
+    checkez.play()
 
     global niveau_gaz
     gaz_bar(niveau_gaz)
@@ -888,6 +895,7 @@ def salle6():
     global position_coeur
     global gaz
     global position_gaz
+    global pickup
 
     # Chargement et collage du fond
     fond = pygame.image.load("code/backgroundBlanc - 6.png").convert()
@@ -903,6 +911,8 @@ def salle6():
 
     global player_health
     health_bar(player_health)
+
+    pickup.play()
 
     # Montgolfière
     mont = pygame.image.load("code/montgolfiere.png").convert_alpha()
