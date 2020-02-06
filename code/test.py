@@ -887,19 +887,123 @@ def salle6():
     global position_gaz
 
     # Chargement et collage du fond
-    fond = pygame.image.load("code/imageTest.jpg").convert()
+    fond = pygame.image.load("code/backgroundBlanc - 6.png").convert()
     menu.blit(fond, (0, 0))
 
     # Chargement et collage du personnage
     koopa = pygame.image.load("code/magicienDroite.png").convert_alpha()
     position_perso = koopa.get_rect()
     menu.blit(koopa, position_perso)
-    position_perso = position_perso.move(500, 400)
+    position_perso = position_perso.move(50, 300)
     global niveau_gaz
     gaz_bar(niveau_gaz)
 
     global player_health
     health_bar(player_health)
+
+    # Montgolfière
+    mont = pygame.image.load("code/montgolfiere.png").convert_alpha()
+    position_mont = mont.get_rect()
+    menu.blit(mont, position_mont)
+    position_mont = position_mont.move(300, 200)
+
+    # health bar
+    health_bar(player_health)
+
+    # barre de gaz
+    gaz_bar(niveau_gaz)
+
+    # Rafraîchissement de l'écran
+    pygame.display.flip()
+
+    pygame.key.set_repeat(1, 300)
+
+    # BOUCLE INFINIE
+    continuer = 1
+
+    global up
+    global down
+    global left
+    global right
+    global space
+
+    while continuer:
+        montRect = pygame.Rect(position_mont.x, position_mont.y, 400, 465)
+        sortieGauche = pygame.Rect(0, 250, 3, 300)
+        pygame.draw.rect(fond, (255, 0, 0), sortieGauche)
+
+        if sortieGauche.collidepoint((position_perso.x, position_perso.y)):
+            salle5()
+
+        mouvement()  #############################################################
+
+        if left and (position_perso.x > 20):
+            position_perso = position_perso.move(-1, 0)
+            koopa = pygame.image.load("code/magicienGauche.png").convert_alpha()
+            pygame.time.wait(0)
+
+        if right and position_perso.x < 900:
+            position_perso = position_perso.move(1, 0)
+            koopa = pygame.image.load("code/magicienDroite.png").convert_alpha()
+            pygame.time.wait(0)
+
+        if up and position_perso.y > 0 and position_perso.x < 920 :
+            position_perso = position_perso.move(0, -1)
+            koopa = pygame.image.load("code/magicienDos.png").convert_alpha()
+            pygame.time.wait(0)
+
+        if down and position_perso.y < 650 and position_perso.x < 920:
+            position_perso = position_perso.move(0, 1)
+            koopa = pygame.image.load("code/magicienFace.png").convert_alpha()
+            pygame.time.wait(0)
+
+        attaque() ##############################################################
+        hit_box_objet = pygame.Rect(position_perso.x + 34, position_perso.y + 81, 30, 12)
+
+        if hit_box_objet.colliderect(montRect) and niveau_gaz == 100:
+            fin()
+
+        # Re-collage
+        menu.blit(fond, (0, 0))
+        menu.blit(koopa, position_perso)
+        menu.blit(mont, position_mont)
+        health_bar(player_health)
+        gaz_bar(niveau_gaz)
+
+        # Rafraichissement
+        pygame.display.flip()
+
+def fin():
+
+    global fond
+    global menu
+    global koopa
+    global position_perso
+    global coeur
+    global position_coeur
+    global gaz
+    global position_gaz
+
+    # Chargement et collage du fond
+    fond = pygame.image.load("code/backgroundBlanc - fin.png").convert()
+    menu.blit(fond, (0, 0))
+
+    # Chargement et collage du personnage
+    koopa = pygame.image.load("code/magicienDroite.png").convert_alpha()
+    position_perso = koopa.get_rect()
+    menu.blit(koopa, position_perso)
+    position_perso = position_perso.move(50, 300)
+    global niveau_gaz
+    gaz_bar(niveau_gaz)
+
+    global player_health
+    health_bar(player_health)
+
+    # Montgolfière
+    mont = pygame.image.load("code/montgolfiere.png").convert_alpha()
+    position_mont = mont.get_rect()
+    menu.blit(mont, position_mont)
+    position_mont = position_mont.move(300, 200)
 
     # health bar
     health_bar(player_health)
@@ -941,7 +1045,7 @@ def salle6():
             koopa = pygame.image.load("code/magicienDroite.png").convert_alpha()
             pygame.time.wait(0)
 
-        if up and position_perso.y > 0 and position_perso.x < 920 :
+        if up and position_perso.y > 0 and position_perso.x < 920:
             position_perso = position_perso.move(0, -1)
             koopa = pygame.image.load("code/magicienDos.png").convert_alpha()
             pygame.time.wait(0)
@@ -951,128 +1055,19 @@ def salle6():
             koopa = pygame.image.load("code/magicienFace.png").convert_alpha()
             pygame.time.wait(0)
 
-        attaque() ##############################################################
+        attaque()  ##############################################################
+
+
 
 
         # Re-collage
         menu.blit(fond, (0, 0))
         menu.blit(koopa, position_perso)
-        health_bar(player_health)
-        gaz_bar(niveau_gaz)
+
+
 
         # Rafraichissement
         pygame.display.flip()
-
-def fin():
-
-    global fond
-    global menu
-    global koopa
-    global position_perso
-    global coeur
-    global position_coeur
-    global gaz
-    global position_gaz
-
-    # Chargement et collage du fond
-    fond = pygame.image.load("code/backgroundBlanc.png").convert()
-    menu.blit(fond, (0, 0))
-
-
-    # Chargement et collage du personnage
-    koopa = pygame.image.load("code/magicienDroite.png").convert_alpha()
-    position_perso = koopa.get_rect()
-    menu.blit(koopa, position_perso)
-    position_perso = position_perso.move(500, 400)
-
-
-
-    # health bar
-    vie = pygame.image.load("code/vie 20.png").convert_alpha()
-    menu.blit(vie, (100, 10))
-
-    # Rafraîchissement de l'écran
-    pygame.display.flip()
-    pygame.key.set_repeat(1, 300)
-
-    # BOUCLE INFINIE
-    continuer = 1
-
-    global up
-    global down
-    global left
-    global right
-    global space
-
-    while continuer:
-        sortieDroite = pygame.Rect(1024, 250, 3, 300)
-        pygame.draw.rect(fond, (255, 0, 0), sortieDroite)
-
-        sortieGauche = pygame.Rect(0, 250, 3, 300)
-        pygame.draw.rect(fond, (255, 0, 0), sortieGauche)
-
-        sortieHaut = pygame.Rect(405, 0, 300, 3)
-        pygame.draw.rect(fond, (255, 0, 0), sortieHaut)
-
-        sortieBas = pygame.Rect(405, 768, 300, 3)
-        pygame.draw.rect(fond, (255, 0, 0), sortieBas)
-
-        if sortieDroite.collidepoint((position_perso.x, position_perso.y)):
-            salle2()
-        if sortieGauche.collidepoint((position_perso.x, position_perso.y)):
-            salle1()
-        if sortieHaut.collidepoint((position_perso.x, position_perso.y)):
-            salle2()
-        if sortieBas.collidepoint((position_perso.x, position_perso.y)):
-            salle1()
-
-
-        mouvement()  #############################################################
-
-        if left and position_perso.x > 20:
-            position_perso = position_perso.move(-1, 0)
-            koopa = pygame.image.load("code/magicienGauche.png").convert_alpha()
-            pygame.time.wait(0)
-
-        if right and 0 < position_perso.y < 250 and position_perso.x < 900:
-            position_perso = position_perso.move(1, 0)
-            koopa = pygame.image.load("code/magicienDroite.png").convert_alpha()
-            pygame.time.wait(0)
-        if right and  250 < position_perso.y < 385 :
-            position_perso = position_perso.move(1, 0)
-            koopa = pygame.image.load("code/magicienDroite.png").convert_alpha()
-            pygame.time.wait(0)
-        if right and 385 < position_perso.y < 739 and position_perso.x < 900:
-            position_perso = position_perso.move(1, 0)
-            koopa = pygame.image.load("code/magicienDroite.png").convert_alpha()
-            pygame.time.wait(0)
-
-        if up and position_perso.y > 0 and position_perso.x < 920 :
-            position_perso = position_perso.move(0, -1)
-            koopa = pygame.image.load("code/magicienDos.png").convert_alpha()
-            pygame.time.wait(0)
-
-
-        if down and position_perso.y < 650 and position_perso.x < 920:
-            position_perso = position_perso.move(0, 1)
-            koopa = pygame.image.load("code/magicienFace.png").convert_alpha()
-            pygame.time.wait(0)
-
-        # si le rect perso touche le rect mur alors il y a colision
-        if (position_perso.colliderect(position_vent)) == True:
-            print("Colision!")
-
-        # Re-collage
-        menu.blit(fond, (0, 0))
-        menu.blit(vent, (0, 0))
-        menu.blit(koopa, position_perso)
-        menu.blit(vie, (500, 400))
-
-        # Rafraichissement
-        pygame.display.flip()
-
-
-
 main_menu()
 
 print("Fin")
