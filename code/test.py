@@ -1002,7 +1002,7 @@ def fin():
     koopa = pygame.image.load("code/magicienDroite.png").convert_alpha()
     position_perso = koopa.get_rect()
     menu.blit(koopa, position_perso)
-    position_perso = position_perso.move(50, 300)
+    position_perso = position_perso.move(480, 500)
     global niveau_gaz
     gaz_bar(niveau_gaz)
 
@@ -1043,38 +1043,13 @@ def fin():
         if sortieGauche.collidepoint((position_perso.x, position_perso.y)):
             salle5()
 
-        mouvement()  #############################################################
+        mouvement()  # ############################################################
 
-        if left and (position_perso.x > 20):
-            position_perso = position_perso.move(-1, 0)
-            koopa = pygame.image.load("code/magicienGauche.png").convert_alpha()
-            pygame.time.wait(0)
-
-        if right and position_perso.x < 900:
-            position_perso = position_perso.move(1, 0)
-            koopa = pygame.image.load("code/magicienDroite.png").convert_alpha()
-            pygame.time.wait(0)
-
-        if up and position_perso.y > 0 and position_perso.x < 920:
-            position_perso = position_perso.move(0, -1)
-            koopa = pygame.image.load("code/magicienDos.png").convert_alpha()
-            pygame.time.wait(0)
-
-        if down and position_perso.y < 650 and position_perso.x < 920:
-            position_perso = position_perso.move(0, 1)
-            koopa = pygame.image.load("code/magicienFace.png").convert_alpha()
-            pygame.time.wait(0)
-
-        attaque()  ##############################################################
-
-
-
+        attaque()  # #############################################################
 
         # Re-collage
         menu.blit(fond, (0, 0))
         menu.blit(koopa, position_perso)
-
-
 
         # Rafraichissement
         pygame.display.flip()
