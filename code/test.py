@@ -1195,7 +1195,7 @@ def salle5():
 def salle6():
 
     # Chargement et collage du fond
-    fond = pygame.image.load("code/imageTest.jpg").convert()
+    fond = pygame.image.load("code/backgroundBlanc - 6.png").convert()
     menu.blit(fond, (0, 0))
     murY = pygame.image.load("code/mur.png").convert()
     position_murY = murY.get_rect()
@@ -1205,7 +1205,7 @@ def salle6():
     koopa = pygame.image.load("code/magicienDroite.png").convert_alpha()
     position_perso = koopa.get_rect()
     menu.blit(koopa, position_perso)
-    position_perso = position_perso.move(500, 400)
+    position_perso = position_perso.move(50, 300)
     global niveau_gaz
     gaz_bar(niveau_gaz)
 
@@ -1217,6 +1217,12 @@ def salle6():
     position_mur = mur.get_rect()
     mur.set_colorkey((255, 255, 255))  # Rend le blanc (valeur RGB : 255,255,255) de l'image transparent
     menu.blit(mur, (0, 0))
+
+    # Montgolfière
+    mont = pygame.image.load("code/montgolfiere.png").convert_alpha()
+    position_mont = mont.get_rect()
+    menu.blit(mont, position_mont)
+    position_mont = position_mont.move(300, 200)
 
     # health bar
     health_bar(player_health)
@@ -1239,7 +1245,7 @@ def salle6():
     space = False
 
     while continuer:
-
+        montRect = pygame.Rect(position_mont.x, position_mont.y, 400, 465)
         sortieGauche = pygame.Rect(0, 250, 3, 300)
         pygame.draw.rect(fond, (255, 0, 0), sortieGauche)
 
@@ -1284,7 +1290,8 @@ def salle6():
                 if event.key == K_RIGHT:  # Si "flèche bas"
                     # On descend le perso
                     right = False
-        if left and (position_perso.x > 20):
+        if left and ((250 < position_perso.y < 385) or (0 < position_perso.y < 250 and position_perso.x > 20) or (
+                385 < position_perso.y < 739 and position_perso.x > 20)):
             position_perso = position_perso.move(-1, 0)
             koopa = pygame.image.load("code/magicienGauche.png").convert_alpha()
             pygame.time.wait(0)
@@ -1368,21 +1375,32 @@ def salle6():
         if (position_perso.colliderect(position_mur)) == True:
             print("Colision!")
 
+        hit_box_objet = pygame.Rect(position_perso.x + 34, position_perso.y + 81, 30, 12)
+
+        if hit_box_objet.colliderect(montRect) and niveau_gaz == 100:
+            fin()
+        elif hit_box_objet.colliderect(montRect) and niveau_gaz < 100:
+            coeur = pygame.image.load("code/Vide.png")
+            position_coeur = position_coeur.move(-100, -100)
+            player_health = player_health + 25
+
         # Re-collage
         menu.blit(fond, (0, 0))
         menu.blit(murY, (0, 0))
         menu.blit(koopa, position_perso)
+        menu.blit(mont, position_mont)
         health_bar(player_health)
         gaz_bar(niveau_gaz)
 
         # Rafraichissement
         pygame.display.flip()
 
+
 def fin():
     # Ouverture de la fenêtre Pygame
 
     # Chargement et collage du fond
-    fond = pygame.image.load("code/backgroundBlanc.png").convert()
+    fond = pygame.image.load("code/backgroundBlanc - fin.png").convert()
     menu.blit(fond, (0, 0))
     murY = pygame.image.load("code/mur.png").convert()
     position_murY = murY.get_rect()
@@ -1508,7 +1526,7 @@ def fin():
         menu.blit(fond, (0, 0))
         menu.blit(mur, (0, 0))
         menu.blit(koopa, position_perso)
-        menu.blit(vie, (500, 400))
+
 
         # Rafraichissement
         pygame.display.flip()
