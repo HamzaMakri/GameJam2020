@@ -9,9 +9,10 @@ menu = pygame.display.set_mode((1024, 768), RESIZABLE)
 fond = pygame.image.load("code/menuBeta.png").convert()
 menu.blit(fond, (0, 0))
 
-player_health = 0
+player_health = 100
 niveau_gaz = 0
 open_coffre = False
+
 
 # Chargement et collage du personnage
 koopa = pygame.image.load("code/magicienDroite.png").convert_alpha()
@@ -209,9 +210,11 @@ def main_menu():
 
 def health_bar(player_health):
     global vie
-    if player_health <= 0:
+    if player_health <= 1:
         vie = pygame.image.load("code/vie 0.png").convert_alpha()
         menu.blit(vie, position_vie)
+        perdu= pygame.image.load("code/backgroundBlanc - perdu.png").convert()
+        menu.blit(perdu, (0,0))
     if player_health == 25:
         vie = pygame.image.load("code/vie 20.png").convert_alpha()
         menu.blit(vie, position_vie)
@@ -962,6 +965,9 @@ def salle6():
 
         if hit_box_objet.colliderect(montRect) and niveau_gaz == 100:
             fin()
+        elif hit_box_objet.colliderect(montRect) and niveau_gaz < 100:
+            manque = pygame.image.load("code/manqueGaz.png").convert()
+            menu.blit(manque, (80, 400))
 
         # Re-collage
         menu.blit(fond, (0, 0))
