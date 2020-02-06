@@ -23,10 +23,10 @@ fenetre.blit(koopa, position_perso)
 position_perso = position_perso.move(500, 400)
 
 # chargement et collage des murs
-mur = pygame.image.load("mur.png").convert_alpha()
-position_mur = mur.get_rect()
+vent = pygame.image.load("mur.png").convert_alpha()
+position_mur = vent.get_rect()
 #mur.set_colorkey((255,255,255)) #Rend le blanc (valeur RGB : 255,255,255) de l'image transparent
-fenetre.blit(mur, position_mur)
+fenetre.blit(vent, position_mur)
 position_mur = position_perso.move(1050, 800)
 
 # Rafraîchissement de l'écran
@@ -89,17 +89,17 @@ while continuer:
         pygame.time.wait(0)
 
     if left and space:
-        mur = pygame.image.load("mur.png")
+        vent = pygame.image.load("mur.png")
         position_mur = position_perso.move(0, 0)
 
         while position_mur.x > 45:
             fenetre.blit(fond,  (0, 0))
             position_mur = position_mur.move(-10, 0)
-            fenetre.blit(mur, position_mur)
+            fenetre.blit(vent, position_mur)
             fenetre.blit(koopa, position_perso)
             pygame.display.update()
         space = False
-        mur = pygame.image.load("Vide.png")
+        vent = pygame.image.load("Vide.png")
 
     if right and position_perso.x < 900:
         position_perso = position_perso.move(1, 0)
@@ -107,18 +107,18 @@ while continuer:
         pygame.time.wait(0)
 
     if right and space :
-        mur = pygame.image.load("mur.png")
+        vent = pygame.image.load("mur.png")
         position_mur = position_perso.move(0, 0)
 
         while position_mur.x < 950:
             fenetre.blit(fond, (0, 0))
             position_mur = position_mur.move(10, 0)
-            fenetre.blit(mur, position_mur)
+            fenetre.blit(vent, position_mur)
             fenetre.blit(koopa, position_perso)
             pygame.display.update()
             pygame.time.delay(100)
         space = False
-        mur = pygame.image.load("Vide.png")
+        vent = pygame.image.load("Vide.png")
 
     if up and position_perso.y > 0:
         position_perso = position_perso.move(0, -1)
@@ -126,18 +126,18 @@ while continuer:
         pygame.time.wait(0)
 
     if up and space :
-        mur = pygame.image.load("mur.png")
+        vent = pygame.image.load("mur.png")
         position_mur = position_perso.move(0, 0)
 
         while position_mur.y > 100:
             fenetre.blit(fond, (0, 0))
             position_mur = position_mur.move(0, -10)
-            fenetre.blit(mur, position_mur)
+            fenetre.blit(vent, position_mur)
             fenetre.blit(koopa, position_perso)
             pygame.display.update()
             pygame.time.delay(100)
         space = False
-        mur = pygame.image.load("Vide.png")
+        vent = pygame.image.load("Vide.png")
 
     if down and position_perso.y < 650:
         position_perso = position_perso.move(0, 1)
@@ -145,18 +145,18 @@ while continuer:
         pygame.time.wait(0)
 
     if down and space:
-        mur = pygame.image.load("mur.png")
+        vent = pygame.image.load("mur.png")
         position_mur = position_perso.move(0, 0)
 
         while position_mur.y < 700:
             fenetre.blit(fond, (0, 0))
             position_mur = position_mur.move(0, 10)
-            fenetre.blit(mur, position_mur)
+            fenetre.blit(vent, position_mur)
             fenetre.blit(koopa, position_perso)
             pygame.display.update()
             pygame.time.delay(100)
         space = False
-        mur = pygame.image.load("Vide.png")
+        vent = pygame.image.load("Vide.png")
 
 
 
@@ -165,7 +165,7 @@ while continuer:
     fenetre.blit(fond, (0, 0))
     #fenetre.blit(mur, (0, 0))
     fenetre.blit(koopa, position_perso)
-    fenetre.blit(mur, position_mur)
+    fenetre.blit(vent, position_mur)
     # Rafraichissement
     pygame.display.flip()
 
