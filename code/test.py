@@ -266,6 +266,12 @@ def salle1():
     menu.blit(koopa, position_perso)
     position_perso = position_perso.move(500, 400)
 
+    # chargement ennemie
+    ennemi = pygame.image.load("code/ennemieGauche.png").convert_alpha()
+    position_ennemi= ennemi.get_rect()
+    menu.blit(ennemi, position_ennemi)
+    position_ennemi = position_ennemi.move(800,500)
+
     global niveau_gaz
     gaz_bar(niveau_gaz)
 
@@ -310,6 +316,7 @@ def salle1():
 
         coeurRect = pygame.Rect(position_coeur.x, position_coeur.y, 32, 32)
         gazRect = pygame.Rect(position_gaz.x, position_gaz.y, 32, 32)
+        ennemiRect= pygame.Rect(position_ennemi.x, position_ennemi.y, 32,32)
 
         if sortieDroite.collidepoint((position_perso.x , position_perso.y )):
             salle2()
@@ -352,9 +359,15 @@ def salle1():
             position_gaz = position_gaz.move(-500, -100)
             niveau_gaz = niveau_gaz + 50
 
+        if hit_box_objet.colliderect(ennemiRect) :
+            ennemi = pygame.image.load("code/ennemieGauche.png")
+            position_ennemi = position_ennemi.move(-10000, -10000)
+            player_health = player_health - 25
+
         # Re-collage
         menu.blit(fond, (0, 0))
         menu.blit(koopa, position_perso)
+        menu.blit(ennemi, position_ennemi)
         menu.blit(gaz, position_gaz)
         menu.blit(coeur, position_coeur)
         health_bar(player_health)
