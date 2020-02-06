@@ -15,6 +15,8 @@ open_coffre = False
 rafale= pygame.mixer.Sound('code/Rafale-LaRafale.wav')
 checkez= pygame.mixer.Sound('code/Rafale-Checkez.wav')
 pickup = pygame.mixer.Sound('code/Rafale-RegardezPickup.wav')
+musique = pygame.mixer.music.load('code/musique.wav')
+pygame.mixer.music.play(-1)
 
 # Chargement et collage du personnage
 koopa = pygame.image.load("code/magicienDroite.png").convert_alpha()
@@ -305,7 +307,6 @@ def salle1():
 
     while continuer:
         sortieDroite = pygame.Rect(1024, 250, 3, 300)
-        pygame.draw.rect(fond, (255, 0, 0), sortieDroite)
 
         coeurRect = pygame.Rect(position_coeur.x, position_coeur.y, 32, 32)
         gazRect = pygame.Rect(position_gaz.x, position_gaz.y, 32, 32)
@@ -438,13 +439,10 @@ def salle2():
         coeurRect = pygame.Rect(position_coeur.x, position_coeur.y, 32, 32)
 
         sortieDroite = pygame.Rect(1024, 250, 3, 300)
-        pygame.draw.rect(fond, (255, 0, 0), sortieDroite)
 
-        sortieBas = pygame.Rect(405, 768, 300, 3)
-        pygame.draw.rect(fond, (255, 0, 0), sortieBas)
+        sortieBas = pygame.Rect(305, 768, 300, 3)
 
         sortieGauche = pygame.Rect(0, 250, 3, 300)
-        pygame.draw.rect(fond, (255, 0, 0), sortieGauche)
 
         if sortieGauche.collidepoint((position_perso.x, position_perso.y)):
             salle1()
@@ -582,7 +580,6 @@ def salle3():
         coffreRect = pygame.Rect(position_coffre.x, position_coffre.y, 32, 32)
 
         sortieGauche = pygame.Rect(0, 250, 3, 300)
-        pygame.draw.rect(fond, (255, 0, 0), sortieGauche)
 
         if sortieGauche.collidepoint((position_perso.x, position_perso.y)):
             salle2()
@@ -709,10 +706,8 @@ def salle4():
         gazRect = pygame.Rect(position_gaz.x, position_gaz.y, 32, 32)
 
         sortieHaut = pygame.Rect(405, 0, 300, 3)
-        pygame.draw.rect(fond, (255, 0, 0), sortieHaut)
 
-        sortieBas = pygame.Rect(405, 768, 300, 3)
-        pygame.draw.rect(fond, (255, 0, 0), sortieBas)
+        sortieBas = pygame.Rect(305, 768, 400, 3)
 
         if sortieHaut.collidepoint((position_perso.x, position_perso.y)):
             salle2()
@@ -828,9 +823,9 @@ def salle5():
         coeurRect = pygame.Rect(position_coeur.x, position_coeur.y, 32, 32)
 
         sortieDroite = pygame.Rect(1024, 250, 3, 300)
-        pygame.draw.rect(fond, (255, 0, 0), sortieDroite)
+
         sortieHaut = pygame.Rect(405, 0, 300, 3)
-        pygame.draw.rect(fond, (255, 0, 0), sortieHaut)
+
 
 
         if sortieDroite.collidepoint((position_perso.x, position_perso.y)):
@@ -943,7 +938,6 @@ def salle6():
     while continuer:
         montRect = pygame.Rect(position_mont.x, position_mont.y, 400, 465)
         sortieGauche = pygame.Rect(0, 250, 3, 300)
-        pygame.draw.rect(fond, (255, 0, 0), sortieGauche)
 
         if sortieGauche.collidepoint((position_perso.x, position_perso.y)):
             salle5()
