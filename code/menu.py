@@ -1,39 +1,97 @@
 import pygame
-import sys
-from pygame.locals import *
+
 pygame.init()
 
-menu = pygame.display.set_mode((1024, 768), RESIZABLE)
-fond = pygame.image.load("menuBeta.png").convert()
-menu.blit(fond, (0, 0))
-pygame.display.flip()
-click = False
+
+class Player(pygame.sprite.Sprite):
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+
+        self.image = pygame.image.load("magicienDroite.png").convert()
+        self.rect = self.image.get_rect()
+
+        self.x = 300
+        self.y = 300
+        self.rect.center = (self.x, self.y)
+
+    def update(self):
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_UP]:
+            self.y -= 5
+        if keys[pygame.K_DOWN]:
+            self.y += 5
+        if keys[pygame.K_LEFT]:
+            self.x -= 5
+        if keys[pygame.K_RIGHT]:
+            self.x += 5
+
+        self.rect.center = (self.x, self.y)
 
 
-def main_menu():
+class Enemy(pygame.sprite.Sprite):
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
 
-    pygame.key.set_repeat(1, 300)
+        self.image = pygame.image.load("ennemieGauche.png")
+        self.rect = self.image.get_rect()
 
-    # BOUCLE INFINIE
+        self.x = 300
+        self.y = 200
+        self.rect.center = (self.x, self.y)
 
-    while True:
+    def update(self):
+        if self.x < player.x:
+            self.x += 1
+            self.rect.center = (self.x, self.y)
 
-        mx, my = pygame.mouse.get_pos()
+        elif self.x > player.x:
+            self.x -= 1
+            self.rect.center = (self.x, self.y)
 
-        button_1 = pygame.Rect(50, 100, 200, 50)
-        button_2 = pygame.Rect(50, 200, 200, 50)
-        if button_1.collidepoint((mx, my)):
-            pass
-        if button_1.collidepoint((mx, my)):
-            pass
+        if self.y < player.y:
+            self.y += 1
+            self.rect.center = (self.x, self.y)
 
-        pygame.draw.rect(menu, (255, 0, 0), button_1)
-        pygame.draw.rect(menu, (255, 0, 0), button_2)
-
-        for event in pygame.event.get():  # Attente des événements
-            if event.type == QUIT:
-                sys.exit()
+        elif self.y > player.y:
+            self.y -= 1
+            self.rect.center = (self.x, self.y)
 
 
-main_menu()
-pygame.quit()
+def main():
+    global player
+    'Create the screen'
+    screen = pygame.display.set_mode((640, 480))
+
+    'Set the background'
+    background = pygame.Surface(screen.get_size())
+    background.fill((0, 0, 0))
+
+    'call the object'
+    player = Player()
+    enemy = Enemy()
+    'add object to group'
+    allSprites = pygame.sprite.Group(player)
+    enemySprites = pygame.sprite.Group(enemy)
+
+    clock = pygame.time.Clock()
+
+    keepGoing = True
+    while keepGoing:
+        clock.tick(30)
+
+        ' handle events'
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                keepGoing = False
+
+        allSprites.clear(screen, background)
+        enemySprites.clear(screen, background)
+        allSprites.update()
+        enemySprites.update()
+        allSprites.draw(screen)
+        enemySprites.draw(screen)
+        pygame.display.flip()
+
+
+if __name__ == "__main__":
+    main()
