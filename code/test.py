@@ -19,6 +19,7 @@ used_bombonne3 = True
 used_bombonne4= False
 used_bombonne5 = True
 used_bombonne6 = True
+used_bombonnefin = True
 
 used_coeur1 = False
 used_coeur2 = False
@@ -26,6 +27,10 @@ used_coeur3 = True
 used_coeur4 = True
 used_coeur5= False
 used_coeur6= True
+used_coeurfin = True
+
+enemy1Mort = False
+
 
 rafale = pygame.mixer.Sound('code/Rafale-LaRafale.wav')
 checkez = pygame.mixer.Sound('code/Rafale-Checkez.wav')
@@ -87,6 +92,10 @@ class Enemy (pygame.sprite.Sprite):
         self.y = 200
         self.rect.center = (self.x, self.y)
 
+    def deg(self):
+        self.x = -500
+        self.y = -500
+
     def update(self):
         if self.x < (position_perso.x + 50):
             self.x += 1
@@ -105,12 +114,21 @@ class Enemy (pygame.sprite.Sprite):
             self.rect.center = (self.x, self.y)
 
 
+
+
+
+enemy = Enemy()
+enemySprites = pygame.sprite.Group(enemy)
+listMonstreSalle1 = [enemySprites]
+
+
 def attaque(coeurpris, bombonnepris):
     global space
     global vent
     global rafale
     global koopa
     global position_perso
+    global listMonstreSalle1
 
     if left and space:
         koopa = pygame.image.load("code/magicienGaucheAtk.png")
@@ -130,6 +148,11 @@ def attaque(coeurpris, bombonnepris):
             menu.blit(vie, position_vie)
             menu.blit(gazBarre, position_gazBarre)
             pygame.display.update()
+            if listMonstreSalle1[0] in globals():
+                enemySprites.clear(menu, fond)
+                enemySprites.update()
+                enemySprites.draw(menu)
+
         space = False
         vent = pygame.image.load("code/Vide.png")
         koopa = pygame.image.load("code/magicienGauche.png")
@@ -381,8 +404,10 @@ def salle1(x,y):
     global right
     global space
 
-    enemy = Enemy()
-    enemySprites = pygame.sprite.Group(enemy)
+    global enemy
+    global enemySprites
+    global enemy1Mort
+
     clock2 = pygame.time.Clock()
 
     while continuer:
@@ -437,11 +462,10 @@ def salle1(x,y):
             position_gaz = position_gaz.move(-500, -100)
             niveau_gaz = niveau_gaz + 50
 
-        if hit_box_objet.colliderect(enemy) or hit_box_objet.colliderect(position_ennemi):
-            ennemi = pygame.image.load("code/ennemieGauche.png")
-            # = position_ennemi.move(-10000, -10000)
-            position_ennemi = position_ennemi.move(-10000, -10000)
+        if hit_box_objet.colliderect(enemy):
             player_health = player_health - 25
+            enemy1Mort = True
+            enemy.rect.center = (-500,-500)
 
         if position_vent.x == position_ennemi.x and position_vent.y== position_ennemi.y:
             print("ennemi touché")
@@ -460,9 +484,17 @@ def salle1(x,y):
         gaz_bar(niveau_gaz)
 
         # Rafraichissement
-        enemySprites.clear(menu, fond)
-        enemySprites.update()
-        enemySprites.draw(menu)
+        if 'enemySprites' in globals():
+            enemySprites.clear(menu, fond)
+            if enemy1Mort:
+                del enemySprites
+
+        if not enemy1Mort:
+            enemySprites.update()
+            enemySprites.draw(menu)
+
+
+
         pygame.display.flip()
 
 def salle2(x,y):
@@ -1060,6 +1092,7 @@ def salle6(x,y):
             pygame.time.wait(0)
 
         attaque(used_coeur6, used_bombonne6)  ##############################################################
+
         hit_box_objet = pygame.Rect(position_perso.x + 34, position_perso.y + 81, 30, 12)
 
         if hit_box_objet.colliderect(montRect) and niveau_gaz == 100:
@@ -1088,6 +1121,8 @@ def fin():
     global position_coeur
     global gaz
     global position_gaz
+    global used_bombonnefin
+    global used_coeurfin
 
     # Chargement et collage du fond
     fond = pygame.image.load("code/backgroundBlanc - fin.png").convert()
@@ -1140,7 +1175,7 @@ def fin():
 
         mouvement()  # ############################################################
 
-        attaque()  # #############################################################
+        attaque(used_coeurfin, used_bombonnefin)  # #############################################################
 
         # Re-collage
         menu.blit(fond, (0, 0))
