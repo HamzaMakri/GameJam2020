@@ -2,6 +2,37 @@ import pygame
 import sys
 from pygame.locals import *
 
+
+def __init__(self):
+    # Call the parent class (Sprite) constructor
+
+    self.image = pygame.image.load("code/VentGauche.png").convert_alpha()
+    self.rect = self.image.get_rect()
+
+    self.x = position_perso.x
+    self.y = position_perso.y
+    self.rect.center = (self.x, self.y)
+
+
+def update(self):
+    self.x -= 10
+    self.rect.center = (self.x, self.y)
+
+    global listMonstreSalle1
+    bullet = Bullet()
+    bulletSprites = pygame.sprite.Group(bullet)
+
+    if left and space:
+        # Fire a bullet if the user clicks the mouse button
+        # Set the bullet so it is where the player is
+        # Add the bullet to the lists
+        menu.blit(fond, (0, 0))
+        while bullet.rect.x < 20:
+            bulletSprites.clear(menu, fond)
+            bulletSprites.update()
+            bulletSprites.draw(menu)
+
+
 pygame.init()
 
 menu = pygame.display.set_mode((1024, 768), RESIZABLE)

@@ -30,6 +30,7 @@ used_coeur6= True
 used_coeurfin = True
 
 enemy1Mort = False
+enemy2Mort = False
 
 
 rafale = pygame.mixer.Sound('code/Rafale-LaRafale.wav')
@@ -87,15 +88,15 @@ clock = pygame.time.Clock()
 
 class Enemy (pygame.sprite.Sprite):
 
-    def __init__(self):
+    def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
 
         self.image = pygame.image.load("code/ennemieDroite.png").convert_alpha()
         self.rect = self.image.get_rect()
 
-        self.x = 300
-        self.y = 200
-        self.rect.center = (self.x, self.y)
+        self.x = x
+        self.y = y
+        self.rect.center = (x, y)
 
 
     def update(self):
@@ -116,7 +117,9 @@ class Enemy (pygame.sprite.Sprite):
             self.rect.center = (self.x, self.y)
 
 
-enemy = Enemy()
+enemy = Enemy(300,100)
+enemy2 = Enemy(200,500)
+enemySprites2 = pygame.sprite.Group(enemy2)
 enemySprites = pygame.sprite.Group(enemy)
 listMonstreSalle1 = [enemySprites]
 
@@ -246,6 +249,7 @@ def attaque(coeurpris, bombonnepris):
         enBas = False
 
         vent = pygame.image.load("code/VentBas.png")
+        position_mur = position_perso.move(0, 0)
         rafale.play()
         bullet = Bullet()
         bullet.rect.x = position_perso.x
@@ -506,8 +510,11 @@ def salle1(x,y):
     global space
 
     global enemy
+    global enemy2
     global enemySprites
+    global enemySprites2
     global enemy1Mort
+    global enemy2Mort
 
     clock2 = pygame.time.Clock()
 
@@ -576,6 +583,11 @@ def salle1(x,y):
             enemy1Mort = True
             enemy.rect.center = (-500,-500)
 
+        if hit_box_objet.colliderect(enemy2):
+            player_health = player_health - 25
+            enemy2Mort = True
+            enemy2.rect.center = (-500,-500)
+
         if position_vent.colliderect(enemy):
             print("ca marche")
             enemy1Mort = True
@@ -600,6 +612,17 @@ def salle1(x,y):
         if not enemy1Mort:
             enemySprites.update()
             enemySprites.draw(menu)
+
+        if 'enemySprites2' in globals():
+            enemySprites2.clear(menu, fond)
+            if enemy2Mort:
+                del enemySprites2
+
+        if not enemy2Mort:
+            enemy2.rect.center = (900, 500)
+            enemySprites2.update()
+
+            enemySprites2.draw(menu)
 
 
 
