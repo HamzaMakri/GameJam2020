@@ -31,6 +31,8 @@ used_coeurfin = True
 
 enemy1Mort = False
 enemy2Mort = False
+enemy3Mort = False
+enemy4Mort = False
 
 
 rafale = pygame.mixer.Sound('code/Rafale-LaRafale.wav')
@@ -117,10 +119,14 @@ class Enemy (pygame.sprite.Sprite):
             self.rect.center = (self.x, self.y)
 
 
-enemy = Enemy(300,100)
-enemy2 = Enemy(200,500)
+enemy = Enemy(30, 300)
+enemy2 = Enemy(1000, 300)
+enemy3 = Enemy(30, 700)
+enemy4 = Enemy(1000, 700)
 enemySprites2 = pygame.sprite.Group(enemy2)
 enemySprites = pygame.sprite.Group(enemy)
+enemySprites3 = pygame.sprite.Group(enemy3)
+enemySprites4 = pygame.sprite.Group(enemy4)
 listMonstreSalle1 = [enemySprites]
 
 
@@ -1089,7 +1095,21 @@ def salle5(x,y):
     global right
     global space
 
+    global enemy
+    global enemy2
+    global enemy3
+    global enemy4
+    global enemySprites
+    global enemySprites2
+    global enemySprites3
+    global enemySprites4
+    global enemy1Mort
+    global enemy2Mort
+    global enemy3Mort
+    global enemy4Mort
+
     while continuer:
+
         coeurRect = pygame.Rect(position_coeur.x, position_coeur.y, 32, 32)
 
         sortieDroite = pygame.Rect(1024, 250, 3, 300)
@@ -1139,6 +1159,44 @@ def salle5(x,y):
             position_coeur = position_coeur.move(-1000, -1000)
             player_health = player_health + 25
 
+        if hit_box_objet.colliderect(enemy):
+            player_health = player_health - 25
+            enemy1Mort = True
+            enemy.rect.center = (-500,-500)
+
+        if hit_box_objet.colliderect(enemy2):
+            player_health = player_health - 25
+            enemy2Mort = True
+            enemy2.rect.center = (-500,-500)
+
+        if hit_box_objet.colliderect(enemy3):
+            player_health = player_health - 25
+            enemy3Mort = True
+            enemy3.rect.center = (-500,-500)
+
+        if hit_box_objet.colliderect(enemy4):
+            player_health = player_health - 25
+            enemy4Mort = True
+            enemy4.rect.center = (-500,-500)
+
+        if position_vent.colliderect(enemy):
+            print("ca marche")
+            enemy1Mort = True
+
+        if position_vent.colliderect(enemy2):
+            print("ca marche")
+            enemy2Mort = True
+
+        if position_vent.colliderect(enemy3):
+            print("ca marche")
+            enemy3Mort = True
+
+        if position_vent.colliderect(enemy4):
+            print("ca marche")
+            enemy4Mort = True
+
+
+
         # Re-collage
         menu.blit(fond, (0, 0))
         menu.blit(koopa, position_perso)
@@ -1148,6 +1206,43 @@ def salle5(x,y):
         gaz_bar(niveau_gaz)
 
         # Rafraichissement
+        if 'enemySprites' in globals():
+            enemySprites.clear(menu, fond)
+            if enemy1Mort:
+                del enemySprites
+
+        if not enemy1Mort:
+            enemySprites.update()
+            enemySprites.draw(menu)
+
+        if 'enemySprites2' in globals():
+            enemySprites2.clear(menu, fond)
+            if enemy2Mort:
+                del enemySprites2
+
+        if not enemy2Mort:
+            enemySprites2.update()
+            enemySprites2.draw(menu)
+
+        if 'enemySprites3' in globals():
+            enemySprites3.clear(menu, fond)
+            if enemy3Mort:
+                del enemySprites3
+
+        if not enemy3Mort:
+            enemySprites3.update()
+            enemySprites3.draw(menu)
+
+        if 'enemySprites4' in globals():
+            enemySprites4.clear(menu, fond)
+            if enemy4Mort:
+                del enemySprites4
+
+        if not enemy4Mort:
+            enemySprites4.update()
+            enemySprites4.draw(menu)
+
+
         pygame.display.flip()
 
 def salle6(x,y):
