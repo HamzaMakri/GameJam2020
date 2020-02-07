@@ -327,9 +327,6 @@ def main_menu():
         button_3_rect = button_3_rect.move(122,500)
         button_4_rect = button_4_rect.move(446,500)
 
-
-
-
         menu.blit(button_1_image, button_1_rect)
         menu.blit(button_2_image, button_2_rect)
         menu.blit(button_3_image, button_3_rect)
@@ -361,21 +358,20 @@ def regles():
     while True:
         menu = pygame.display.set_mode((1024, 768), RESIZABLE)
         global fond
-
-        fond = pygame.image.load("code/backgroundBlanc - règles.png").convert()
+        fond = pygame.image.load("code/backgroundBlanc - credits.png").convert()
         menu.blit(fond, (0, 0))
 
         mx, my = pygame.mouse.get_pos()
-        button_2_image= pygame.image.load("code/jouer.png").convert_alpha()
+        button_2_image = pygame.image.load("code/jouer.png").convert_alpha()
 
 
-        button_2_rect = pygame.Rect(446, 700, 200, 50)
+        button_2_rect = button_2_image.get_rect()
 
-
+        button_2_rect = button_2_rect.move(446,600)
 
         if button_2_rect.collidepoint((mx, my)):
-            if  event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                 salle1(450, 310)
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                salle1(450, 310)
 
         menu.blit(button_2_image, (446, 600))
 
@@ -395,7 +391,9 @@ def credits():
         mx, my = pygame.mouse.get_pos()
         button_2_image = pygame.image.load("code/jouer.png").convert_alpha()
 
-        button_2_rect = pygame.Rect(446, 700, 200, 50)
+        button_2_rect = button_2_image.get_rect()
+
+        button_2_rect = button_2_rect.move(446, 600)
 
         if button_2_rect.collidepoint((mx, my)):
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
