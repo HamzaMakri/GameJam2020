@@ -1346,7 +1346,6 @@ def salle6(x,y):
         if hit_box_objet.colliderect(montRect) and niveau_gaz == 100:
             fin()
         elif hit_box_objet.colliderect(montRect) and niveau_gaz < 100:
-            print("MONGOLE FIERE")
             manque = pygame.image.load("code/manqueGaz.png").convert_alpha()
             position_manque = manque.get_rect()
             menu.blit(manque, position_manque)
