@@ -634,10 +634,7 @@ def salle2(x,y):
     # barre de gaz
     gaz_bar(niveau_gaz)
 
-    # VENT
-    vent = pygame.image.load("code/Vent.png").convert_alpha()
-    position_vent = vent.get_rect()
-    menu.blit(vent, position_vent)
+
 
     # Rafraîchissement de l'écran
     pygame.display.flip()
@@ -713,6 +710,7 @@ def salle2(x,y):
 
         bullet_list.update()
         bullet_list.draw(menu)
+        pygame.display.flip()
 
 
 
