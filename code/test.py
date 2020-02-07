@@ -78,6 +78,11 @@ left = False
 right = False
 space = False
 
+adroite = False
+aGauche = False
+enHaut = False
+enBas = False
+
 clock = pygame.time.Clock()
 
 class Enemy (pygame.sprite.Sprite):
@@ -92,9 +97,6 @@ class Enemy (pygame.sprite.Sprite):
         self.y = 200
         self.rect.center = (self.x, self.y)
 
-    def deg(self):
-        self.x = -500
-        self.y = -500
 
     def update(self):
         if self.x < (position_perso.x + 50):
@@ -114,13 +116,66 @@ class Enemy (pygame.sprite.Sprite):
             self.rect.center = (self.x, self.y)
 
 
-
-
-
 enemy = Enemy()
 enemySprites = pygame.sprite.Group(enemy)
 listMonstreSalle1 = [enemySprites]
 
+
+class Bullet(pygame.sprite.Sprite):
+    """ This class represents the block. """
+
+    """ This class represents the bullet . """
+
+    def __init__(self):
+        # Call the parent class (Sprite) constructor
+        super().__init__()
+
+        self.image =  vent
+
+        self.rect = self.image.get_rect()
+
+        global position_vent
+        position_vent = self.rect
+
+        self.x = position_perso.x + 50
+        self.y = position_perso.y + 50
+
+    def update(self):
+        """ Move the bullet. """
+        if adroite:
+            self.rect.x += 10
+            self.x += 10
+        if aGauche:
+            self.rect.x -= 10
+            self.x -= 10
+        if enHaut:
+            self.rect.y += 10
+            self.y += 10
+        if enBas:
+            self.rect.y -= 10
+            self.y -= 10
+
+
+class Bullet2(pygame.sprite.Sprite):
+    """ This class represents the block. """
+
+    """ This class represents the bullet . """
+
+    def __init__(self):
+        # Call the parent class (Sprite) constructor
+        super().__init__()
+
+        self.image = pygame.Surface([4, 10])
+        self.image.fill((0,0,0))
+
+        self.rect = self.image.get_rect()
+
+    def update(self):
+        """ Move the bullet. """
+        self.rect.x += 3
+
+all_sprites_list = pygame.sprite.Group()
+bullet_list = pygame.sprite.Group()
 
 def attaque(coeurpris, bombonnepris):
     global space
@@ -129,105 +184,76 @@ def attaque(coeurpris, bombonnepris):
     global koopa
     global position_perso
     global listMonstreSalle1
+    global aGauche
+    global adroite
+    global enHaut
+    global enBas
+
 
     if left and space:
+        aGauche = True
+        adroite = False
+        enHaut = False
+        enBas = False
+
         koopa = pygame.image.load("code/magicienGaucheAtk.png")
-        menu.blit(koopa, position_perso)
         vent = pygame.image.load("code/VentGauche.png")
-        position_mur = position_perso.move(0, 0)
         rafale.play()
-        while position_mur.x > 45:
-            menu.blit(fond, (0, 0))
-            position_mur = position_mur.move(-4, 0)
-            menu.blit(vent, position_mur)
-            menu.blit(koopa, position_perso)
-            if not coeurpris:
-                menu.blit(coeur, position_coeur)
-            if not bombonnepris:
-                menu.blit(gaz, position_gaz)
-            menu.blit(vie, position_vie)
-            menu.blit(gazBarre, position_gazBarre)
-            pygame.display.update()
-            if listMonstreSalle1[0] in globals():
-                enemySprites.clear(menu, fond)
-                enemySprites.update()
-                enemySprites.draw(menu)
-
-        space = False
-        vent = pygame.image.load("code/Vide.png")
-        koopa = pygame.image.load("code/magicienGauche.png")
-        menu.blit(koopa, position_perso)
-
-
+        bullet = Bullet()
+        bullet.rect.x = position_perso.x
+        bullet.rect.y = position_perso.y
+        bullet_list.add(bullet)
+        menu.blit(fond, (0, 0))
+        if bullet.rect.x < 0:
+            bullet_list.remove(bullet)
 
     if right and space:
+        aGauche = False
+        adroite = True
+        enHaut = False
+        enBas = False
         koopa = pygame.image.load("code/magicienDroiteAtk.png")
-        menu.blit(koopa, position_perso)
-        vent = pygame.image.load("code/Vent.png")
-        position_mur = position_perso.move(0, 0)
+        vent = pygame.image.load("code/vent.png")
         rafale.play()
-        while position_mur.x < 950:
-            menu.blit(fond, (0, 0))
-            position_mur = position_mur.move(4, 0)
-            menu.blit(vent, position_mur)
-            menu.blit(koopa, position_perso)
-            if not coeurpris:
-                menu.blit(coeur, position_coeur)
-            if not bombonnepris:
-                menu.blit(gaz, position_gaz)
-            menu.blit(vie, position_vie)
-            menu.blit(gazBarre, position_gazBarre)
-            pygame.display.update()
-        space = False
-        vent = pygame.image.load("code/Vide.png")
-        koopa = pygame.image.load("code/magicienDroite.png")
-        menu.blit(koopa, position_perso)
+        bullet = Bullet()
+        bullet.rect.x = position_perso.x
+        bullet.rect.y = position_perso.y
+        bullet_list.add(bullet)
+        menu.blit(fond, (0, 0))
+        if bullet.rect.x > 1024:
+            bullet_list.remove(bullet)
 
     if up and space:
-        koopa = pygame.image.load("code/magicienDos.png")
-        menu.blit(koopa, position_perso)
+        aGauche = False
+        adroite = False
+        enHaut = False
+        enBas = True
+
         vent = pygame.image.load("code/VentHaut.png")
-        position_mur = position_perso.move(0, 0)
         rafale.play()
-        while position_mur.y > 100:
-            menu.blit(fond, (0, 0))
-            position_mur = position_mur.move(0, -4)
-            menu.blit(vent, position_mur)
-            menu.blit(koopa, position_perso)
-            if not coeurpris:
-                menu.blit(coeur, position_coeur)
-            if not bombonnepris:
-                menu.blit(gaz, position_gaz)
-            menu.blit(vie, position_vie)
-            menu.blit(gazBarre, position_gazBarre)
-            pygame.display.update()
-        space = False
-        vent = pygame.image.load("code/Vide.png")
-        koopa = pygame.image.load("code/magicienDos.png")
-        menu.blit(koopa, position_perso)
+        bullet = Bullet()
+        bullet.rect.x = position_perso.x
+        bullet.rect.y = position_perso.y
+        bullet_list.add(bullet)
+        menu.blit(fond, (0, 0))
+        if bullet.rect.x < 0:
+            bullet_list.remove(bullet)
 
     if down and space:
-        koopa = pygame.image.load("code/magicienFace.png")
-        menu.blit(koopa, position_perso)
+        aGauche = False
+        adroite = False
+        enHaut = True
+        enBas = False
+
         vent = pygame.image.load("code/VentBas.png")
-        position_mur = position_perso.move(0, 0)
         rafale.play()
-        while position_mur.y < 700:
-            menu.blit(fond, (0, 0))
-            position_mur = position_mur.move(0, 4)
-            menu.blit(vent, position_mur)
-            menu.blit(koopa, position_perso)
-            if not coeurpris:
-                menu.blit(coeur, position_coeur)
-            if not bombonnepris:
-                menu.blit(gaz, position_gaz)
-            menu.blit(vie, position_vie)
-            menu.blit(gazBarre, position_gazBarre)
-            pygame.display.update()
-        space = False
-        vent = pygame.image.load("code/Vide.png")
-        koopa = pygame.image.load("code/magicienFace.png")
-        menu.blit(koopa, position_perso)
+        bullet = Bullet()
+        bullet.rect.x = position_perso.x
+        bullet.rect.y = position_perso.y
+        bullet_list.add(bullet)
+        menu.blit(fond, (0, 0))
+        if bullet.rect.x < 0:
+            bullet_list.remove(bullet)
 
 
 def mouvement():
@@ -420,6 +446,11 @@ def salle1(x,y):
     global position_gaz
     global used_bombonne1
     global used_coeur1
+    global bullet_list
+    global adroite
+    global aGauche
+    global enHaut
+    global enBas
 
     fond = pygame.image.load("code/backgroundBlanc.png").convert()
     menu.blit(fond, (0, 0))
@@ -515,6 +546,14 @@ def salle1(x,y):
 
         attaque(used_coeur1,used_bombonne1)  ##############################################################
 
+
+        bullet_list.update()
+        bullet_list.draw(menu)
+
+
+
+        pygame.display.flip()
+
         # Hit Box Objet
         hit_box_objet = pygame.Rect(position_perso.x + 34, position_perso.y + 81, 30, 12)
 
@@ -537,10 +576,9 @@ def salle1(x,y):
             enemy1Mort = True
             enemy.rect.center = (-500,-500)
 
-        if position_vent.x == position_ennemi.x and position_vent.y == position_ennemi.y:
-            print("ennemi touché")
-            ennemi = pygame.image.load("code/ennemieGauche.png")
-            position_ennemi = position_ennemi.move(-10000, -10000)
+        if position_vent.colliderect(enemy):
+            print("ca marche")
+            enemy1Mort = True
 
         # Re-collage
         menu.blit(fond, (0, 0))
