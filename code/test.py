@@ -13,7 +13,7 @@ player_health = 100
 niveau_gaz = 0
 open_coffre = False
 
-used_bombonne1 = False
+used_bombonne1 = True
 used_bombonne2 = True
 used_bombonne3 = True
 used_bombonne4= False
@@ -21,7 +21,7 @@ used_bombonne5 = True
 used_bombonne6 = True
 used_bombonnefin = True
 
-used_coeur1 = False
+used_coeur1 = True
 used_coeur2 = False
 used_coeur3 = True
 used_coeur4 = True
@@ -171,23 +171,6 @@ class Bullet(pygame.sprite.Sprite):
             self.y -= 10
 
 
-class Bullet2(pygame.sprite.Sprite):
-    """ This class represents the block. """
-
-    """ This class represents the bullet . """
-
-    def __init__(self):
-        # Call the parent class (Sprite) constructor
-        super().__init__()
-
-        self.image = pygame.Surface([4, 10])
-        self.image.fill((0,0,0))
-
-        self.rect = self.image.get_rect()
-
-    def update(self):
-        """ Move the bullet. """
-        self.rect.x += 3
 
 all_sprites_list = pygame.sprite.Group()
 bullet_list = pygame.sprite.Group()
@@ -204,6 +187,8 @@ def attaque():
     global enHaut
     global enBas
 
+    if space and(left or right or up or down):
+        rafale.play()
 
     if left and space:
         aGauche = True
@@ -213,7 +198,6 @@ def attaque():
 
         koopa = pygame.image.load("code/magicienGaucheAtk.png")
         vent = pygame.image.load("code/VentGauche.png")
-        rafale.play()
         bullet = Bullet()
         bullet.rect.x = position_perso.x +25
         bullet.rect.y = position_perso.y +25
@@ -229,7 +213,6 @@ def attaque():
         enBas = False
         koopa = pygame.image.load("code/magicienDroiteAtk.png")
         vent = pygame.image.load("code/vent.png")
-        rafale.play()
         bullet = Bullet()
         bullet.rect.x = position_perso.x +25
         bullet.rect.y = position_perso.y +25
@@ -245,7 +228,6 @@ def attaque():
         enBas = True
 
         vent = pygame.image.load("code/VentHaut.png")
-        rafale.play()
         bullet = Bullet()
         bullet.rect.x = position_perso.x +25
         bullet.rect.y = position_perso.y +25
@@ -261,8 +243,6 @@ def attaque():
         enBas = False
 
         vent = pygame.image.load("code/VentBas.png")
-        position_mur = position_perso.move(0, 0)
-        rafale.play()
         bullet = Bullet()
         bullet.rect.x = position_perso.x +25
         bullet.rect.y = position_perso.y +25
@@ -325,6 +305,7 @@ def main_menu():
         clock.tick(120)
         global fond
         global menu
+        global click
         fond = pygame.image.load("code/Jacket.png").convert()
         menu.blit(fond, (0, 0))
 
@@ -334,31 +315,34 @@ def main_menu():
         button_3_image = pygame.image.load("code/règles.png").convert_alpha()
         button_4_image = pygame.image.load("code/crédits.png").convert_alpha()
 
-        button_1_rect = pygame.Rect(122, 700, 200, 50)
-        button_2_rect = pygame.Rect(446, 700, 200, 50)
-        button_3_rect = pygame.Rect(122, 550, 200, 50)
-        button_4_rect = pygame.Rect(446, 550, 200, 50)
-
-        if button_1_rect.collidepoint((mx, my)):
-            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                sys.exit()
-        if button_2_rect.collidepoint((mx, my)):
-            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                menu = pygame.display.set_mode((1024, 768), RESIZABLE)
-                salle1(450, 310)
-
-
-        if button_3_rect.collidepoint((mx, my)):
-            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                regles()
-        if button_4_rect.collidepoint((mx, my)):
-            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                credits()
-
         menu.blit(button_1_image, (122, 600))
         menu.blit(button_2_image, (446, 600))
         menu.blit(button_3_image, (122, 500))
         menu.blit(button_4_image, (446, 500))
+
+        button_1_rect = button_1_image.get_rect()
+        button_2_rect = button_2_image.get_rect()
+        button_3_rect = button_3_image.get_rect()
+        button_4_rect = button_4_image.get_rect()
+
+        if button_1_rect.collidepoint((mx, my)) and click:
+            sys.exit()
+        if button_2_rect.collidepoint((mx, my)):
+            menu = pygame.display.set_mode((1024, 768), RESIZABLE)
+            salle1(450, 310)
+        if button_3_rect.collidepoint((mx, my)):
+            regles()
+        if button_4_rect.collidepoint((mx, my)):
+            credits()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                click = True
+
+
+
 
 
         for event in pygame.event.get():  # Attente des événements
@@ -484,17 +468,6 @@ def salle1(x,y):
     global player_health
     health_bar(player_health)
 
-    # BOMBONNE
-    gaz = pygame.image.load("code/bombonne.png").convert_alpha()
-    position_gaz = gaz.get_rect()
-    menu.blit(gaz, position_gaz)
-    position_gaz = position_gaz.move(200, 400)
-
-    # Coeur
-    coeur = pygame.image.load("code/Coeur.png").convert_alpha()
-    position_coeur = coeur.get_rect()
-    menu.blit(coeur, position_gaz)
-    position_coeur = position_coeur.move(300, 200)
 
     # health bar
     health_bar(player_health)
@@ -522,9 +495,6 @@ def salle1(x,y):
     while continuer:
         clock2.tick(60)
         sortieDroite = pygame.Rect(1024, 250, 3, 300)
-
-        coeurRect = pygame.Rect(position_coeur.x, position_coeur.y, 32, 32)
-        gazRect = pygame.Rect(position_gaz.x, position_gaz.y, 32, 32)
 
         if sortieDroite.collidepoint((position_perso.x , position_perso.y )):
             salle2(30, position_perso.y)
@@ -561,20 +531,6 @@ def salle1(x,y):
 
         # Hit Box Objet
         hit_box_objet = pygame.Rect(position_perso.x + 34, position_perso.y + 81, 30, 12)
-
-
-        # if position_coeur.colliderect((position_perso.x,position_perso.y)):
-        if hit_box_objet.colliderect(coeurRect) and player_health < 99 and used_coeur1 == False:
-            used_coeur1 = True
-            coeur = pygame.image.load("code/Vide.png")
-            position_coeur = position_coeur.move(-100, -100)
-            player_health = player_health + 25
-
-        if hit_box_objet.colliderect(gazRect) and niveau_gaz < 99 and used_bombonne1 == False:
-            used_bombonne1 = True
-            gaz = pygame.image.load("code/bombonne.png")
-            position_gaz = position_gaz.move(-500, -100)
-            niveau_gaz = niveau_gaz + 50
 
 
         # Re-collage
@@ -743,10 +699,14 @@ def salle2(x,y):
         if position_vent.colliderect(enemy):
             print("ca marche")
             enemy1Mort = True
+            enemy.rect.center = (-500,-500)
+
 
         if position_vent.colliderect(enemy2):
             print("ca marche")
             enemy2Mort = True
+            enemy2.rect.center = (-500,-500)
+
 
         # Re-collage
         menu.blit(fond, (0, 0))
