@@ -548,11 +548,8 @@ def salle1(x,y):
 
         attaque()  ##############################################################
 
-
         bullet_list.update()
         bullet_list.draw(menu)
-
-
 
         pygame.display.flip()
 
@@ -1117,35 +1114,35 @@ def salle5(x,y):
         sortieDroite = pygame.Rect(1024, 250, 3, 300)
 
         sortieHaut = pygame.Rect(0, 0, 1000, 3)
-
-
+        # position_haut = pygame.draw.rect(fond,(255,200,0), sortieHaut )
 
         if sortieDroite.collidepoint((position_perso.x, position_perso.y)):
             salle6(10, position_perso.y)
 
-        if sortieHaut.collidepoint((position_perso.x, position_perso.y+93)):
+        if sortieHaut.collidepoint((position_perso.x, position_perso.y + 100)):
             salle4(position_perso.x, 660)
+            print("change de salle vers la 4")
 
         mouvement()  #############################################################
 
         if left and (position_perso.x > 20):
-            position_perso = position_perso.move(-5, 0)
+            position_perso = position_perso.move(-4, 0)
             koopa = pygame.image.load("code/magicienGauche.png").convert_alpha()
             pygame.time.wait(0)
 
         if right and ((0 < position_perso.y < 250 and position_perso.x < 900) or (250 < position_perso.y < 385) or (
                 385 < position_perso.y < 739 and position_perso.x < 900)):
-            position_perso = position_perso.move(5, 0)
+            position_perso = position_perso.move(4, 0)
             koopa = pygame.image.load("code/magicienDroite.png").convert_alpha()
             pygame.time.wait(0)
 
         if up and ((position_perso.x > 380 and position_perso.x < 525) or ( position_perso.x <= 380 and position_perso.y > 0) or ( 920 > position_perso.x > 525 and position_perso.y > 0)) :#( (position_perso.y > 0 and position_perso.x < 900) or (380 < position_perso.x < 550) )
-            position_perso = position_perso.move(0, -5)
+            position_perso = position_perso.move(0, -4)
             koopa = pygame.image.load("code/magicienDos.png").convert_alpha()
             pygame.time.wait(0)
 
         if down and position_perso.y < 650 and position_perso.x < 920:
-            position_perso = position_perso.move(0, 5)
+            position_perso = position_perso.move(0, 4)
             koopa = pygame.image.load("code/magicienFace.png").convert_alpha()
             pygame.time.wait(0)
 
