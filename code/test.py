@@ -1068,13 +1068,6 @@ def salle5(x,y):
     # barre de gaz
     gaz_bar(niveau_gaz)
 
-    # VENT
-    vent = pygame.image.load("code/Vent.png").convert_alpha()
-    position_vent = vent.get_rect()
-    # mur.set_colorkey((255,255,255)) #Rend le blanc (valeur RGB : 255,255,255) de l'image transparent
-    menu.blit(vent, position_vent)
-    position_mur = position_perso.move(1050, 800)
-
     # Rafraîchissement de l'écran
     pygame.display.flip()
 
@@ -1145,6 +1138,10 @@ def salle5(x,y):
             pygame.time.wait(0)
 
         attaque()  ##############################################################
+        bullet_list.update()
+        bullet_list.draw(menu)
+        pygame.display.flip()
+
 
         # Hit Box Objet
         hit_box_objet = pygame.Rect(position_perso.x + 34, position_perso.y + 81, 30, 12)

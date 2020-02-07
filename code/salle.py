@@ -599,6 +599,7 @@ def salle2(x,y):
     global position_gaz
     global  used_coeur2
     global used_bombonne2
+    global bullet_list
 
     # Chargement et collage du fond
     fond = pygame.image.load("backgroundBlanc - 2.png").convert()
