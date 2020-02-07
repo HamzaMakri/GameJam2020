@@ -35,8 +35,8 @@ enemy1Mort = False
 rafale = pygame.mixer.Sound('code/Rafale-LaRafale.wav')
 checkez = pygame.mixer.Sound('code/Rafale-Checkez.wav')
 pickup = pygame.mixer.Sound('code/Rafale-RegardezPickup.wav')
-#musique = pygame.mixer.music.load('code/musique.wav')
-#pygame.mixer.music.play(-1)
+musique = pygame.mixer.music.load('code/musique.wav')
+pygame.mixer.music.play(-1)
 
 # Chargement et collage du personnage
 koopa = pygame.image.load("code/magicienDroite.png").convert_alpha()
@@ -92,9 +92,6 @@ class Enemy (pygame.sprite.Sprite):
         self.y = 200
         self.rect.center = (self.x, self.y)
 
-    def deg(self):
-        self.x = -500
-        self.y = -500
 
     def update(self):
         if self.x < (position_perso.x + 50):
@@ -114,11 +111,6 @@ class Enemy (pygame.sprite.Sprite):
             self.rect.center = (self.x, self.y)
 
 
-
-all_sprites_list = pygame.sprite.Group()
-bullet_list = pygame.sprite.Group()
-
-
 enemy = Enemy()
 enemySprites = pygame.sprite.Group(enemy)
 listMonstreSalle1 = [enemySprites]
@@ -136,6 +128,9 @@ class Bullet(pygame.sprite.Sprite):
         self.image =  pygame.image.load("code/VentGauche.png").convert_alpha()
 
         self.rect = self.image.get_rect()
+
+        global position_vent
+        position_vent = self.rect
 
         self.x = position_perso.x
         self.y = position_perso.y
@@ -163,6 +158,9 @@ class Bullet2(pygame.sprite.Sprite):
         """ Move the bullet. """
         self.rect.x += 3
 
+all_sprites_list = pygame.sprite.Group()
+bullet_list = pygame.sprite.Group()
+
 def attaque(coeurpris, bombonnepris):
     global space
     global vent
@@ -172,19 +170,20 @@ def attaque(coeurpris, bombonnepris):
     global listMonstreSalle1
 
     if left and space:
+        rafale.play()
         # Fire a bullet if the user clicks the mouse button
         bullet = Bullet()
         # Set the bullet so it is where the player is
         bullet.rect.x = position_perso.x
         bullet.rect.y = position_perso.y
         # Add the bullet to the lists
-        all_sprites_list.add(bullet)
         bullet_list.add(bullet)
         print("test")
         menu.blit(fond, (0, 0))
         if bullet.rect.x < 20:
             bullet_list.remove(bullet)
-            all_sprites_list.remove(bullet)
+
+
 
     if right and space:
         # Fire a bullet if the user clicks the mouse button
@@ -308,25 +307,31 @@ def main_menu():
         button_1_image= pygame.image.load("code/quitter.png").convert_alpha()
         button_2_image= pygame.image.load("code/jouer.png").convert_alpha()
         button_3_image = pygame.image.load("code/règles.png").convert_alpha()
-
+        button_4_image = pygame.image.load("code/crédits.png").convert_alpha()
 
         button_1_rect = pygame.Rect(122, 700, 200, 50)
-        button_2_rect = pygame.Rect(446, 500, 200, 50)
-        button_3_rect = pygame.Rect(284, 550, 200, 50)
+        button_2_rect = pygame.Rect(446, 700, 200, 50)
+        button_3_rect = pygame.Rect(122, 550, 200, 50)
+        button_4_rect = pygame.Rect(446, 550, 200, 50)
 
         if button_1_rect.collidepoint((mx, my)):
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 sys.exit()
         if button_2_rect.collidepoint((mx, my)):
-            if  event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                  salle1(450, 310)
         if button_3_rect.collidepoint((mx, my)):
-            if  event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 regles()
+        if button_4_rect.collidepoint((mx, my)):
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                credits()
 
         menu.blit(button_1_image, (122, 600))
-        menu.blit(button_2_image, (446, 400))
-        menu.blit(button_3_image, (284, 500))
+        menu.blit(button_2_image, (446, 600))
+        menu.blit(button_3_image, (122, 500))
+        menu.blit(button_4_image, (446, 500))
+
 
         for event in pygame.event.get():  # Attente des événements
             if event.type == QUIT:
@@ -353,6 +358,31 @@ def regles():
         if button_2_rect.collidepoint((mx, my)):
             if  event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                  salle1(450, 310)
+
+        menu.blit(button_2_image, (446, 600))
+
+        for event in pygame.event.get():  # Attente des événements
+            if event.type == QUIT:
+                pygame.quit()
+                sys.exit()
+        pygame.display.flip()
+
+def credits():
+    while True:
+        menu = pygame.display.set_mode((1024, 768), RESIZABLE)
+        global fond
+
+        fond = pygame.image.load("code/backgroundBlanc - credits.png").convert()
+        menu.blit(fond, (0, 0))
+
+        mx, my = pygame.mouse.get_pos()
+        button_2_image = pygame.image.load("code/jouer.png").convert_alpha()
+
+        button_2_rect = pygame.Rect(446, 700, 200, 50)
+
+        if button_2_rect.collidepoint((mx, my)):
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                salle1(450, 310)
 
         menu.blit(button_2_image, (446, 600))
 
@@ -407,6 +437,7 @@ def salle1(x,y):
     global position_gaz
     global used_bombonne1
     global used_coeur1
+    global bullet_list
 
     fond = pygame.image.load("code/backgroundBlanc.png").convert()
     menu.blit(fond, (0, 0))
@@ -503,8 +534,9 @@ def salle1(x,y):
         attaque(used_coeur1,used_bombonne1)  ##############################################################
 
         # Draw all the spites
-        all_sprites_list.update()
-        all_sprites_list.draw(menu)
+        bullet_list.update()
+        bullet_list.draw(menu)
+        # bullet_list.clear(menu, fond)
 
 
         pygame.display.flip()
@@ -531,10 +563,9 @@ def salle1(x,y):
             enemy1Mort = True
             enemy.rect.center = (-500,-500)
 
-        if position_vent.x == position_ennemi.x and position_vent.y == position_ennemi.y:
-            print("ennemi touché")
-            ennemi = pygame.image.load("code/ennemieGauche.png")
-            position_ennemi = position_ennemi.move(-10000, -10000)
+        if position_vent.colliderect(enemy):
+            print("ca marche")
+            enemy1Mort = True
 
         # Re-collage
         menu.blit(fond, (0, 0))
