@@ -186,7 +186,7 @@ class Bullet2(pygame.sprite.Sprite):
 all_sprites_list = pygame.sprite.Group()
 bullet_list = pygame.sprite.Group()
 
-def attaque(coeurpris, bombonnepris):
+def attaque():
     global space
     global vent
     global rafale
@@ -472,7 +472,6 @@ def salle1(x,y):
     menu.blit(koopa, position_perso)
     position_perso = position_perso.move(x, y)
 
-
     global niveau_gaz
     gaz_bar(niveau_gaz)
 
@@ -512,10 +511,10 @@ def salle1(x,y):
     global space
 
 
-    # clock2 = pygame.time.Clock()
+    clock2 = pygame.time.Clock()
 
     while continuer:
-        # clock2.tick(30)
+        clock2.tick(60)
         sortieDroite = pygame.Rect(1024, 250, 3, 300)
 
         coeurRect = pygame.Rect(position_coeur.x, position_coeur.y, 32, 32)
@@ -547,7 +546,7 @@ def salle1(x,y):
             pygame.time.wait(0)
 
 
-        attaque(used_coeur1,used_bombonne1)  ##############################################################
+        attaque()  ##############################################################
 
 
         bullet_list.update()
@@ -584,9 +583,6 @@ def salle1(x,y):
             menu.blit(coeur, position_coeur)
         health_bar(player_health)
         gaz_bar(niveau_gaz)
-
-
-
 
         pygame.display.flip()
 
@@ -667,7 +663,10 @@ def salle2(x,y):
     global enemy1Mort
     global enemy2Mort
 
+    clock2 = pygame.time.Clock()
+
     while continuer:
+        clock2.tick(100)
 
         coeurRect = pygame.Rect(position_coeur.x, position_coeur.y, 32, 32)
 
@@ -690,29 +689,29 @@ def salle2(x,y):
 
         if left and ((250 < position_perso.y < 385) or (0 < position_perso.y < 250 and position_perso.x > 20) or (
                 385 < position_perso.y < 739 and position_perso.x > 20)):
-            position_perso = position_perso.move(-1, 0)
+            position_perso = position_perso.move(-5, 0)
             koopa = pygame.image.load("code/magicienGauche.png").convert_alpha()
             pygame.time.wait(0)
 
         if right and ((0 < position_perso.y < 250 and position_perso.x < 900) or (250 < position_perso.y < 385) or (
                 385 < position_perso.y < 739 and position_perso.x < 900)):
-            position_perso = position_perso.move(1, 0)
+            position_perso = position_perso.move(5, 0)
             koopa = pygame.image.load("code/magicienDroite.png").convert_alpha()
             pygame.time.wait(0)
 
         if up and position_perso.y > 0 and position_perso.x < 920:
-            position_perso = position_perso.move(0, -1)
+            position_perso = position_perso.move(0, -5)
             koopa = pygame.image.load("code/magicienDos.png").convert_alpha()
             pygame.time.wait(0)
 
         if down and ((position_perso.y < 650 and position_perso.x > 20) or (380 < position_perso.x < 550)):
-            position_perso = position_perso.move(0, 1)
+            position_perso = position_perso.move(0, 5)
             koopa = pygame.image.load("code/magicienFace.png").convert_alpha()
             pygame.time.wait(0)
 
 
 
-        attaque(used_coeur2, used_bombonne2)  ##############################################################
+        attaque()  ##############################################################
 
 
         bullet_list.update()
@@ -778,7 +777,7 @@ def salle2(x,y):
 
         pygame.display.flip()
 
-
+        menu.blit(vent, position_vent)
 
 
 def salle3(x,y):
@@ -888,7 +887,7 @@ def salle3(x,y):
             koopa = pygame.image.load("code/magicienFace.png").convert_alpha()
             pygame.time.wait(0)
 
-        attaque(used_coeur3, used_bombonne3)  ##############################################################
+        attaque()  ##############################################################
 
 
         # Hit Box Objet
@@ -1009,7 +1008,7 @@ def salle4(x,y):
             koopa = pygame.image.load("code/magicienFace.png").convert_alpha()
             pygame.time.wait(0)
 
-        attaque(used_coeur4, used_coeur4)  ##############################################################
+        attaque()  ##############################################################
 
 
         # Hit Box Objet
@@ -1108,7 +1107,10 @@ def salle5(x,y):
     global enemy3Mort
     global enemy4Mort
 
+    clock2 = pygame.time.Clock()
+
     while continuer:
+        clock2.tick(100)
 
         coeurRect = pygame.Rect(position_coeur.x, position_coeur.y, 32, 32)
 
@@ -1127,27 +1129,27 @@ def salle5(x,y):
         mouvement()  #############################################################
 
         if left and (position_perso.x > 20):
-            position_perso = position_perso.move(-1, 0)
+            position_perso = position_perso.move(-5, 0)
             koopa = pygame.image.load("code/magicienGauche.png").convert_alpha()
             pygame.time.wait(0)
 
         if right and ((0 < position_perso.y < 250 and position_perso.x < 900) or (250 < position_perso.y < 385) or (
                 385 < position_perso.y < 739 and position_perso.x < 900)):
-            position_perso = position_perso.move(1, 0)
+            position_perso = position_perso.move(5, 0)
             koopa = pygame.image.load("code/magicienDroite.png").convert_alpha()
             pygame.time.wait(0)
 
         if up and ((position_perso.x > 380 and position_perso.x < 525) or ( position_perso.x <= 380 and position_perso.y > 0) or ( 920 > position_perso.x > 525 and position_perso.y > 0)) :#( (position_perso.y > 0 and position_perso.x < 900) or (380 < position_perso.x < 550) )
-            position_perso = position_perso.move(0, -1)
+            position_perso = position_perso.move(0, -5)
             koopa = pygame.image.load("code/magicienDos.png").convert_alpha()
             pygame.time.wait(0)
 
         if down and position_perso.y < 650 and position_perso.x < 920:
-            position_perso = position_perso.move(0, 1)
+            position_perso = position_perso.move(0, 5)
             koopa = pygame.image.load("code/magicienFace.png").convert_alpha()
             pygame.time.wait(0)
 
-        attaque(used_coeur5, used_bombonne5)  ##############################################################
+        attaque()  ##############################################################
 
         # Hit Box Objet
         hit_box_objet = pygame.Rect(position_perso.x + 34, position_perso.y + 81, 30, 12)
@@ -1337,7 +1339,7 @@ def salle6(x,y):
             koopa = pygame.image.load("code/magicienFace.png").convert_alpha()
             pygame.time.wait(0)
 
-        attaque(used_coeur6, used_bombonne6)  ##############################################################
+        attaque()  ##############################################################
 
         hit_box_objet = pygame.Rect(position_perso.x + 34, position_perso.y + 81, 30, 12)
 
@@ -1425,7 +1427,7 @@ def fin():
 
         mouvement()  # ############################################################
 
-        attaque(used_coeurfin, used_bombonnefin)  # #############################################################
+        attaque()  ##############################################################
 
         # Re-collage
         menu.blit(fond, (0, 0))
