@@ -306,50 +306,56 @@ def main_menu():
         global fond
         global menu
         global click
+
         fond = pygame.image.load("code/Jacket.png").convert()
         menu.blit(fond, (0, 0))
 
         mx, my = pygame.mouse.get_pos()
+
         button_1_image= pygame.image.load("code/quitter.png").convert_alpha()
         button_2_image= pygame.image.load("code/jouer.png").convert_alpha()
         button_3_image = pygame.image.load("code/règles.png").convert_alpha()
         button_4_image = pygame.image.load("code/crédits.png").convert_alpha()
-
-        menu.blit(button_1_image, (122, 600))
-        menu.blit(button_2_image, (446, 600))
-        menu.blit(button_3_image, (122, 500))
-        menu.blit(button_4_image, (446, 500))
 
         button_1_rect = button_1_image.get_rect()
         button_2_rect = button_2_image.get_rect()
         button_3_rect = button_3_image.get_rect()
         button_4_rect = button_4_image.get_rect()
 
-        if button_1_rect.collidepoint((mx, my)) and click:
-            sys.exit()
-        if button_2_rect.collidepoint((mx, my)):
-            menu = pygame.display.set_mode((1024, 768), RESIZABLE)
-            salle1(450, 310)
-        if button_3_rect.collidepoint((mx, my)):
-            regles()
-        if button_4_rect.collidepoint((mx, my)):
-            credits()
+        button_1_rect = button_1_rect.move(122,600)
+        button_2_rect = button_2_rect.move(446,600)
+        button_3_rect = button_3_rect.move(122,500)
+        button_4_rect = button_4_rect.move(446,500)
 
+
+
+
+        menu.blit(button_1_image, button_1_rect)
+        menu.blit(button_2_image, button_2_rect)
+        menu.blit(button_3_image, button_3_rect)
+        menu.blit(button_4_image, button_4_rect)
+
+        click = False
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 click = True
+                if button_1_rect.collidepoint((mx, my)):
+                    if click:
+                        sys.exit()
+                if button_2_rect.collidepoint((mx, my)):
+                    if click:
+                        menu = pygame.display.set_mode((1024, 768), RESIZABLE)
+                        salle1(450, 310)
+                if button_3_rect.collidepoint((mx, my)):
+                    if click:
+                        regles()
+                if button_4_rect.collidepoint((mx, my)):
+                    if click:
+                        credits()
 
-
-
-
-
-        for event in pygame.event.get():  # Attente des événements
-            if event.type == QUIT:
-                pygame.quit()
-                sys.exit()
-        pygame.display.flip()
+        pygame.display.update()
 
 def regles():
     while True:
