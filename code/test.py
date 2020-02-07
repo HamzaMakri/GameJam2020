@@ -592,6 +592,10 @@ def salle1(x,y):
             print("ca marche")
             enemy1Mort = True
 
+        if position_vent.colliderect(enemy):
+            print("ca marche")
+            enemy2Mort = True
+
         # Re-collage
         menu.blit(fond, (0, 0))
         menu.blit(koopa, position_perso)
