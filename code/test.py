@@ -33,6 +33,8 @@ enemy1Mort = False
 enemy2Mort = False
 enemy3Mort = False
 enemy4Mort = False
+enemy5Mort = False
+enemy6Mort = False
 
 
 rafale = pygame.mixer.Sound('code/Rafale-LaRafale.wav')
@@ -120,13 +122,17 @@ class Enemy (pygame.sprite.Sprite):
 
 
 enemy = Enemy(30, 300)
-enemy2 = Enemy(1000, 300)
-enemy3 = Enemy(30, 700)
-enemy4 = Enemy(1000, 700)
+enemy2 = Enemy(500, 700)
+enemy3 = Enemy(30, 300)
+enemy4 = Enemy(1000, 300)
+enemy5 = Enemy(30, 700)
+enemy6 = Enemy(1000, 700)
 enemySprites2 = pygame.sprite.Group(enemy2)
 enemySprites = pygame.sprite.Group(enemy)
 enemySprites3 = pygame.sprite.Group(enemy3)
 enemySprites4 = pygame.sprite.Group(enemy4)
+enemySprites5 = pygame.sprite.Group(enemy5)
+enemySprites6 = pygame.sprite.Group(enemy6)
 listMonstreSalle1 = [enemySprites]
 
 
@@ -341,6 +347,7 @@ def main_menu():
                 menu = pygame.display.set_mode((1024, 768), RESIZABLE)
                 salle1(450, 310)
 
+
         if button_3_rect.collidepoint((mx, my)):
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 regles()
@@ -392,7 +399,6 @@ def credits():
     while True:
         menu = pygame.display.set_mode((1024, 768), RESIZABLE)
         global fond
-
         fond = pygame.image.load("code/backgroundBlanc - credits.png").convert()
         menu.blit(fond, (0, 0))
 
@@ -1082,16 +1088,16 @@ def salle5(x,y):
     global right
     global space
 
-    global enemy
-    global enemy2
+    global enemy5
+    global enemy6
     global enemy3
     global enemy4
-    global enemySprites
-    global enemySprites2
+    global enemySprites5
+    global enemySprites6
     global enemySprites3
     global enemySprites4
-    global enemy1Mort
-    global enemy2Mort
+    global enemy5Mort
+    global enemy6Mort
     global enemy3Mort
     global enemy4Mort
 
@@ -1153,15 +1159,15 @@ def salle5(x,y):
             position_coeur = position_coeur.move(-1000, -1000)
             player_health = player_health + 25
 
-        if hit_box_objet.colliderect(enemy):
+        if hit_box_objet.colliderect(enemy5):
             player_health = player_health - 25
-            enemy1Mort = True
-            enemy.rect.center = (-500,-500)
+            enemy5Mort = True
+            enemy5.rect.center = (-500,-500)
 
-        if hit_box_objet.colliderect(enemy2):
+        if hit_box_objet.colliderect(enemy6):
             player_health = player_health - 25
-            enemy2Mort = True
-            enemy2.rect.center = (-500,-500)
+            enemy6Mort = True
+            enemy6.rect.center = (-500,-500)
 
         if hit_box_objet.colliderect(enemy3):
             player_health = player_health - 25
@@ -1173,13 +1179,13 @@ def salle5(x,y):
             enemy4Mort = True
             enemy4.rect.center = (-500,-500)
 
-        if position_vent.colliderect(enemy):
+        if position_vent.colliderect(enemy5):
             print("ca marche")
-            enemy1Mort = True
+            enemy5Mort = True
 
-        if position_vent.colliderect(enemy2):
+        if position_vent.colliderect(enemy6):
             print("ca marche")
-            enemy2Mort = True
+            enemy6Mort = True
 
         if position_vent.colliderect(enemy3):
             print("ca marche")
@@ -1200,23 +1206,23 @@ def salle5(x,y):
         gaz_bar(niveau_gaz)
 
         # Rafraichissement
-        if 'enemySprites' in globals():
-            enemySprites.clear(menu, fond)
-            if enemy1Mort:
-                del enemySprites
+        if 'enemy5Sprites5' in globals():
+            enemySprites5.clear(menu, fond)
+            if enemy5Mort:
+                del enemySprites5
 
-        if not enemy1Mort:
-            enemySprites.update()
-            enemySprites.draw(menu)
+        if not enemy5Mort:
+            enemySprites5.update()
+            enemySprites5.draw(menu)
 
-        if 'enemySprites2' in globals():
-            enemySprites2.clear(menu, fond)
-            if enemy2Mort:
-                del enemySprites2
+        if 'enemySprites6' in globals():
+            enemySprites6.clear(menu, fond)
+            if enemy6Mort:
+                del enemySprites6
 
-        if not enemy2Mort:
-            enemySprites2.update()
-            enemySprites2.draw(menu)
+        if not enemy6Mort:
+            enemySprites6.update()
+            enemySprites6.draw(menu)
 
         if 'enemySprites3' in globals():
             enemySprites3.clear(menu, fond)
@@ -1426,7 +1432,6 @@ def fin():
 
         # Rafraichissement
         pygame.display.flip()
-
 
 
 main_menu()
