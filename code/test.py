@@ -101,19 +101,19 @@ class Enemy (pygame.sprite.Sprite):
 
     def update(self):
         if self.x < (position_perso.x + 50):
-            self.x += 2
+            self.x += 1
             self.rect.center = (self.x, self.y)
 
         elif self.x > (position_perso.x + 50):
-            self.x -= 2
+            self.x -= 1
             self.rect.center = (self.x, self.y)
 
         if self.y < (position_perso.y + 93):
-            self.y += 2
+            self.y += 1
             self.rect.center = (self.x, self.y)
 
         elif self.y > (position_perso.y +93):
-            self.y -= 2
+            self.y -= 1
             self.rect.center = (self.x, self.y)
 
 
@@ -332,7 +332,9 @@ def main_menu():
                 sys.exit()
         if button_2_rect.collidepoint((mx, my)):
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                 salle1(450, 310)
+                menu = pygame.display.set_mode((1024, 768), RESIZABLE)
+                salle1(450, 310)
+
         if button_3_rect.collidepoint((mx, my)):
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 regles()
@@ -438,7 +440,6 @@ def gaz_bar(niveau_gaz):
         menu.blit(gazBarre, position_gazBarre)
 
 def salle1(x,y):
-    menu = pygame.display.set_mode((1024, 768), RESIZABLE)
 
     # Chargement et collage du fond
     global fond
@@ -465,11 +466,6 @@ def salle1(x,y):
     menu.blit(koopa, position_perso)
     position_perso = position_perso.move(x, y)
 
-    # chargement ennemie
-    ennemi = pygame.image.load("code/ennemieGauche.png").convert_alpha()
-    position_ennemi = ennemi.get_rect()
-    menu.blit(ennemi, position_ennemi)
-    position_ennemi = position_ennemi.move(800, 500)
 
     global niveau_gaz
     gaz_bar(niveau_gaz)
@@ -509,22 +505,15 @@ def salle1(x,y):
     global right
     global space
 
-    global enemy
-    global enemy2
-    global enemySprites
-    global enemySprites2
-    global enemy1Mort
-    global enemy2Mort
 
-    clock2 = pygame.time.Clock()
+    # clock2 = pygame.time.Clock()
 
     while continuer:
-        clock2.tick(30)
+        # clock2.tick(30)
         sortieDroite = pygame.Rect(1024, 250, 3, 300)
 
         coeurRect = pygame.Rect(position_coeur.x, position_coeur.y, 32, 32)
         gazRect = pygame.Rect(position_gaz.x, position_gaz.y, 32, 32)
-        ennemiRect = pygame.Rect(position_ennemi.x, position_ennemi.y, 32, 32)
 
         if sortieDroite.collidepoint((position_perso.x , position_perso.y )):
             salle2(30, position_perso.y)
@@ -551,10 +540,6 @@ def salle1(x,y):
             koopa = pygame.image.load("code/magicienFace.png").convert_alpha()
             pygame.time.wait(0)
 
-        global adroite
-        global aGauche
-        global enHaut
-        global enBas
 
         attaque(used_coeur1,used_bombonne1)  ##############################################################
 
@@ -583,28 +568,10 @@ def salle1(x,y):
             position_gaz = position_gaz.move(-500, -100)
             niveau_gaz = niveau_gaz + 50
 
-        if hit_box_objet.colliderect(enemy):
-            player_health = player_health - 25
-            enemy1Mort = True
-            enemy.rect.center = (-500,-500)
-
-        if hit_box_objet.colliderect(enemy2):
-            player_health = player_health - 25
-            enemy2Mort = True
-            enemy2.rect.center = (-500,-500)
-
-        if position_vent.colliderect(enemy):
-            print("ca marche")
-            enemy1Mort = True
-
-        if position_vent.colliderect(enemy2):
-            print("ca marche")
-            enemy2Mort = True
 
         # Re-collage
         menu.blit(fond, (0, 0))
         menu.blit(koopa, position_perso)
-        menu.blit(ennemi, position_ennemi)
         if not used_bombonne1:
             menu.blit(gaz, position_gaz)
         if not used_coeur1:
@@ -612,25 +579,6 @@ def salle1(x,y):
         health_bar(player_health)
         gaz_bar(niveau_gaz)
 
-        # Rafraichissement
-        if 'enemySprites' in globals():
-            enemySprites.clear(menu, fond)
-            if enemy1Mort:
-                del enemySprites
-
-        if not enemy1Mort:
-            enemySprites.update()
-            enemySprites.draw(menu)
-##################################################
-        if 'enemySprites2' in globals():
-            enemySprites2.clear(menu, fond)
-            if enemy2Mort:
-                del enemySprites2
-
-        if not enemy2Mort:
-            enemy2.rect.center = (900, 500)
-            enemySprites2.update()
-            enemySprites2.draw(menu)
 
 
 
@@ -639,16 +587,19 @@ def salle1(x,y):
 def salle2(x,y):
 
     global fond
-    global menu
     global koopa
     global position_perso
     global coeur
     global position_coeur
     global gaz
     global position_gaz
-    global  used_coeur2
     global used_bombonne2
-    global position_vent
+    global used_coeur2
+    global bullet_list
+    global adroite
+    global aGauche
+    global enHaut
+    global enBas
 
     # Chargement et collage du fond
     fond = pygame.image.load("code/backgroundBlanc - 2.png").convert()
@@ -702,10 +653,13 @@ def salle2(x,y):
     global left
     global right
     global space
-    global adroite
-    global aGauche
-    global enHaut
-    global enBas
+
+    global enemy
+    global enemy2
+    global enemySprites
+    global enemySprites2
+    global enemy1Mort
+    global enemy2Mort
 
     while continuer:
 
@@ -770,6 +724,24 @@ def salle2(x,y):
             position_coeur = position_coeur.move(-1000, -1000)
             player_health = player_health + 25
 
+        if hit_box_objet.colliderect(enemy):
+            player_health = player_health - 25
+            enemy1Mort = True
+            enemy.rect.center = (-500,-500)
+
+        if hit_box_objet.colliderect(enemy2):
+            player_health = player_health - 25
+            enemy2Mort = True
+            enemy2.rect.center = (-500,-500)
+
+        if position_vent.colliderect(enemy):
+            print("ca marche")
+            enemy1Mort = True
+
+        if position_vent.colliderect(enemy2):
+            print("ca marche")
+            enemy2Mort = True
+
         # Re-collage
         menu.blit(fond, (0, 0))
         menu.blit(koopa, position_perso)
@@ -778,17 +750,25 @@ def salle2(x,y):
         health_bar(player_health)
         gaz_bar(niveau_gaz)
 
+        # Rafraichissement
+        if 'enemySprites' in globals():
+            enemySprites.clear(menu, fond)
+            if enemy1Mort:
+                del enemySprites
 
-        # # Rafraichissement
-        # if 'enemySprites' in globals():
-        #     enemySprites.clear(menu, fond)
-        #     if enemy1Mort:
-        #         del enemySprites
-        #
-        # if not enemy1Mort:
-        #     enemySprites.update()
-        #     enemySprites.draw(menu)
+        if not enemy1Mort:
+            enemySprites.update()
+            enemySprites.draw(menu)
+        ##################################################
+        if 'enemySprites2' in globals():
+            enemySprites2.clear(menu, fond)
+            if enemy2Mort:
+                del enemySprites2
 
+        if not enemy2Mort:
+            enemy2.rect.center = (900, 500)
+            enemySprites2.update()
+            enemySprites2.draw(menu)
 
         pygame.display.flip()
 
