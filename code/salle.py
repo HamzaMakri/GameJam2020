@@ -115,12 +115,53 @@ class Enemy (pygame.sprite.Sprite):
 
 
 
+all_sprites_list = pygame.sprite.Group()
+bullet_list = pygame.sprite.Group()
 
 
 enemy = Enemy()
 enemySprites = pygame.sprite.Group(enemy)
 listMonstreSalle1 = [enemySprites]
 
+
+class Bullet(pygame.sprite.Sprite):
+    """ This class represents the block. """
+
+    """ This class represents the bullet . """
+
+    def __init__(self):
+        # Call the parent class (Sprite) constructor
+        super().__init__()
+
+        self.image =  pygame.image.load("code/VentGauche.png").convert_alpha()
+
+        self.rect = self.image.get_rect()
+
+        self.x = position_perso.x
+        self.y = position_perso.y
+
+    def update(self):
+        """ Move the bullet. """
+        self.rect.x -= 10
+        self.x -=3
+
+class Bullet2(pygame.sprite.Sprite):
+    """ This class represents the block. """
+
+    """ This class represents the bullet . """
+
+    def __init__(self):
+        # Call the parent class (Sprite) constructor
+        super().__init__()
+
+        self.image = pygame.Surface([4, 10])
+        self.image.fill((0,0,0))
+
+        self.rect = self.image.get_rect()
+
+    def update(self):
+        """ Move the bullet. """
+        self.rect.x += 3
 
 def attaque(coeurpris, bombonnepris):
     global space
@@ -131,57 +172,34 @@ def attaque(coeurpris, bombonnepris):
     global listMonstreSalle1
 
     if left and space:
-        koopa = pygame.image.load("code/magicienGaucheAtk.png")
-        menu.blit(koopa, position_perso)
-        vent = pygame.image.load("code/VentGauche.png")
-        position_mur = position_perso.move(0, 0)
-        rafale.play()
-        while position_mur.x > 45:
-            menu.blit(fond, (0, 0))
-            position_mur = position_mur.move(-4, 0)
-            menu.blit(vent, position_mur)
-            menu.blit(koopa, position_perso)
-            if not coeurpris:
-                menu.blit(coeur, position_coeur)
-            if not bombonnepris:
-                menu.blit(gaz, position_gaz)
-            menu.blit(vie, position_vie)
-            menu.blit(gazBarre, position_gazBarre)
-            pygame.display.update()
-            if listMonstreSalle1[0] in globals():
-                enemySprites.clear(menu, fond)
-                enemySprites.update()
-                enemySprites.draw(menu)
-
-        space = False
-        vent = pygame.image.load("code/Vide.png")
-        koopa = pygame.image.load("code/magicienGauche.png")
-        menu.blit(koopa, position_perso)
-
-
+        # Fire a bullet if the user clicks the mouse button
+        bullet = Bullet()
+        # Set the bullet so it is where the player is
+        bullet.rect.x = position_perso.x
+        bullet.rect.y = position_perso.y
+        # Add the bullet to the lists
+        all_sprites_list.add(bullet)
+        bullet_list.add(bullet)
+        print("test")
+        menu.blit(fond, (0, 0))
+        if bullet.rect.x < 20:
+            bullet_list.remove(bullet)
+            all_sprites_list.remove(bullet)
 
     if right and space:
-        koopa = pygame.image.load("code/magicienDroiteAtk.png")
-        menu.blit(koopa, position_perso)
-        vent = pygame.image.load("code/Vent.png")
-        position_mur = position_perso.move(0, 0)
-        rafale.play()
-        while position_mur.x < 950:
-            menu.blit(fond, (0, 0))
-            position_mur = position_mur.move(4, 0)
-            menu.blit(vent, position_mur)
-            menu.blit(koopa, position_perso)
-            if not coeurpris:
-                menu.blit(coeur, position_coeur)
-            if not bombonnepris:
-                menu.blit(gaz, position_gaz)
-            menu.blit(vie, position_vie)
-            menu.blit(gazBarre, position_gazBarre)
-            pygame.display.update()
-        space = False
-        vent = pygame.image.load("code/Vide.png")
-        koopa = pygame.image.load("code/magicienDroite.png")
-        menu.blit(koopa, position_perso)
+        # Fire a bullet if the user clicks the mouse button
+        bullet = Bullet2()
+        # Set the bullet so it is where the player is
+        bullet.rect.x = position_perso.x
+        bullet.rect.y = position_perso.y
+        # Add the bullet to the lists
+        all_sprites_list.add(bullet)
+        bullet_list.add(bullet)
+        print("test")
+        menu.blit(fond, (0, 0))
+
+
+
 
     if up and space:
         koopa = pygame.image.load("code/magicienDos.png")
@@ -483,6 +501,13 @@ def salle1(x,y):
             pygame.time.wait(0)
 
         attaque(used_coeur1,used_bombonne1)  ##############################################################
+
+        # Draw all the spites
+        all_sprites_list.update()
+        all_sprites_list.draw(menu)
+
+
+        pygame.display.flip()
 
         # Hit Box Objet
         hit_box_objet = pygame.Rect(position_perso.x + 34, position_perso.y + 81, 30, 12)
